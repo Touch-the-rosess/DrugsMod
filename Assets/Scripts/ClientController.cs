@@ -645,6 +645,8 @@ public class ClientController : MonoBehaviour
             {
                 this.view_x = this.myBot.gx;
                 this.view_y = this.myBot.gy;
+                ClientController.StaticView_x = this.view_x;
+                ClientController.StaticView_y = this.view_y;
             }
             if (this.Cursor.activeSelf)
             {
@@ -1000,6 +1002,7 @@ public class ClientController : MonoBehaviour
             dy = 0;
         }
         this.dir = _dir;
+        ClientController.StaticDirection = this.dir;
         if (TerrainRendererScript.map.GetCell(this.myBot.gx, this.myBot.gy) == 30 && (this.myBotLastSyncX != this.myBot.gx || this.myBotLastSyncY != this.myBot.gy))
         {
             dx = 0;
@@ -1076,7 +1079,9 @@ public class ClientController : MonoBehaviour
 		this.robotRenderer.AddNewBotForMe(x, y, id, name, out this.myBot);
 		this.view_x = x;
 		this.view_y = y;
-		this.tcx = this.terrainRenderer.cx;
+        ClientController.StaticView_x = this.view_x;
+        ClientController.StaticView_y = this.view_y;
+        this.tcx = this.terrainRenderer.cx;
 		this.tcy = this.terrainRenderer.cy;
 	}
 
@@ -1158,8 +1163,10 @@ public class ClientController : MonoBehaviour
 	public int r_y;
 
 	public int view_x;
+	public static int StaticView_x;
 
 	public int view_y;
+	public static int StaticView_y;
 
 	public int myBotId = -1;
 
@@ -1276,6 +1283,8 @@ public class ClientController : MonoBehaviour
 	private bool wasMove;
 
 	public int dir;
+
+    public static int StaticDirection;
 
 	public static bool inited = false;
 }

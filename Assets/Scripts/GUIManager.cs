@@ -326,7 +326,15 @@ public class GUIManager : MonoBehaviour
 
     public void SetCoord(int x, int y)
     {
-        this.CoordTF.text = x.ToString() + ":" + y.ToString();
+        string cell = "Null";
+        //Debug.Log($"GUIManager.SetCoord ClientController.map: {ClientController.map.}");
+        switch (ClientController.StaticDirection) {
+            case 0: cell = ClientController.map.GetCell(ClientController.StaticView_x, ClientController.StaticView_y + 1).ToString();break;
+            case 1: cell = ClientController.map.GetCell(ClientController.StaticView_x - 1, ClientController.StaticView_y).ToString();break;
+            case 2: cell = ClientController.map.GetCell(ClientController.StaticView_x, ClientController.StaticView_y - 1).ToString();break;
+            case 3: cell = ClientController.map.GetCell(ClientController.StaticView_x + 1, ClientController.StaticView_y).ToString();break;
+        };
+        this.CoordTF.text = x.ToString() + ":" + y.ToString() + ":" + cell;
     }
 
     public void SetMoney(long money, long creds)

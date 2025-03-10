@@ -31,6 +31,7 @@ public class RobotRenderer : MonoBehaviour
                 if (id == this.clientController.myBotId)
                 {
                     this.clientController.dir = dir;
+                    ClientController.StaticDirection = dir;
                 }
             }
             else
