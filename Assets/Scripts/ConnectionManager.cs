@@ -173,7 +173,7 @@ public class ConnectionManager : MonoBehaviour
         }
         this.connectionText.text = "Подключаемся к серверу...";
         this.status = "connecting";
-        this.obvyazka.Connect(this.tcpPort, this.ioPort, "galaktika.myachin.com");
+        this.obvyazka.Connect(this.tcpPort, this.ioPort, this.host);
         this._onStatusChanged.Invoke(this.status);
         this.playButton.gameObject.SetActive(false);
         this.button.gameObject.SetActive(false);
@@ -291,4 +291,6 @@ public class ConnectionManager : MonoBehaviour
 	private bool fadeOut;
 
 	private bool fadeIn;
+
+    private string host = "90.188.7.54";
 }

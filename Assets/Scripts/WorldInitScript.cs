@@ -62,7 +62,7 @@ public class WorldInitScript : MonoBehaviour
 		THIS = this;
 		pad.gameObject.SetActive(value: true);
 		obvyazka = base.gameObject.GetComponent<Obvyazka>();
-		obvyazka.OnU("CF", this.OnWorldConfig);
+		obvyazka.OnU("cf", this.OnWorldConfig);
 		string[] commandLineArgs = Environment.GetCommandLineArgs();
 		for (int i = 0; i < commandLineArgs.Length; i++)
 		{
