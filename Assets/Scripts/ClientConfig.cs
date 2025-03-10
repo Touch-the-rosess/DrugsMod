@@ -69,8 +69,8 @@ public class ClientConfig
         GUIManager.THIS.AccountPanel.SetActive(true);
         MiniSkillManager.THIS.gameObject.SetActive(true);
         MapViewer.ResetCustomTable();
-        ClientConfig.CHAT_SHOW_ID = false;
-        ClientConfig.CHAT_SHOW_TIME = false;
+        ClientConfig.CHAT_SHOW_ID = true;
+        ClientConfig.CHAT_SHOW_TIME = true;
         ClientConfig.CHAT_SHOW_NICK = true;
         ClientConfig.SHOW_MY_NICK = false;
         ClientConfig.OLD_PROGRAM_FORMAT = false;
@@ -86,15 +86,15 @@ public class ClientConfig
         ClientConfig.toggleList9.Clear();
         ClientConfig.toggleList0.Clear();
         ClientConfig.TOGGLE_UPDATING = false;
-        ClientConfig.mouseDefMaxLen = 5000;
-        ClientConfig.mouseDefMaxStack = 2000;
-        ClientConfig.mouseDefR = 50;
+        ClientConfig.mouseDefMaxLen = int.MaxValue;
+        ClientConfig.mouseDefMaxStack = int.MaxValue;
+        ClientConfig.mouseDefR = 2000;
         ClientConfig.mouseR = ClientConfig.mouseDefR;
         ClientConfig.mouseMaxLen = ClientConfig.mouseDefMaxLen;
         ClientConfig.mouseMaxStack = ClientConfig.mouseDefMaxStack;
-        ClientConfig.mouseMapMaxLen = 5000;
-        ClientConfig.mouseMapMaxStack = 2000;
-        ClientConfig.mouseMapR = 50;
+        ClientConfig.mouseMapMaxLen = int.MaxValue;
+        ClientConfig.mouseMapMaxStack = int.MaxValue;
+        ClientConfig.mouseMapR = 2000;
         ClientConfig.mouseNoDig = false;
         ClientConfig.gunRadius = true;
         ClientConfig.MOVE_UP_KEY = KeyCode.W;
@@ -238,380 +238,7 @@ public class ClientConfig
                 break;
         }
     }
-        //
-        /*if (ClientConfig.TOGGLE_UPDATING)
-        {
-            ClientConfig.currentToggleList.Add("+");
-            ClientConfig.currentToggleList.Add(name);
-            ClientConfig.currentToggleList.Add(value ? "+" : "-");
-            UnityEngine.Debug.Log("currentToggleList.Count=" + ClientConfig.currentToggleList.Count);
-            return;
-        }
-        UnityEngine.Debug.Log(" ParseBoolean " + name + " " + value.ToString());
-        string text = name.ToLower();
-        uint num = _003CPrivateImplementationDetails_003E.ComputeStringHash(text);
-        if (num <= 1715018732u)
-        {
-            if (num <= 723707036u)
-            {
-                if (num <= 376678600u)
-                {
-                    if (num != 119399683u)
-                    {
-                        if (num != 230313139u)
-                        {
-                            if (num != 376678600u)
-                            {
-                                return;
-                            }
-                            if (!(text == "chatnick"))
-                            {
-                                return;
-                            }
-                            ClientConfig.CHAT_SHOW_NICK = value;
-                            ChatManager.THIS.UpdateChatStyle();
-                            return;
-                        }
-                        else if (!(text == "radius"))
-                        {
-                            return;
-                        }
-                    }
-                    else
-                    {
-                        if (!(text == "sfxdizz"))
-                        {
-                            return;
-                        }
-                        ClientConfig.SOUND_DIZZ = value;
-                        return;
-                    }
-                }
-                else if (num <= 565397286u)
-                {
-                    if (num != 455308054u)
-                    {
-                        if (num != 565397286u)
-                        {
-                            return;
-                        }
-                        if (!(text == "chatid"))
-                        {
-                            return;
-                        }
-                        ClientConfig.CHAT_SHOW_ID = value;
-                        ChatManager.THIS.UpdateChatStyle();
-                        return;
-                    }
-                    else
-                    {
-                        if (!(text == "sfxbasket"))
-                        {
-                            return;
-                        }
-                        ClientConfig.SOUND_BASKET = value;
-                        return;
-                    }
-                }
-                else if (num != 605603465u)
-                {
-                    if (num != 723707036u)
-                    {
-                        return;
-                    }
-                    if (!(text == "sfxtpout"))
-                    {
-                        return;
-                    }
-                    ClientConfig.SOUND_TP_OUT = value;
-                    return;
-                }
-                else
-                {
-                    if (!(text == "showmynick"))//
-                    {
-                        return;
-                    }
-                    ClientConfig.SHOW_MY_NICK = value;
-                    return;
-                }
-            }
-            else if (num <= 1152183797u)
-            {
-                if (num <= 1105774809u)
-                {
-                    if (num != 850149395u)
-                    {
-                        if (num != 1105774809u)
-                        {
-                            return;
-                        }
-                        if (!(text == "mousenodig"))
-                        {
-                            return;
-                        }
-                        goto IL_519;
-                    }
-                    else if (!(text == "gunradius"))
-                    {
-                        return;
-                    }
-                }
-                else if (num != 1112172186u)
-                {
-                    if (num != 1152183797u)
-                    {
-                        return;
-                    }
-                    if (!(text == "gunr"))
-                    {
-                        return;
-                    }
-                }
-                else
-                {
-                    if (!(text == "acc"))
-                    {
-                        return;
-                    }
-                    GUIManager.THIS.AccountPanel.SetActive(value);
-                    return;
-                }
-            }
-            else if (num <= 1700191391u)
-            {
-                if (num != 1160506581u)
-                {
-                    if (num != 1700191391u)
-                    {
-                        return;
-                    }
-                    if (!(text == "skills"))
-                    {
-                        return;
-                    }
-                    MiniSkillManager.THIS.gameObject.SetActive(value);
-                    return;
-                }
-                else
-                {
-                    if (!(text == "oldprogramformat"))//
-                    {
-                        return;
-                    }
-                    ClientConfig.OLD_PROGRAM_FORMAT = value;
-                    return;
-                }
-            }
-            else if (num != 1705819934u)
-            {
-                if (num != 1715018732u)
-                {
-                    return;
-                }
-                if (!(text == "sfxbomb"))
-                {
-                    return;
-                }
-                ClientConfig.SOUND_BOMB = value;
-                return;
-            }
-            else
-            {
-                if (!(text == "sfxdeath"))
-                {
-                    return;
-                }
-                ClientConfig.SOUND_DEATH = value;
-                return;
-            }
-            ClientConfig.gunRadius = value;
-            return;
-        }
-        if (num <= 3400493297u)
-        {
-            if (num <= 2785631482u)
-            {
-                if (num != 2138309402u)
-                {
-                    if (num != 2366589446u)
-                    {
-                        if (num != 2785631482u)
-                        {
-                            return;
-                        }
-                        if (!(text == "sfxvolc"))
-                        {
-                            return;
-                        }
-                        ClientConfig.SOUND_VOLC = value;
-                        return;
-                    }
-                    else
-                    {
-                        if (!(text == "sfxheal"))
-                        {
-                            return;
-                        }
-                        ClientConfig.SOUND_HEAL = value;
-                        return;
-                    }
-                }
-                else if (!(text == "mousenodigg"))
-                {
-                    return;
-                }
-            }
-            else if (num <= 3334823665u)
-            {
-                if (num != 2815200441u)
-                {
-                    if (num != 3334823665u)
-                    {
-                        return;
-                    }
-                    if (!(text == "sfxtick"))
-                    {
-                        return;
-                    }
-                    ClientConfig.SOUND_BOMBTICK = value;
-                    return;
-                }
-                else
-                {
-                    if (!(text == "sfxgeo"))
-                    {
-                        return;
-                    }
-                    ClientConfig.SOUND_GEOLOGY = value;
-                    return;
-                }
-            }
-            else if (num != 3340788094u)
-            {
-                if (num != 3400493297u)
-                {
-                    return;
-                }
-                if (!(text == "sfxemi"))
-                {
-                    return;
-                }
-                ClientConfig.SOUND_EMI = value;
-                return;
-            }
-            else
-            {
-                if (!(text == "sfxdestroy"))
-                {
-                    return;
-                }
-                ClientConfig.SOUND_DESTROY = value;
-                return;
-            }
-        }
-        else if (num <= 4015487087u)
-        {
-            if (num <= 3647513917u)
-            {
-                if (num != 3552460647u)
-                {
-                    if (num != 3647513917u)
-                    {
-                        return;
-                    }
-                    if (!(text == "sfxhurt"))
-                    {
-                        return;
-                    }
-                    ClientConfig.SOUND_HURT = value;
-                    return;
-                }
-                else
-                {
-                    if (!(text == "plain"))
-                    {
-                        return;
-                    }
-                    ClientConfig.noDistortion = value;
-                    return;
-                }
-            }
-            else if (num != 3751997361u)
-            {
-                if (num != 4015487087u)
-                {
-                    return;
-                }
-                if (!(text == "sfxmine"))
-                {
-                    return;
-                }
-                ClientConfig.SOUND_MINING = value;
-                return;
-            }
-            else
-            {
-                if (!(text == "map"))
-                {
-                    return;
-                }
-                GUIManager.THIS.mapButton.gameObject.SetActive(value);
-                return;
-            }
-        }
-        else if (num <= 4135148485u)
-        {
-            if (num != 4116495560u)
-            {
-                if (num != 4135148485u)
-                {
-                    return;
-                }
-                if (!(text == "sfxc190"))
-                {
-                    return;
-                }
-                ClientConfig.SOUND_C190 = value;
-                return;
-            }
-            else
-            {
-                if (!(text == "sfxsignal"))
-                {
-                    return;
-                }
-                ClientConfig.SOUND_SIGNAL = value;
-                return;
-            }
-        }
-        else if (num != 4175190679u)
-        {
-            if (num != 4231780674u)
-            {
-                return;
-            }
-            if (!(text == "chattime"))
-            {
-                return;
-            }
-            ClientConfig.CHAT_SHOW_TIME = value;
-            ChatManager.THIS.UpdateChatStyle();
-            return;
-        }
-        else
-        {
-            if (!(text == "sfxtpin"))
-            {
-                return;
-            }
-            ClientConfig.SOUND_TP_IN = value;
-            return;
-        }
-    IL_519:
-        ClientConfig.mouseNoDig = value;
-    }
-    */
+        
     public static KeyCode TranslateCode(string input)
     {
         switch (input.ToLower())
@@ -2427,17 +2054,17 @@ public class ClientConfig
     }
 
     
-	public static int mouseMaxLen = 5000;
+	public static int mouseMaxLen = int.MaxValue;
 
-	public static int mouseMaxStack = 2000;
+	public static int mouseMaxStack = int.MaxValue;
 
-	public static int mouseR = 50;
+	public static int mouseR = int.MaxValue;
 
-	public static int mouseDefMaxLen = 5000;
+	public static int mouseDefMaxLen = int.MaxValue;
 
-	public static int mouseDefMaxStack = 2000;
+	public static int mouseDefMaxStack = int.MaxValue;
 
-	public static int mouseDefR = 50;
+	public static int mouseDefR = int.MaxValue;
 
 	public static bool mouseNoDig = false;
 
@@ -2445,7 +2072,7 @@ public class ClientConfig
 
 	public static bool noDistortion = false;
 
-	public static int mouseMapMaxLen = 5000;
+	public static int mouseMapMaxLen = int.MaxValue;
 
 	public static int mouseMapMaxStack = 20000;
 
@@ -2591,9 +2218,9 @@ public class ClientConfig
 		ClientConfig.toggleList9
 	};
 
-	public static bool CHAT_SHOW_ID = false;
+	public static bool CHAT_SHOW_ID = true;
 
-	public static bool CHAT_SHOW_TIME = false;
+	public static bool CHAT_SHOW_TIME = true;
 
 	public static bool CHAT_SHOW_NICK = true;
 }
