@@ -292,22 +292,35 @@ public class PopupManager : MonoBehaviour
         {
             UnityEngine.Object.Destroy(((Transform)obj2).gameObject);
         }
-        for (int j = cfg.skills.Length - 1; j >= 0; j--)
+        int x = -80;
+        int counter = 0;
+        int y = -30;
+        for (int j = 0; j <= cfg.skills.Length - 1; j++)
         {
-            GameObject gameObject3 = UnityEngine.Object.Instantiate<GameObject>(this.skillButtonPrefab);
-            gameObject3.transform.SetParent(this.upRoboView.transform, false);
-            gameObject3.transform.localPosition = new Vector3((float)PopupManager.slotPositions[2 * j], (float)(-(float)PopupManager.slotPositions[2 * j + 1]));
-            gameObject3.GetComponent<SkillButtonScript>().SetIcon(cfg.skills[j].type, cfg.skills[j].isUp, cfg.skills[j].level, cfg.skills[j].isLocked);
-            int num = j;
-            gameObject3.GetComponent<Button>().onClick.AddListener(delegate ()
+            GameObject gameObject = UnityEngine.Object.Instantiate(skillButtonPrefab);
+            gameObject.transform.SetParent(upRoboView.transform, worldPositionStays: false);
+            if (counter == 20)
             {
-                this.OnSkill(num);
+                y -= 30;
+                x = -80;
+                counter = 0;
+            }
+            gameObject.transform.localPosition = new Vector3(x, y);
+            x += 30;
+            counter++;
+            gameObject.GetComponent<SkillButtonScript>().SetIcon(cfg.skills[j].type, cfg.skills[j].isUp, cfg.skills[j].level, cfg.skills[j].isLocked);
+            int num4 = j;
+            gameObject.GetComponent<Button>().onClick.AddListener(delegate
+            {
+                OnSkill(num4);
             });
             if (cfg.slot == j)
             {
-                gameObject3.GetComponent<SkillButtonScript>().blinking = true;
+                gameObject.GetComponent<SkillButtonScript>().blinking = true;
             }
         }
+
+
         if (cfg.toInstall == null)
         {
             this.upSkillView.gameObject.SetActive(true);
