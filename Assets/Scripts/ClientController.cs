@@ -654,6 +654,28 @@ public class ClientController : MonoBehaviour
             }
             if (this.myBot != null && !ConnectionManager.disconnected && !ChatManager.THIS.ChatInput.isFocused && !GUIManager.THIS.localChatInput.isFocused && (GUIManager.THIS.m_EventSystem.currentSelectedGameObject == null || GUIManager.THIS.m_EventSystem.currentSelectedGameObject.name != "InputField") && !AYSWindowManager.THIS.gameObject.activeSelf && !ProgrammatorView.active)
             {
+                if (!PopupManager.THIS.GUIWindow.activeSelf && !MapViewer.THIS.gameObject.activeSelf)
+                {
+                    if ((Input.GetKeyDown(KeyCode.KeypadPlus) || Input.GetKeyDown(KeyCode.Plus) || ((Input.GetKey(KeyCode.RightAlt) || Input.GetKey(KeyCode.LeftAlt)) && Input.mouseScrollDelta.y > 0f)) /*&& TerrainRendererScript.unitSize < 100f*/)
+                    {
+                        TerrainRendererScript.unitSize += 1f;
+                        terrainRenderer.RecreateMeshes();
+                        TerrainRendererScript.needUpdate = true;
+                    }
+                    if ((Input.GetKeyDown(KeyCode.KeypadMinus) || Input.GetKeyDown(KeyCode.Minus) || ((Input.GetKey(KeyCode.RightAlt) || Input.GetKey(KeyCode.LeftAlt)) && Input.mouseScrollDelta.y < 0f)) && TerrainRendererScript.unitSize > 4f)
+                    {
+                        TerrainRendererScript.unitSize -= 1f;
+                        terrainRenderer.RecreateMeshes();
+                        TerrainRendererScript.needUpdate = true;
+                    }
+                    if (Input.GetKeyDown(KeyCode.Asterisk) || Input.GetKeyDown(KeyCode.KeypadMultiply))
+                    {
+                        TerrainRendererScript.unitSize = 16f;
+                        terrainRenderer.RecreateMeshes();
+                        TerrainRendererScript.needUpdate = true;
+                    }
+                }
+
                 if (UnityEngine.Input.GetKeyDown(ClientConfig.AUTOREM_KEY))
                 {
                     ServerTime.THIS.SendTypicalMessage(-1, this.str2, 0, 0, "-");
