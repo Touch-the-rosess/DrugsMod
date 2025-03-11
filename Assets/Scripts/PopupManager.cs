@@ -14,9 +14,6 @@ public class PopupManager : MonoBehaviour
     {
         PopupManager.THIS = this;
 
-
-
-
         this.GUIWindow.SetActive(false);
         for (int i = 0; i < this.buttons.Length; i++)
         {
@@ -43,9 +40,9 @@ public class PopupManager : MonoBehaviour
     }
 
     private void onBack()
-	{
-		this.CommonButtonListener(this.str104, 0);
-	}
+    {
+        this.CommonButtonListener(this.str104, 0);
+    }
 
     private void onExit()
     {
@@ -268,13 +265,13 @@ public class PopupManager : MonoBehaviour
                 if (cfg.tabs[i + 1] == "")
                 {
                     GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(this.openedTabPrefab);
-                    gameObject.transform.SetParent(this.tabsRow.transform, worldPositionStays:false);
+                    gameObject.transform.SetParent(this.tabsRow.transform, worldPositionStays: false);
                     gameObject.GetComponentInChildren<Text>().text = cfg.tabs[i];
                 }
                 else
                 {
                     GameObject gameObject2 = UnityEngine.Object.Instantiate<GameObject>(this.closedTabPrefab);
-                    gameObject2.transform.SetParent(this.tabsRow.transform, worldPositionStays:false);
+                    gameObject2.transform.SetParent(this.tabsRow.transform, worldPositionStays: false);
                     gameObject2.GetComponentInChildren<Text>().text = cfg.tabs[i];
                     int actionLabel = i + 1;
                     gameObject2.GetComponent<Button>().onClick.AddListener(delegate ()
@@ -322,7 +319,6 @@ public class PopupManager : MonoBehaviour
                 gameObject.GetComponent<SkillButtonScript>().blinking = true;
             }
         }
-
 
         if (cfg.toInstall == null)
         {
@@ -465,8 +461,8 @@ public class PopupManager : MonoBehaviour
 
     public void ShowHORB(HORBConfig cfg)
     {
-        PopupManager.їљљљјњљјљњњљњјјњњњљјљњњ їљљљјњљјљњњљњјјњњњљјљњњ = new PopupManager.їљљљјњљјљњњљњјјњњњљјљњњ();
-        їљљљјњљјљњњљњјјњњњљјљњњ._003C_003E4__this = this;
+        ShowHORBLocalData localData = new ShowHORBLocalData();
+        localData.popupManager = this;
         this.GUIWindow.SetActive(true);
         this.mode = "horb";
         this.horbcfg = cfg;
@@ -486,7 +482,7 @@ public class PopupManager : MonoBehaviour
         float y = 216f;
         this.backButtonAction = this.str104;
         bool flag = false;
-        їљљљјњљјљњњљњјјњњњљјљњњ.InvButton = "choose";
+        localData.InvButton = "choose";
         Vector2 vector;
         if (cfg.css != null)
         {
@@ -575,7 +571,7 @@ public class PopupManager : MonoBehaviour
                             }
                             else
                             {
-                                їљљљјњљјљњњљњјјњњњљјљњњ.InvButton = text2;
+                                localData.InvButton = text2;
                             }
                         }
                         else
@@ -621,7 +617,6 @@ public class PopupManager : MonoBehaviour
                     text5 = text3.Substring(text3.IndexOf(PopupManager.statstr1) + 1);
                 }
 
-               
                 int num4 = 0;
                 int num5 = 1;
                 int num6 = 0;
@@ -634,9 +629,7 @@ public class PopupManager : MonoBehaviour
                 int num12 = 0;
                 for (int k = 0; k < text4.Length; k++)
                 {
-                    
                     char c = text4[k];
-                    //Debug.Log(c);
                     if (c <= 'Y')
                     {
                         if (c <= 'L')
@@ -699,8 +692,7 @@ public class PopupManager : MonoBehaviour
                                     switch (text4.Substring(k + 1))
                                     {
                                         case "t":
-                                        {
-                                           // Debug.Log(text4.Substring(k + 1));
+                                            {
                                                 GameObject gameObject7 = UnityEngine.Object.Instantiate<GameObject>(this.canvasTPButtonPrefab);
                                                 gameObject7.transform.SetParent(this.canvasGUI.transform, false);
                                                 if (num12 != 0)
@@ -711,15 +703,13 @@ public class PopupManager : MonoBehaviour
                                                 string actiontp = cfg.canvas[j + 1];
                                                 gameObject7.GetComponent<Button>().onClick.AddListener(delegate ()
                                                 {
-                                                    //SimpleButtonListener(actiontp);
-                                                    їљљљјњљјљњњљњјјњњњљјљњњ._003C_003E4__this.SimpleButtonListener(actiontp);
+                                                    this.SimpleButtonListener(actiontp);
                                                 });
                                                 j++;
                                                 break;
                                             }
                                         case "b":
                                             {
-                                               // Debug.Log(text4.Substring(k + 1));
                                                 GameObject gameObject8 = UnityEngine.Object.Instantiate<GameObject>(this.canvasMicroButtonPrefab);
                                                 gameObject8.transform.SetParent(this.canvasGUI.transform, false);
                                                 if (num12 != 0)
@@ -731,15 +721,13 @@ public class PopupManager : MonoBehaviour
                                                 string action = cfg.canvas[j + 1];
                                                 gameObject8.GetComponent<Button>().onClick.AddListener(delegate ()
                                                 {
-                                                    //SimpleButtonListener(actiontp);
-                                                    їљљљјњљјљњњљњјјњњњљјљњњ._003C_003E4__this.SimpleButtonListener(action);
+                                                    this.SimpleButtonListener(action);
                                                 });
                                                 j++;
                                                 break;
                                             }
                                         case "B":
                                             {
-                                                //Debug.Log(text4.Substring(k + 1));
                                                 GameObject gameObject4 = UnityEngine.Object.Instantiate<GameObject>(this.canvasButtonPrefab);
                                                 gameObject4.transform.SetParent(this.canvasGUI.transform, false);
                                                 if (num12 != 0)
@@ -751,15 +739,13 @@ public class PopupManager : MonoBehaviour
                                                 string action2 = cfg.canvas[j + 1];
                                                 gameObject4.GetComponent<Button>().onClick.AddListener(delegate ()
                                                 {
-                                                    //SimpleButtonListener(actiontp);
-                                                    їљљљјњљјљњњљњјјњњњљјљњњ._003C_003E4__this.SimpleButtonListener(action2);
+                                                    this.SimpleButtonListener(action2);
                                                 });
                                                 j++;
                                                 break;
                                             }
                                         case "T":
                                             {
-                                                //Debug.Log(text4.Substring(k + 1));
                                                 GameObject gameObject6 = UnityEngine.Object.Instantiate<GameObject>(this.canvasTextFieldPrefab);
                                                 if (num12 != 0)
                                                 {
@@ -776,7 +762,6 @@ public class PopupManager : MonoBehaviour
                                             }
                                         case "I":
                                             {
-                                               // Debug.Log(text4.Substring(k + 1));
                                                 GameObject gameObject2 = UnityEngine.Object.Instantiate<GameObject>(this.canvasWebImagePrefab);
                                                 gameObject2.transform.SetParent(this.canvasGUI.transform, false);
                                                 if (num12 != 0)
@@ -793,7 +778,6 @@ public class PopupManager : MonoBehaviour
                                             }
                                         case "R":
                                             {
-                                                //Debug.Log(text4.Substring(k + 1));
                                                 GameObject gameObject5 = UnityEngine.Object.Instantiate<GameObject>(this.canvasRectPrefab);
                                                 gameObject5.transform.SetParent(this.canvasGUI.transform, false);
                                                 if (num12 != 0)
@@ -811,7 +795,6 @@ public class PopupManager : MonoBehaviour
                                             }
                                         case "L":
                                             {
-                                                //Debug.Log(text4.Substring(k + 1));
                                                 GameObject gameObject3 = UnityEngine.Object.Instantiate<GameObject>(this.canvasLinePrefab);
                                                 gameObject3.transform.SetParent(this.canvasGUI.transform, false);
                                                 if (num12 != 0)
@@ -831,164 +814,9 @@ public class PopupManager : MonoBehaviour
                                                 }
                                                 break;
                                             }
-                                    
                                     }
-                                    //Debug.Log(text4.Substring(k + 1));
                                     k = text4.Length;
                                     break;
-
-
-                                //{
-                                //    string text6 = text4.Substring(k + 1);
-                                //    uint num13 = _003CPrivateImplementationDetails_003E.ComputeStringHash(text6);
-                                //    if (num13 <= 3423339364u)
-                                //    {
-                                //        if (num13 != 3339451269u)
-                                //        {
-                                //            if (num13 != 3373006507u)
-                                //            {
-                                //                if (num13 == 3423339364u)
-                                //                {
-                                //                    if (text6 == "I")
-                                //                    {
-                                //                        GameObject gameObject2 = UnityEngine.Object.Instantiate<GameObject>(this.canvasWebImagePrefab);
-                                //                        gameObject2.transform.SetParent(this.canvasGUI.transform, false);
-                                //                        if (num12 != 0)
-                                //                        {
-                                //                            gameObject2.GetComponent<RectTransform>().pivot = new Vector2(0.5f - (float)num12 * 0.5f, 1f);
-                                //                        }
-                                //                        gameObject2.transform.localPosition = new Vector3((float)(num2 + num6), (float)(num3 + num7));
-                                //                        gameObject2.GetComponent<WebImage>().SetSizeAndUrl(num8, num9, text5);
-                                //                        if (flag2)
-                                //                        {
-                                //                            this.blinkingObject = gameObject2;
-                                //                        }
-                                //                    }
-                                //                }
-                                //            }
-                                //            else if (text6 == "L")
-                                //            {
-                                //                GameObject gameObject3 = UnityEngine.Object.Instantiate<GameObject>(this.canvasLinePrefab);
-                                //                gameObject3.transform.SetParent(this.canvasGUI.transform, false);
-                                //                if (num12 != 0)
-                                //                {
-                                //                    gameObject3.GetComponent<RectTransform>().pivot = new Vector2(0.5f - (float)num12 * 0.5f, 1f);
-                                //                }
-                                //                gameObject3.transform.localPosition = new Vector3((float)(num2 + (num6 + num8) / 2), (float)(num3 + (num7 + num9) / 2));
-                                //                int num14 = Mathf.FloorToInt(Mathf.Sqrt((float)((num6 - num8) * (num6 - num8) + (num7 - num9) * (num7 - num9))));
-                                //                gameObject3.GetComponent<RectTransform>().sizeDelta = new Vector2((float)num10, (float)num14);
-                                //                Quaternion rotation = default(Quaternion);
-                                //                rotation.eulerAngles = new Vector3(0f, 0f, 90f + 180f * Mathf.Atan2((float)(num7 - num9), (float)(num6 - num8)) / 3.14159274f);
-                                //                gameObject3.transform.rotation = rotation;
-                                //                gameObject3.GetComponent<Image>().color = PopupManager.hexToColor(text5, (byte)num11);
-                                //                if (flag2)
-                                //                {
-                                //                    this.blinkingObject = gameObject3;
-                                //                }
-                                //            }
-                                //        }
-                                //        else if (text6 == "B")
-                                //        {
-                                //            GameObject gameObject4 = UnityEngine.Object.Instantiate<GameObject>(this.canvasButtonPrefab);
-                                //            gameObject4.transform.SetParent(this.canvasGUI.transform, false);
-                                //            if (num12 != 0)
-                                //            {
-                                //                gameObject4.GetComponent<RectTransform>().pivot = new Vector2(0.5f - (float)num12 * 0.5f, 1f);
-                                //            }
-                                //            gameObject4.transform.localPosition = new Vector3((float)(num2 + num6), (float)(num3 + num7));
-                                //            gameObject4.GetComponentInChildren<Text>().text = text5;
-                                //            string action2 = cfg.canvas[j + 1];
-                                //            gameObject4.GetComponent<Button>().onClick.AddListener(delegate ()
-                                //            {
-                                //                їљљљјњљјљњњљњјјњњњљјљњњ._003C_003E4__this.SimpleButtonListener(action2);
-                                //            });
-                                //            j++;
-                                //        }
-                                //    }
-                                //    else if (num13 <= 3607893173u)
-                                //    {
-                                //        if (num13 != 3507227459u)
-                                //        {
-                                //            if (num13 == 3607893173u)
-                                //            {
-                                //                if (text6 == "R")
-                                //                {
-                                //                    GameObject gameObject5 = UnityEngine.Object.Instantiate<GameObject>(this.canvasRectPrefab);
-                                //                    gameObject5.transform.SetParent(this.canvasGUI.transform, false);
-                                //                    if (num12 != 0)
-                                //                    {
-                                //                        gameObject5.GetComponent<RectTransform>().pivot = new Vector2(0.5f - (float)num12 * 0.5f, 1f);
-                                //                    }
-                                //                    gameObject5.transform.localPosition = new Vector3((float)(num2 + num6), (float)(num3 + num7));
-                                //                    gameObject5.GetComponent<RectTransform>().sizeDelta = new Vector2((float)num8, (float)num9);
-                                //                    gameObject5.GetComponent<Image>().color = PopupManager.hexToColor(text5, (byte)num11);
-                                //                    if (flag2)
-                                //                    {
-                                //                        this.blinkingObject = gameObject5;
-                                //                    }
-                                //                }
-                                //            }
-                                //        }
-                                //        else if (text6 == "T")
-                                //        {
-                                //            GameObject gameObject6 = UnityEngine.Object.Instantiate<GameObject>(this.canvasTextFieldPrefab);
-                                //            if (num12 != 0)
-                                //            {
-                                //                gameObject6.GetComponent<RectTransform>().pivot = new Vector2(0.5f - (float)num12 * 0.5f, 1f);
-                                //            }
-                                //            gameObject6.transform.SetParent(this.canvasGUI.transform, false);
-                                //            gameObject6.transform.localPosition = new Vector3((float)(num2 + num6), (float)(num3 + num7));
-                                //            gameObject6.GetComponent<Text>().text = text5;
-                                //            if (flag2)
-                                //            {
-                                //                this.blinkingObject = gameObject6;
-                                //            }
-                                //        }
-                                //    }
-                                //    else if (num13 != 3876335077u)
-                                //    {
-                                //        if (num13 == 4044111267u)
-                                //        {
-                                //            if (text6 == "t")
-                                //            {
-                                //                GameObject gameObject7 = UnityEngine.Object.Instantiate<GameObject>(this.canvasTPButtonPrefab);
-                                //                gameObject7.transform.SetParent(this.canvasGUI.transform, false);
-                                //                if (num12 != 0)
-                                //                {
-                                //                    gameObject7.GetComponent<RectTransform>().pivot = new Vector2(0.5f - (float)num12 * 0.5f, 1f);
-                                //                }
-                                //                gameObject7.transform.localPosition = new Vector3((float)(num2 + num6), (float)(num3 + num7));
-                                //                string actiontp = cfg.canvas[j + 1];
-                                //                gameObject7.GetComponent<Button>().onClick.AddListener(delegate ()
-                                //                {
-                                //                    їљљљјњљјљњњљњјјњњњљјљњњ._003C_003E4__this.SimpleButtonListener(actiontp);
-                                //                });
-                                //                j++;
-                                //            }
-                                //        }
-                                //    }
-                                //    else if (text6 == "b")
-                                //    {
-                                //        GameObject gameObject8 = UnityEngine.Object.Instantiate<GameObject>(this.canvasMicroButtonPrefab);
-                                //        gameObject8.transform.SetParent(this.canvasGUI.transform, false);
-                                //        if (num12 != 0)
-                                //        {
-                                //            gameObject8.GetComponent<RectTransform>().pivot = new Vector2(0.5f - (float)num12 * 0.5f, 1f);
-                                //        }
-                                //        gameObject8.transform.localPosition = new Vector3((float)(num2 + num6), (float)(num3 + num7));
-                                //        gameObject8.GetComponentInChildren<Text>().text = text5;
-                                //        string action = cfg.canvas[j + 1];
-                                //        gameObject8.GetComponent<Button>().onClick.AddListener(delegate ()
-                                //        {
-                                //            їљљљјњљјљњњљњјјњњњљјљњњ._003C_003E4__this.SimpleButtonListener(action);
-                                //        });
-                                //        j++;
-                                //    }
-                                //    k = text4.Length;
-                                //    break;
-                                //}
-
-
                                 case 'A':
                                     num11 = num5 * num4;
                                     num4 = 0;
@@ -1122,13 +950,13 @@ public class PopupManager : MonoBehaviour
                         string type = array4[l].Substring(1);
                         gameObject9.GetComponent<Button>().onClick.AddListener(delegate ()
                         {
-                            ServerTime.THIS.SendTypicalMessage(ClientController.THIS.TimeOfMove(), їљљљјњљјљњњљњјјњњњљјљњњ._003C_003E4__this.str102, 0, 0, string.Concat(new string[]
+                            ServerTime.THIS.SendTypicalMessage(ClientController.THIS.TimeOfMove(), localData.popupManager.str102, 0, 0, string.Concat(new string[]
                             {
-                                їљљљјњљјљњњљњјјњњњљјљњњ._003C_003E4__this.str101,
-                                їљљљјњљјљњњљњјјњњњљјљњњ.InvButton,
-                                їљљљјњљјљњњљњјјњњњљјљњњ._003C_003E4__this.str111,
+                                localData.popupManager.str101,
+                                localData.InvButton,
+                                localData.popupManager.str111,
                                 type,
-                                їљљљјњљјљњњљњјјњњњљјљњњ._003C_003E4__this.str110
+                                localData.popupManager.str110
                             }));
                         });
                     }
@@ -1139,13 +967,13 @@ public class PopupManager : MonoBehaviour
                         int type = int.Parse(array4[l]);
                         gameObject9.GetComponent<Button>().onClick.AddListener(delegate ()
                         {
-                            ServerTime.THIS.SendTypicalMessage(ClientController.THIS.TimeOfMove(), їљљљјњљјљњњљњјјњњњљјљњњ._003C_003E4__this.str102, 0, 0, string.Concat(new object[]
+                            ServerTime.THIS.SendTypicalMessage(ClientController.THIS.TimeOfMove(), localData.popupManager.str102, 0, 0, string.Concat(new object[]
                             {
-                                їљљљјњљјљњњљњјјњњњљјљњњ._003C_003E4__this.str101,
-                                їљљљјњљјљњњљњјјњњњљјљњњ.InvButton,
-                                їљљљјњљјљњњљњјјњњњљјљњњ._003C_003E4__this.str111,
+                                localData.popupManager.str101,
+                                localData.InvButton,
+                                localData.popupManager.str111,
                                 type,
-                                їљљљјњљјљњњљњјјњњњљјљњњ._003C_003E4__this.str110
+                                localData.popupManager.str110
                             }));
                         });
                     }
@@ -1247,7 +1075,7 @@ public class PopupManager : MonoBehaviour
                     int actionLabel = n + 1;
                     gameObject12.GetComponent<Button>().onClick.AddListener(delegate ()
                     {
-                        їљљљјњљјљњњљњјјњњњљјљњњ._003C_003E4__this.CommonButtonListener("th", actionLabel);
+                        localData.popupManager.CommonButtonListener("th", actionLabel);
                     });
                 }
             }
@@ -1385,13 +1213,12 @@ public class PopupManager : MonoBehaviour
                 gameObject13.GetComponentsInChildren<Text>()[1].text = text11;
                 gameObject13.GetComponentInChildren<Button>().onClick.AddListener(delegate ()
                 {
-                    їљљљјњљјљњњљњјјњњњљјљњњ._003C_003E4__this.SimpleButtonListener(action);
+                    localData.popupManager.SimpleButtonListener(action);
                 });
             }
         }
         else if (cfg.richList != null && cfg.richList.Length != 0)
         {
-            //Debug.Log("da");
             flag = true;
             this.listContent.GetComponent<VerticalLayoutGroup>().spacing = 44f;
             GameObject gameObject14 = this.listContent;
@@ -1413,12 +1240,12 @@ public class PopupManager : MonoBehaviour
             }
             for (int num21 = 0; num21 < cfg.richList.Length / 5; num21++)
             {
-                PopupManager.љњїјїњјїјїљїїњїјљїїљїјї љњїјїњјїјїљїїњїјљїїљїјї = new PopupManager.љњїјїњјїјїљїїњїјљїїљїјї();
-                љњїјїњјїјїљїїњїјљїїљїјї.CS_0024_003C_003E8__locals6 = їљљљјњљјљњњљњјјњњњљјљњњ;
+                RichListHandler richHandler = new RichListHandler();
+                richHandler.localData = localData;
                 string text12 = cfg.richList[5 * num21];
                 string text13 = cfg.richList[5 * num21 + 1];
                 string text14 = cfg.richList[5 * num21 + 2];
-                љњїјїњјїјїљїїњїјљїїљїјї.resp = cfg.richList[5 * num21 + 3];
+                richHandler.resp = cfg.richList[5 * num21 + 3];
                 string text15 = cfg.richList[5 * num21 + 4];
                 Debug.Log(text13);
                 switch (text13)
@@ -1426,20 +1253,20 @@ public class PopupManager : MonoBehaviour
                     case "3card":
                         {
                             string[] array10 = text12.Split(new char[]
-                        {
-                            '&'
-                        });
+                            {
+                                '&'
+                            });
                             string[] array11 = text14.Split(new char[]
                             {
-                            '&'
+                                '&'
                             });
-                            string[] array12 = љњїјїњјїјїљїїњїјљїїљїјї.resp.Split(new char[]
+                            string[] array12 = richHandler.resp.Split(new char[]
                             {
-                            '&'
+                                '&'
                             });
                             string[] array13 = text15.Split(new char[]
                             {
-                            '&'
+                                '&'
                             });
                             GameObject gameObject17 = UnityEngine.Object.Instantiate<GameObject>(this.cardLinePrefab);
                             gameObject17.transform.SetParent(gameObject14.transform, false);
@@ -1449,7 +1276,7 @@ public class PopupManager : MonoBehaviour
                                 gameObject18.transform.SetParent(gameObject17.transform, false);
                                 string[] array14 = array13[num23].Split(new char[]
                                 {
-                                '%'
+                                    '%'
                                 });
                                 gameObject18.GetComponent<WebImage>().SetSizeAndUrl(int.Parse(array14[1]), int.Parse(array14[2]), array14[0]);
                                 Text[] componentsInChildren = gameObject18.GetComponentsInChildren<Text>();
@@ -1464,7 +1291,7 @@ public class PopupManager : MonoBehaviour
                                 string buttonResp = array12[num23];
                                 gameObject18.GetComponent<Button>().onClick.AddListener(delegate ()
                                 {
-                                    љњїјїњјїјїљїїњїјљїїљїјї.CS_0024_003C_003E8__locals6._003C_003E4__this.SimpleButtonListener(buttonResp);
+                                    richHandler.localData.popupManager.SimpleButtonListener(buttonResp);
                                 });
                             }
                             this.richListObjects[num21] = gameObject17;
@@ -1486,14 +1313,14 @@ public class PopupManager : MonoBehaviour
                             gameObject15.GetComponentsInChildren<Text>()[0].text = text12;
                             string[] array8 = text14.Split(new char[]
                             {
-                                        '#'
+                                '#'
                             });
                             gameObject15.GetComponentInChildren<Dropdown>().options.Clear();
                             for (int num22 = 0; num22 < array8.Length - 1; num22++)
                             {
                                 string[] array9 = array8[num22].Split(new char[]
                                 {
-                                            this.ch1
+                                    this.ch1
                                 });
                                 gameObject15.GetComponentInChildren<Dropdown>().options.Add(new Dropdown.OptionData(array9[1]));
                             }
@@ -1518,210 +1345,49 @@ public class PopupManager : MonoBehaviour
                             this.richListObjects[num21] = gameObject19;
                             break;
                         }
-
                     case "button":
-                    {
-                        GameObject gameObject16 = UnityEngine.Object.Instantiate(buttonLinePrefab);
-                        gameObject16.transform.SetParent(gameObject14.transform, worldPositionStays: false);
-                        gameObject16.GetComponentsInChildren<Text>()[1].text = text12;
-                        gameObject16.GetComponentsInChildren<Text>()[0].text = text14;
-                        gameObject16.GetComponentInChildren<Button>().onClick.AddListener(delegate
                         {
-                            їљљљјњљјљњњљњјјњњњљјљњњ._003C_003E4__this.SimpleButtonListener(љњїјїњјїјїљїїњїјљїїљїјї.resp);
-                            //SimpleButtonListener
-                        });
-                        if (text14 == "")
-                        {
-                            gameObject16.GetComponentInChildren<Button>().gameObject.SetActive(value: false);
+                            GameObject gameObject16 = UnityEngine.Object.Instantiate(buttonLinePrefab);
+                            gameObject16.transform.SetParent(gameObject14.transform, worldPositionStays: false);
+                            gameObject16.GetComponentsInChildren<Text>()[1].text = text12;
+                            gameObject16.GetComponentsInChildren<Text>()[0].text = text14;
+                            gameObject16.GetComponentInChildren<Button>().onClick.AddListener(delegate
+                            {
+                                localData.popupManager.SimpleButtonListener(richHandler.resp);
+                            });
+                            if (text14 == "")
+                            {
+                                gameObject16.GetComponentInChildren<Button>().gameObject.SetActive(value: false);
+                            }
+                            richListObjects[num21] = gameObject16;
+                            break;
                         }
-                        richListObjects[num21] = gameObject16;
-                        break;
-                    }
-
                     case "fill":
                         {
                             GameObject gameObject20 = UnityEngine.Object.Instantiate<GameObject>(this.fillLinePrefab);
                             gameObject20.transform.SetParent(gameObject14.transform, false);
                             string[] fillparts = text14.Split(new char[]
                             {
-                            '#'
+                                '#'
                             });
                             gameObject20.GetComponent<FuelLineScript>().Setup(int.Parse(fillparts[0]), text12, fillparts[1], int.Parse(fillparts[2]), fillparts[3] != "", fillparts[4] != "", fillparts[5] != "");
                             Button[] componentsInChildren3 = gameObject20.GetComponentsInChildren<Button>();
                             componentsInChildren3[0].onClick.AddListener(delegate ()
                             {
-                                љњїјїњјїјїљїїњїјљїїљїјї.CS_0024_003C_003E8__locals6._003C_003E4__this.SimpleButtonListener(fillparts[3]);
+                                richHandler.localData.popupManager.SimpleButtonListener(fillparts[3]);
                             });
                             componentsInChildren3[1].onClick.AddListener(delegate ()
                             {
-                                љњїјїњјїјїљїїњїјљїїљїјї.CS_0024_003C_003E8__locals6._003C_003E4__this.SimpleButtonListener(fillparts[4]);
+                                richHandler.localData.popupManager.SimpleButtonListener(fillparts[4]);
                             });
                             componentsInChildren3[2].onClick.AddListener(delegate ()
                             {
-                                љњїјїњјїјїљїїњїјљїїљїјї.CS_0024_003C_003E8__locals6._003C_003E4__this.SimpleButtonListener(fillparts[5]);
+                                richHandler.localData.popupManager.SimpleButtonListener(fillparts[5]);
                             });
                             this.richListObjects[num21] = gameObject20;
                             break;
                         }
                 }
-                //uint num13 = _003CPrivateImplementationDetails_003E.ComputeStringHash(text13);
-                //if (num13 <= 2846199180u)
-                //{
-                //    if (num13 != 477871960u)
-                //    {
-                //        if (num13 != 1135768689u)
-                //        {
-                //            if (num13 == 2846199180u)
-                //            {
-                //                if (text13 == "drop")
-                //                {
-                //                    GameObject gameObject15 = UnityEngine.Object.Instantiate<GameObject>(this.dropdownLinePrefab);
-                //                    gameObject15.transform.SetParent(gameObject14.transform, false);
-                //                    gameObject15.GetComponentsInChildren<Text>()[0].text = text12;
-                //                    string[] array8 = text14.Split(new char[]
-                //                    {
-                //                        '#'
-                //                    });
-                //                    gameObject15.GetComponentInChildren<Dropdown>().options.Clear();
-                //                    for (int num22 = 0; num22 < array8.Length - 1; num22++)
-                //                    {
-                //                        string[] array9 = array8[num22].Split(new char[]
-                //                        {
-                //                            this.ch1
-                //                        });
-                //                        gameObject15.GetComponentInChildren<Dropdown>().options.Add(new Dropdown.OptionData(array9[1]));
-                //                    }
-                //                    gameObject15.GetComponentInChildren<Dropdown>().value = int.Parse(text15);
-                //                    this.richListObjects[num21] = gameObject15;
-                //                }
-                //            }
-                //        }
-                //        else if (text13 == "button")
-                //        {
-                //            GameObject gameObject16 = UnityEngine.Object.Instantiate<GameObject>(this.buttonLinePrefab);
-                //            gameObject16.transform.SetParent(gameObject14.transform, false);
-                //            gameObject16.GetComponentsInChildren<Text>()[1].text = text12;
-                //            gameObject16.GetComponentsInChildren<Text>()[0].text = text14;
-                //            gameObject16.GetComponentInChildren<Button>().onClick.AddListener(delegate ()
-                //            {
-                //                љњїјїњјїјїљїїњїјљїїљїјї.CS_0024_003C_003E8__locals6._003C_003E4__this.SimpleButtonListener(љњїјїњјїјїљїїњїјљїїљїјї.resp);
-                //            });
-                //            if (text14 == "")
-                //            {
-                //                gameObject16.GetComponentInChildren<Button>().gameObject.SetActive(false);
-                //            }
-                //            this.richListObjects[num21] = gameObject16;
-                //        }
-                //    }
-                //    else if (text13 == "3card")
-                //    {
-                //        string[] array10 = text12.Split(new char[]
-                //        {
-                //            '&'
-                //        });
-                //        string[] array11 = text14.Split(new char[]
-                //        {
-                //            '&'
-                //        });
-                //        string[] array12 = љњїјїњјїјїљїїњїјљїїљїјї.resp.Split(new char[]
-                //        {
-                //            '&'
-                //        });
-                //        string[] array13 = text15.Split(new char[]
-                //        {
-                //            '&'
-                //        });
-                //        GameObject gameObject17 = UnityEngine.Object.Instantiate<GameObject>(this.cardLinePrefab);
-                //        gameObject17.transform.SetParent(gameObject14.transform, false);
-                //        for (int num23 = 0; num23 < array10.Length; num23++)
-                //        {
-                //            GameObject gameObject18 = UnityEngine.Object.Instantiate<GameObject>(this.cardPrefab);
-                //            gameObject18.transform.SetParent(gameObject17.transform, false);
-                //            string[] array14 = array13[num23].Split(new char[]
-                //            {
-                //                '%'
-                //            });
-                //            gameObject18.GetComponent<WebImage>().SetSizeAndUrl(int.Parse(array14[1]), int.Parse(array14[2]), array14[0]);
-                //            Text[] componentsInChildren = gameObject18.GetComponentsInChildren<Text>();
-                //            componentsInChildren[0].text = array10[num23];
-                //            componentsInChildren[1].text = array11[num23];
-                //            if (array11[num23] == "" || array11[num23] == " ")
-                //            {
-                //                Image[] componentsInChildren2 = gameObject18.GetComponentsInChildren<Image>();
-                //                componentsInChildren2[1].color = new Color(0f, 0f, 0f, 0.7f);
-                //                componentsInChildren2[2].color = new Color(0f, 0f, 0f, 0f);
-                //            }
-                //            string buttonResp = array12[num23];
-                //            gameObject18.GetComponent<Button>().onClick.AddListener(delegate ()
-                //            {
-                //                љњїјїњјїјїљїїњїјљїїљїјї.CS_0024_003C_003E8__locals6._003C_003E4__this.SimpleButtonListener(buttonResp);
-                //            });
-                //        }
-                //        this.richListObjects[num21] = gameObject17;
-                //    }
-                //}
-                //else if (num13 <= 3185987134u)
-                //{
-                //    if (num13 != 2984927816u)
-                //    {
-                //        if (num13 == 3185987134u)
-                //        {
-                //            if (text13 == "text")
-                //            {
-                //                GameObject gameObject19 = UnityEngine.Object.Instantiate<GameObject>(this.textLinePrefab);
-                //                gameObject19.transform.SetParent(gameObject14.transform, false);
-                //                gameObject19.GetComponentInChildren<Text>().text = text12;
-                //                this.richListObjects[num21] = gameObject19;
-                //            }
-                //        }
-                //    }
-                //    else if (text13 == "fill")
-                //    {
-                //        GameObject gameObject20 = UnityEngine.Object.Instantiate<GameObject>(this.fillLinePrefab);
-                //        gameObject20.transform.SetParent(gameObject14.transform, false);
-                //        string[] fillparts = text14.Split(new char[]
-                //        {
-                //            '#'
-                //        });
-                //        gameObject20.GetComponent<FuelLineScript>().Setup(int.Parse(fillparts[0]), text12, fillparts[1], int.Parse(fillparts[2]), fillparts[3] != "", fillparts[4] != "", fillparts[5] != "");
-                //        Button[] componentsInChildren3 = gameObject20.GetComponentsInChildren<Button>();
-                //        componentsInChildren3[0].onClick.AddListener(delegate ()
-                //        {
-                //            љњїјїњјїјїљїїњїјљїїљїјї.CS_0024_003C_003E8__locals6._003C_003E4__this.SimpleButtonListener(fillparts[3]);
-                //        });
-                //        componentsInChildren3[1].onClick.AddListener(delegate ()
-                //        {
-                //            љњїјїњјїјїљїїњїјљїїљїјї.CS_0024_003C_003E8__locals6._003C_003E4__this.SimpleButtonListener(fillparts[4]);
-                //        });
-                //        componentsInChildren3[2].onClick.AddListener(delegate ()
-                //        {
-                //            љњїјїњјїјїљїїњїјљїїљїјї.CS_0024_003C_003E8__locals6._003C_003E4__this.SimpleButtonListener(fillparts[5]);
-                //        });
-                //        this.richListObjects[num21] = gameObject20;
-                //    }
-                //}
-                //else if (num13 != 3365180733u)
-                //{
-                //    if (num13 == 3415750305u)
-                //    {
-                //        if (text13 == "uint")
-                //        {
-                //            GameObject gameObject21 = UnityEngine.Object.Instantiate<GameObject>(this.uintLinePrefab);
-                //            gameObject21.transform.SetParent(gameObject14.transform, false);
-                //            gameObject21.GetComponentsInChildren<Text>()[0].text = text12;
-                //            gameObject21.GetComponentsInChildren<MyInputField>()[0].text = text15;
-                //            this.richListObjects[num21] = gameObject21;
-                //        }
-                //    }
-                //}
-                //else if (text13 == "bool")
-                //{
-                //    GameObject gameObject22 = UnityEngine.Object.Instantiate<GameObject>(this.toggleLinePrefab);
-                //    gameObject22.transform.SetParent(gameObject14.transform, false);
-                //    gameObject22.GetComponentInChildren<Text>().text = text12;
-                //    gameObject22.GetComponentInChildren<Toggle>().isOn = (int.Parse(text15) != 0);
-                //    this.richListObjects[num21] = gameObject22;
-                //}
             }
         }
         else if (cfg.list == null || cfg.list.Length == 0)
@@ -1752,7 +1418,7 @@ public class PopupManager : MonoBehaviour
                 {
                     gameObject23.GetComponentInChildren<Button>().onClick.AddListener(delegate ()
                     {
-                        їљљљјњљјљњњљњјјњњњљјљњњ._003C_003E4__this.CommonButtonListener("l", num);
+                        localData.popupManager.CommonButtonListener("l", num);
                     });
                 }
             }
@@ -1811,7 +1477,7 @@ public class PopupManager : MonoBehaviour
                         string action = array17[2];
                         gameObject26.GetComponentInChildren<Button>().onClick.AddListener(delegate ()
                         {
-                            їљљљјњљјљњњљњјјњњњљјљњњ._003C_003E4__this.SimpleButtonListener(action);
+                            localData.popupManager.SimpleButtonListener(action);
                         });
                     }
                     else
@@ -2095,123 +1761,123 @@ public class PopupManager : MonoBehaviour
         }
     }
 
-   	public GameObject GUIWindow;
+    public GameObject GUIWindow;
 
-	public Text titleTF;
+    public Text titleTF;
 
-	public Text insideTF;
+    public Text insideTF;
 
-	public VerticalLayoutGroup insideContainer;
+    public VerticalLayoutGroup insideContainer;
 
-	public GameObject openedTabPrefab;
+    public GameObject openedTabPrefab;
 
-	public GameObject closedTabPrefab;
+    public GameObject closedTabPrefab;
 
-	public GameObject cardView;
+    public GameObject cardView;
 
-	public GameObject tabs;
+    public GameObject tabs;
 
-	public GameObject tabsRow;
+    public GameObject tabsRow;
 
-	public GameObject buttonRow;
+    public GameObject buttonRow;
 
-	public GameObject upView;
+    public GameObject upView;
 
-	public GameObject upRoboView;
+    public GameObject upRoboView;
 
-	public GameObject upSkillView;
+    public GameObject upSkillView;
 
-	public GameObject upInstallView;
+    public GameObject upInstallView;
 
-	public GameObject upInstallContent;
+    public GameObject upInstallContent;
 
-	public GameObject crystallSection;
+    public GameObject crystallSection;
 
-	public GameObject canvasGUI;
+    public GameObject canvasGUI;
 
-	public GameObject paint;
+    public GameObject paint;
 
-	public GameObject inventory;
+    public GameObject inventory;
 
-	public GameObject inventoryItemPrefab;
+    public GameObject inventoryItemPrefab;
 
-	public Button upInstallPrefab;
+    public Button upInstallPrefab;
 
-	public Button upButton;
+    public Button upButton;
 
-	public Button adminButton;
+    public Button adminButton;
 
-	public Button deleteButton;
+    public Button deleteButton;
 
-	public Button lockButton;
+    public Button lockButton;
 
-	public Sprite lockButtonLocked;
+    public Sprite lockButtonLocked;
 
-	public Sprite lockButtonUnlocked;
+    public Sprite lockButtonUnlocked;
 
-	public Button upExitButton;
+    public Button upExitButton;
 
-	public Button exitButton;
+    public Button exitButton;
 
-	public Image upImage;
+    public Image upImage;
 
-	public Text upText;
+    public Text upText;
 
-	public MyInputField inputText;
+    public MyInputField inputText;
 
-	public GameObject fillLinePrefab;
+    public GameObject fillLinePrefab;
 
-	public GameObject buttonLinePrefab;
+    public GameObject buttonLinePrefab;
 
-	public GameObject clanLinePrefab;
+    public GameObject clanLinePrefab;
 
-	public GameObject toggleLinePrefab;
+    public GameObject toggleLinePrefab;
 
-	public GameObject uintLinePrefab;
+    public GameObject uintLinePrefab;
 
-	public GameObject dropdownLinePrefab;
+    public GameObject dropdownLinePrefab;
 
-	public GameObject textLinePrefab;
+    public GameObject textLinePrefab;
 
-	public GameObject cardLinePrefab;
+    public GameObject cardLinePrefab;
 
-	public GameObject cardPrefab;
+    public GameObject cardPrefab;
 
-	public GameObject canvasButtonPrefab;
+    public GameObject canvasButtonPrefab;
 
-	public GameObject canvasMicroButtonPrefab;
+    public GameObject canvasMicroButtonPrefab;
 
-	public GameObject canvasTextFieldPrefab;
+    public GameObject canvasTextFieldPrefab;
 
-	public GameObject canvasWebImagePrefab;
+    public GameObject canvasWebImagePrefab;
 
-	public GameObject canvasRectPrefab;
+    public GameObject canvasRectPrefab;
 
-	public GameObject canvasLinePrefab;
+    public GameObject canvasLinePrefab;
 
-	public GameObject canvasTPButtonPrefab;
+    public GameObject canvasTPButtonPrefab;
 
-	public GameObject multitextPrefab;
+    public GameObject multitextPrefab;
 
-	public GameObject centeredImagePrefab;
+    public GameObject centeredImagePrefab;
 
-	public GameObject listContent;
+    public GameObject listContent;
 
-	public GameObject richContent;
+    public GameObject richContent;
 
-	public GameObject scrollView;
+    public GameObject scrollView;
 
-	public GameObject skillButtonPrefab;
+    public GameObject skillButtonPrefab;
 
-	public GameObject pad340;
+    public GameObject pad340;
 
-	public Button[] buttons;
+    public Button[] buttons;
 
-	public Button backButton;
+    public Button backButton;
 
-	public static PopupManager THIS;
+    public static PopupManager THIS;
 
-	private bool disableKeyboard;
+    private bool disableKeyboard;
 
     private string backButtonAction = "";
     private string str101 = "{\"b\":\"";
@@ -2228,342 +1894,53 @@ public class PopupManager : MonoBehaviour
     private string str111 = ":";
     private string str112 = "";
 
-
     private char ch1 = ':';
 
-	private HORBConfig horbcfg;
+    private HORBConfig horbcfg;
 
-	private UPConfig upcfg;
+    private UPConfig upcfg;
 
-	private string mode = "horb";
+    private string mode = "horb";
 
-	public static int[] slotPositions = new int[]
-	{
-		20,
-		110,
-		21,
-		153,
-		38,
-		75,
-		38,
-		191,
-		74,
-		94,
-		74,
-		169,
-		59,
-		132,
-		100,
-		132,
-		51,
-		22,
-		93,
-		36,
-		51,
-		241,
-		93,
-		226,
-		281,
-		50,
-		256,
-		121,
-		312,
-		23,
-		307,
-		87,
-		377,
-		27,
-		376,
-		76,
-		374,
-		137,
-		375,
-		176,
-		165,
-		46,
-		145,
-		131,
-		185,
-		142,
-		332,
-		153,
-		203,
-		24,
-		248,
-		76,
-		341,
-		57,
-		343,
-		103,
-		138,
-		87,
-		248,
-		17,
-		297,
-		133,
-		214,
-		115,
-		175,
-		98,
-		205,
-		68
-	};
+    public static int[] slotPositions = new int[]
+    {
+        20, 110, 21, 153, 38, 75, 38, 191, 74, 94,
+        74, 169, 59, 132, 100, 132, 51, 22, 93, 36,
+        51, 241, 93, 226, 281, 50, 256, 121, 312, 23,
+        307, 87, 377, 27, 376, 76, 374, 137, 375, 176,
+        165, 46, 145, 131, 185, 142, 332, 153, 203, 24,
+        248, 76, 341, 57, 343, 103, 138, 87, 248, 17,
+        297, 133, 214, 115, 175, 98, 205, 68
+    };
 
-	public GameObject[] richListObjects;
+    public GameObject[] richListObjects;
 
-	public GameObject blinkingObject;
+    public GameObject blinkingObject;
 
-	private bool fixScroll;
+    private bool fixScroll;
 
-	private string fixScrollTag = "";
+    private string fixScrollTag = "";
 
-	private bool bigInput;
+    private bool bigInput;
 
-	private Dictionary<string, float> fixScrolls = new Dictionary<string, float>();
+    private Dictionary<string, float> fixScrolls = new Dictionary<string, float>();
 
-	private string lastInputString = "";
+    private string lastInputString = "";
     public string actiontp;
-
     public string action;
-
     public string action2;
 
     [CompilerGenerated]
-	private sealed class їїљњљјњљјїљјјјїїљњњїїњї
-	{
-		internal void _003CStart_003Eb__2(BaseEventData e)
-		{
-			this._003C_003E4__this.CommonButtonListener(this.buttonName, this.buttonNum);
-		}
+    private sealed class ShowHORBLocalData
+    {
+        public PopupManager popupManager;
+        public string InvButton;
+    }
 
-		public string buttonName;
-
-		public int buttonNum;
-
-		public PopupManager _003C_003E4__this;
-	}
-
-	[CompilerGenerated]
-	private sealed class їљјљјїњїљјїљїїјїљњјїљњј
-	{
-		public PopupManager _003C_003E4__this;
-
-		public UPConfig cfg;
-	}
-
-	[CompilerGenerated]
-	private sealed class їњјњјјјїїјњљїїњїїљїїњљј
-	{
-		internal void _003CShowUP_003Eb__0()
-		{
-			this.CS_0024_003C_003E8__locals1._003C_003E4__this.CommonButtonListener("tu", this.actionLabel);
-		}
-
-		public int actionLabel;
-
-		public PopupManager.їљјљјїњїљјїљїїјїљњјїљњј CS_0024_003C_003E8__locals1;
-	}
-
-	[CompilerGenerated]
-	private sealed class јјљјїјљјљјљљљјњјњњїљїјљ
-	{
-		internal void _003CShowUP_003Eb__1()
-		{
-			this.CS_0024_003C_003E8__locals2._003C_003E4__this.OnSkill(this.num);
-		}
-
-		public int num;
-
-		public PopupManager.їљјљјїњїљјїљїїјїљњјїљњј CS_0024_003C_003E8__locals2;
-	}
-
-	[CompilerGenerated]
-	private sealed class їњљјљњјїњњјїїїїјљљњјјїї
-	{
-		internal void _003CShowUP_003Eb__2()
-		{
-			this.CS_0024_003C_003E8__locals3._003C_003E4__this.OnInstall(this.shortCode, this.CS_0024_003C_003E8__locals3.cfg.slot);
-		}
-
-		public string shortCode;
-
-		public PopupManager.їљјљјїњїљјїљїїјїљњјїљњј CS_0024_003C_003E8__locals3;
-	}
-
-	[CompilerGenerated]
-	private sealed class їљљљјњљјљњњљњјјњњњљјљњњ
-	{
-		public PopupManager _003C_003E4__this;
-
-		public string InvButton;
-	}
-
-	[CompilerGenerated]
-	private sealed class љњњњїїїљљїїњїљњјљљјљјїї
-	{
-		internal void _003CShowHORB_003Eb__0()
-		{
-			this.CS_0024_003C_003E8__locals1._003C_003E4__this.SimpleButtonListener(this.actiontp);
-		}
-
-		internal void _003CShowHORB_003Eb__1()
-		{
-			this.CS_0024_003C_003E8__locals1._003C_003E4__this.SimpleButtonListener(this.action);
-		}
-
-		internal void _003CShowHORB_003Eb__2()
-		{
-			this.CS_0024_003C_003E8__locals1._003C_003E4__this.SimpleButtonListener(this.action2);
-		}
-
-		public string actiontp;
-
-		public string action;
-
-		public string action2;
-
-		public PopupManager.їљљљјњљјљњњљњјјњњњљјљњњ CS_0024_003C_003E8__locals1;
-	}
-
-	[CompilerGenerated]
-	private sealed class їњљњїїљїїјїњњљљїљїљјїїј
-	{
-		internal void _003CShowHORB_003Eb__3()
-		{
-			ServerTime.THIS.SendTypicalMessage(ClientController.THIS.TimeOfMove(), this.CS_0024_003C_003E8__locals2._003C_003E4__this.str102, 0, 0, string.Concat(new string[]
-			{
-				this.CS_0024_003C_003E8__locals2._003C_003E4__this.str101,
-				this.CS_0024_003C_003E8__locals2.InvButton,
-				this.CS_0024_003C_003E8__locals2._003C_003E4__this.str111,
-				this.type,
-				this.CS_0024_003C_003E8__locals2._003C_003E4__this.str110
-			}));
-		}
-
-		public string type;
-
-		public PopupManager.їљљљјњљјљњњљњјјњњњљјљњњ CS_0024_003C_003E8__locals2;
-	}
-
-	[CompilerGenerated]
-	private sealed class јїљњјњљїїњњјјњјњљњњњјїї
-	{
-		internal void _003CShowHORB_003Eb__4()
-		{
-			ServerTime.THIS.SendTypicalMessage(ClientController.THIS.TimeOfMove(), this.CS_0024_003C_003E8__locals3._003C_003E4__this.str102, 0, 0, string.Concat(new object[]
-			{
-				this.CS_0024_003C_003E8__locals3._003C_003E4__this.str101,
-				this.CS_0024_003C_003E8__locals3.InvButton,
-				this.CS_0024_003C_003E8__locals3._003C_003E4__this.str111,
-				this.type,
-				this.CS_0024_003C_003E8__locals3._003C_003E4__this.str110
-			}));
-		}
-
-		public int type;
-
-		public PopupManager.їљљљјњљјљњњљњјјњњњљјљњњ CS_0024_003C_003E8__locals3;
-	}
-
-	[CompilerGenerated]
-	private sealed class јїїљљїњњњјњњїїњјїњњјљњї
-	{
-		internal void _003CShowHORB_003Eb__5()
-		{
-			this.CS_0024_003C_003E8__locals4._003C_003E4__this.CommonButtonListener("th", this.actionLabel);
-		}
-
-		public int actionLabel;
-
-		public PopupManager.їљљљјњљјљњњљњјјњњњљјљњњ CS_0024_003C_003E8__locals4;
-	}
-
-	[CompilerGenerated]
-	private sealed class њљљљљїїљїњњїљњјїїјјљјњї
-	{
-		internal void _003CShowHORB_003Eb__6()
-		{
-			this.CS_0024_003C_003E8__locals5._003C_003E4__this.SimpleButtonListener(this.action);
-		}
-
-		public string action;
-
-		public PopupManager.їљљљјњљјљњњљњјјњњњљјљњњ CS_0024_003C_003E8__locals5;
-	}
-
-	[CompilerGenerated]
-	private sealed class љњїјїњјїјїљїїњїјљїїљїјї
-	{
-		internal void _003CShowHORB_003Eb__7()
-		{
-			this.CS_0024_003C_003E8__locals6._003C_003E4__this.SimpleButtonListener(this.resp);
-		}
-
-		public string resp;
-
-		public PopupManager.їљљљјњљјљњњљњјјњњњљјљњњ CS_0024_003C_003E8__locals6;
-	}
-
-	[CompilerGenerated]
-	private sealed class їњјљљїјљїљљњљїњњњјїљїњј
-	{
-		internal void _003CShowHORB_003Eb__8()
-		{
-			this.CS_0024_003C_003E8__locals7.CS_0024_003C_003E8__locals6._003C_003E4__this.SimpleButtonListener(this.fillparts[3]);
-		}
-
-		internal void _003CShowHORB_003Eb__9()
-		{
-			this.CS_0024_003C_003E8__locals7.CS_0024_003C_003E8__locals6._003C_003E4__this.SimpleButtonListener(this.fillparts[4]);
-		}
-
-		internal void _003CShowHORB_003Eb__10()
-		{
-			this.CS_0024_003C_003E8__locals7.CS_0024_003C_003E8__locals6._003C_003E4__this.SimpleButtonListener(this.fillparts[5]);
-		}
-
-		public string[] fillparts;
-
-		public PopupManager.љњїјїњјїјїљїїњїјљїїљїјї CS_0024_003C_003E8__locals7;
-	}
-
-	[CompilerGenerated]
-	private sealed class їїљњњљїїњњњњјјјљјњїїјїї
-	{
-		internal void _003CShowHORB_003Eb__11()
-		{
-			this.CS_0024_003C_003E8__locals8.CS_0024_003C_003E8__locals7.CS_0024_003C_003E8__locals6._003C_003E4__this.SimpleButtonListener(this.buttonResp);
-		}
-
-		public string buttonResp;
-
-		public PopupManager.їњјљљїјљїљљњљїњњњјїљїњј CS_0024_003C_003E8__locals8;
-	}
-
-	[CompilerGenerated]
-	private sealed class їњљјљїїљљїњљљљљїњїјњїњј
-	{
-		internal void _003CShowHORB_003Eb__12()
-		{
-			this.CS_0024_003C_003E8__locals9._003C_003E4__this.CommonButtonListener("l", this.num);
-		}
-
-		public int num;
-
-		public PopupManager.їљљљјњљјљњњљњјјњњњљјљњњ CS_0024_003C_003E8__locals9;
-	}
-
-	[CompilerGenerated]
-	private sealed class љјњњјјњљјїњјїљљљјјјљјјљ
-	{
-		internal void _003CShowHORB_003Eb__13()
-		{
-			this.CS_0024_003C_003E8__locals10._003C_003E4__this.SimpleButtonListener(this.action);
-		}
-
-		public string action;
-
-		public PopupManager.їљљљјњљјљњњљњјјњњњљјљњњ CS_0024_003C_003E8__locals10;
-	}
+    [CompilerGenerated]
+    private sealed class RichListHandler
+    {
+        public ShowHORBLocalData localData;
+        public string resp;
+    }
 }
-
