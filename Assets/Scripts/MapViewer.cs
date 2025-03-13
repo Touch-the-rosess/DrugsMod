@@ -158,6 +158,35 @@ public class MapViewer : MonoBehaviour
             MapViewer.InitColorTable();
         }
         this.allmapButton.onClick.AddListener(new UnityAction(this.OnClick));
+
+        for (int i = 0; i < 255; i++)
+        {
+            MapViewer.atable[i] = MapViewer.RGBQ(0, 0, 0);
+        }
+        MapViewer.atable[119] = MapViewer.RGBQ(170, 255, 255); //Ghypnoskal
+        MapViewer.atable[117] = MapViewer.RGBQ(170, 119, 119); //krasnoskal
+        MapViewer.atable[116] = MapViewer.RGBQ(77, 166, 255);  //Alive blue
+        MapViewer.atable[114] = MapViewer.RGBQ(119, 119, 119); //chiornoskal
+        //MapViewer.atable[106] = MapViewer.RGBQ(136, 136, 136); //Nevidymay nerazrushimyi block
+        MapViewer.atable[90]  = MapViewer.RGBQ(255, 255, 255); //Box
+        MapViewer.atable[87]  = MapViewer.RGBQ(255, 255, 0);   //Alive super rainbow
+        //MapViewer.atable[81]  = MapViewer.RGBQ(0, 230, 230);   //VB
+        MapViewer.atable[55]  = MapViewer.RGBQ(255, 255, 77);  //Alive rainbow
+        //MapViewer.atable[54]  = MapViewer.RGBQ(68, 0, 0);      //Alive white
+        //MapViewer.atable[53]  = MapViewer.RGBQ(68, 0, 0);      //Alive black
+        //MapViewer.atable[52]  = MapViewer.RGBQ(221, 51, 255);  //Alive fio
+        //MapViewer.atable[51]  = MapViewer.RGBQ(255, 102, 102); //Alive red
+        //MapViewer.atable[50]  = MapViewer.RGBQ(25, 25, 255);   //Alive blue
+        //MapViewer.atable[49]  = MapViewer.RGBQ(233, 236, 242); //Opora
+        //MapViewer.atable[48]  = MapViewer.RGBQ(68, 0, 0);      //Kvadro
+        //MapViewer.atable[39]  = MapViewer.RGBQ(0, 255, 0);     //Polymer doroga
+        MapViewer.atable[38]  = MapViewer.RGBQ(153, 102, 0);   //Ugol ot zdanya
+        MapViewer.atable[37]  = MapViewer.RGBQ(153, 102, 0);   //Dvery so zdanya
+        //MapViewer.atable[36]  = MapViewer.RGBQ(85, 68, 34);    //Zolotaya doroga
+        //MapViewer.atable[35]  = MapViewer.RGBQ(204, 204, 210); //Doroga
+        MapViewer.atable[30]  = MapViewer.RGBQ(255, 247, 204); //Vorota
+
+        modeDropdown.options.Add(new Dropdown.OptionData("Скалы."));
     }
 
     public static Color RGBQ(int r, int g, int b)
@@ -277,6 +306,9 @@ public class MapViewer : MonoBehaviour
                         array[i + j * num] = MapViewer.customTable[num9] * (0.5f + 0.5f * Mathf.Sin(Time.time * MapViewer.customBlinkRateTable[num9]));
                     }
                 }
+                else if (this.modeDropdown.value == 5) {
+                    array[i + j * num] = MapViewer.atable[TerrainRendererScript.map.GetCell(num3 + i, num4 - j)];
+                }
             }
         }
         if (this.modeDropdown.value == 1)
@@ -329,7 +361,7 @@ public class MapViewer : MonoBehaviour
             }
             num += this.mapX;
             num2 = this.mapY - num2;
-            this.CoordText.text = num + ":" + num2;
+            this.CoordText.text = num + ":" + num2 + " cell:" + TerrainRendererScript.map.GetCell(num, num2).ToString();
             this.cursDx = num;
             this.cursDy = num2;
         }
@@ -396,6 +428,8 @@ public class MapViewer : MonoBehaviour
 	public static Color[] transparentTable = new Color[255];
 
 	public static Color[] customTable = new Color[255];
+
+    public static Color[] atable = new Color[255];
 
 	public static float[] customBlinkRateTable = new float[255];
 
