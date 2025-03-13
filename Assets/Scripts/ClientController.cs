@@ -882,6 +882,9 @@ public class ClientController : MonoBehaviour
                             this.MoveOrBz(0, -1, 2, false, this.isControl);
                         }
                     }
+                    else if (UnityEngine.Input.GetKey(KeyCode.LeftAlt) && UnityEngine.Input.GetKey(KeyCode.F1)) {
+                        ServerTime.THIS.SendTypicalMessage(THIS.TimeOfMove(), "Locl", 0, 0, ">harakiri");
+                    }
                     if (this.TimeForNextOperation < Time.unscaledTime)
                     {
                         this.TimeForNextOperation = Time.unscaledTime;
