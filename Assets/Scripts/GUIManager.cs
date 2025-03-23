@@ -1,4 +1,5 @@
-﻿using MyUI;
+﻿using Assets.Scripts.DrugsMod;
+using MyUI;
 using System;
 using UnityEngine;
 using UnityEngine.Events;
@@ -108,9 +109,10 @@ public class GUIManager : MonoBehaviour
 
     private void OnHelp()
     {
-        ClientController.CanGoto = false;
-        TutorialNavigation.CheckHide("_HELP");
-        ServerTime.THIS.SendTypicalMessage(-1, "Help", 0, 0, "_");
+        //ClientController.CanGoto = false;
+        //TutorialNavigation.CheckHide("_HELP");
+        //ServerTime.THIS.SendTypicalMessage(-1, "Help", 0, 0, "_");
+        DMPopupManager.THIS.Show();
     }
 
     private void OpenBuildings()
