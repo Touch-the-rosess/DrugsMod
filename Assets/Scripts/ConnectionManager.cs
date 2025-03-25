@@ -159,7 +159,7 @@ public class ConnectionManager : MonoBehaviour
         }
     }
 
-    private void FirstConnect()
+    public void FirstConnect()
     {
         if (this.DEBUG_PORTS && this.DEBUG)
         {

@@ -10,7 +10,9 @@ using System.Runtime.CompilerServices;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-
+using Assets.Scripts.DrugsMod;
+using UnityEditor.Build.Player;
+//using UnityEngine.UIElements;
 
 
 namespace Assets.Scripts.DrugsMod
@@ -18,62 +20,84 @@ namespace Assets.Scripts.DrugsMod
     class DMPopupManager : MonoBehaviour
     {
         private void Start() {
-            UnityEngine.Debug.Log("Lol");
             DMPopupManager.THIS = this;
+            //DMRegistryFunctionality.AddRobot("test1","hwid1","uniq1","hash1","1",false);
+            //DMRegistryFunctionality.AddRobot("test2","hwid2","uniq2","hash2","1",false);
+            //DMRegistryFunctionality.AddRobot("test3","hwid3","uniq3","hash3","1",false);
+            //DMRegistryFunctionality.AddRobot("test4","hwid4","uniq4","hash4","1",false);
+            //DMRegistryFunctionality.AddRobot("test5","hwid5","uniq5","hash5","1",false);
+            
             this.tabsArray = new CustomTabUIClass[] {
-              new CustomTabUIClass("Main",true),
+              new CustomTabUIClass("Main"),
               new CustomTabUIClass("Жывки"),
               new CustomTabUIClass("Third"),
-              new CustomTabUIClass("About")
+              new CustomTabUIClass("About",true)
             };
-            this.ConstructTabsVisually();
+            //this.ConstructTabsVisually();
+            this.PrepareLoginPage();
+            this.newAccountButton.onClick.AddListener(delegate (){ SignInRobot(); });
             this.exitButton.onClick.AddListener(new UnityAction(this.OnExit));
 
             
         }
+        
         public void PrepareLoginPage(){
-          //set the scroll view?
           Vector2 sizeDelta = this.scrollView.GetComponent<RectTransform>().sizeDelta;
-          sizeDelta.y = 400f;
+          sizeDelta.y = 300f;
           this.scrollView.GetComponent<RectTransform>().sizeDelta = sizeDelta;
-          //GameObject gameObject24 = this.listContent;
-          foreach (object obj7 in this.listContent.transform)
-          {
+          foreach (object obj7 in this.listContent.transform){
               UnityEngine.Object.Destroy(((Transform)obj7).gameObject);
           }
-          this.listContent.GetComponent<VerticalLayoutGroup>().spacing = 5f;
+          this.listContent.GetComponent<VerticalLayoutGroup>().spacing = 30f;
           //the list content is the one holding the lines
           //get the folders from reg
           this.scrollView.SetActive(true);
 
           foreach(var robot in DMRegistryFunctionality.GetAllRobots())
           {
-            GameObject gameObject23 = UnityEngine.Object.Instantiate<GameObject>(this.buttonLinePrefab);
-            gameObject23.transform.SetParent(this.listContent.transform, false);
-            gameObject23.GetComponentsInChildren<Text>()[0].text = robot.Name;
-            gameObject23.GetComponentsInChildren<Text>()[1].text = "Log in";
+            GameObject buttonLineElement = UnityEngine.Object.Instantiate<GameObject>(this.buttonLinePrefab);
+            buttonLineElement.transform.SetParent(this.listContent.transform, false);
+            buttonLineElement.GetComponentsInChildren<Text>()[1].text = robot.name;
+            buttonLineElement.GetComponentsInChildren<Text>()[0].text = "Log in";
             
-            if (robot.IsLoggedIn)
+            if (robot.isLoggedIn)
             {
-                gameObject23.GetComponentInChildren<Button>().gameObject.SetActive(false);
+                buttonLineElement.GetComponentInChildren<Button>().gameObject.SetActive(false); // TODO: Make the button disabled, not invisible
             }
             else
             {
-                gameObject23.GetComponentInChildren<Button>().onClick.AddListener(delegate (){ LogInRobot(robot); });
+                buttonLineElement.GetComponentInChildren<Button>().onClick.AddListener(delegate (){ LogInRobot(robot); });
             }
+            buttonLineElement.transform.SetParent(this.listContent.transform);
+            
           }
 
         }
-
+        public void SignInRobot(){
+          DMGlobalVariables.currentLoggedRobot = new RobotData();
+          DMGlobalVariables.currentLoggedRobot.isLoggedIn = true;
+          DMGlobalVariables.IsSigningInNewRobot = true;
+          ConnectionManager.THIS.FirstConnect();
+          ModGUIWindow.SetActive(false);
+        }
         public void LogInRobot(RobotData robot){
-            DMRegistryFunctionality.UpdateRobot(robot.Name,robot.Hwid, robot.Hash,robot.Id, robot.IsLoggedIn);
-            // now find the logic for logging in the bot
+          DMGlobalVariables.currentLoggedRobot = robot;
+          robot.isLoggedIn = true;
+          UnityEngine.Debug.Log("DMPopupManager.LogInRobot() got invoked.");
+          DMRegistryFunctionality.OverrideRobot(robot.name,robot.hwid,robot.uniq, robot.hash,robot.id, robot.isLoggedIn);
+          ConnectionManager.THIS.FirstConnect();
+          this.ModGUIWindow.SetActive(false);
         }
         public void Show(){
           if(!this.ModGUIWindow.activeSelf){
             UnityEngine.Debug.Log($"The state of this.ModGUIWindow.activeSelf = {this.ModGUIWindow.activeSelf}"); 
+            this.ConstructTabsVisually();
+            this.tabsRow.SetActive(true);
+            this.pages[0].SetActive(false);//hide login page
             this.ModGUIWindow.SetActive(true);
-            ConstructTabsVisually();
+            if(this.signInButton.activeSelf)this.signInButton.SetActive(false);
+
+            ShowPage(pages.Length-1);//showing the last page that would allways be about page
           }
           
         }
@@ -83,7 +107,6 @@ namespace Assets.Scripts.DrugsMod
           this.ModGUIWindow.SetActive(false);
           GUIManager.THIS.ClearFocus();
         }
-
         private void CommonButtonListener(string buttonType, int tabId){ // remane it for tabs, like tabs button listener
           UnityEngine.Debug.Log($"The buttontype \"{buttonType}\" with next id {tabId} was pressed!");
           if(buttonType == "tab"){
@@ -98,6 +121,12 @@ namespace Assets.Scripts.DrugsMod
           }
           
         }
+        public void ShowPage(int index){
+          for(int i = 0; i < pages.Length; i++){
+            pages[i].SetActive((i==index)?true:false);
+            //if(i == index) pages[i].SetActive(true);
+          }
+        }
         private void UpdateLayout()
         {
           //LayoutRebuilder.ForceRebuildLayoutImmediate(this.buttonRow.GetComponent<RectTransform>());
@@ -106,6 +135,8 @@ namespace Assets.Scripts.DrugsMod
         }
         public void ConstructTabsVisually(){
           //UnityEngine.Debug.Log($"There are {this.tabsRow.transform.childCount} childrens.");
+          //show tabs
+          this.tabsRow.SetActive(true);
           foreach (object obj in this.tabsRow.transform)
             UnityEngine.Object.Destroy(((Transform)obj).gameObject);
           
@@ -130,11 +161,13 @@ namespace Assets.Scripts.DrugsMod
         public GameObject ModGUIWindow;
         public GameObject tabsRow;
         public Button exitButton;
+        public Button newAccountButton;
         public GameObject openedTabPrefab;
         public GameObject closedTabPrefab;
         public GameObject scrollView;
         public GameObject buttonLinePrefab;
         public GameObject listContent; // its for stcrollviewa
+        public GameObject signInButton;
         public GameObject[] pages; // there ill assign the pages that would be shown wen pressing on tabs
         public static DMPopupManager THIS;
     }

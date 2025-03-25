@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
+using Assets.Scripts.DrugsMod;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -51,16 +52,20 @@ public class AuthManager : MonoBehaviour
     private void OnAU(ref string msg)
     {
         this._uniq = msg;
+        DMGlobalVariables.currentLoggedRobot.uniq = this._uniq;
         this._haveUniq = true;
         if (AuthManager.debugGid != "")
         {
             this.obvyazka.SendU("AU", this._uniq + "_DEBUG_" + AuthManager.debugGid);
             return;
         }
-        if ((ConnectionManager.METHOD == "SITE" || WorldInitScript.inited) && PlayerPrefs.HasKey("user_id") && PlayerPrefs.HasKey("user_hash"))
+        if ((ConnectionManager.METHOD == "SITE" || WorldInitScript.inited) 
+              && DMGlobalVariables.currentLoggedRobot.id != null // PlayerPrefs.HasKey("user_id") 
+              && DMGlobalVariables.currentLoggedRobot.hash != null //PlayerPrefs.HasKey("user_hash")
+              )
         {
-            this._userId = PlayerPrefs.GetString("user_id");
-            this._userHash = PlayerPrefs.GetString("user_hash");
+            this._userId = DMGlobalVariables.currentLoggedRobot.id;//PlayerPrefs.GetString("user_id");
+            this._userHash = DMGlobalVariables.currentLoggedRobot.hash;//PlayerPrefs.GetString("user_hash");
             this.obvyazka.SendU("AU", string.Concat(new string[]
             {
                 this._uniq,
@@ -112,9 +117,12 @@ public class AuthManager : MonoBehaviour
 	{
 		if (msg == "BAD")
 		{
-			PlayerPrefs.DeleteKey("user_id");
-			PlayerPrefs.DeleteKey("user_hash");
-			this.vkPanel.gameObject.SetActive(true);
+      if(DMGlobalVariables.currentLoggedRobot != null){
+        DMRegistryFunctionality.RemoveRobot(DMGlobalVariables.currentLoggedRobot.name);
+      }
+			//PlayerPrefs.DeleteKey("user_id");
+			//PlayerPrefs.DeleteKey("user_hash");
+			//this.vkPanel.gameObject.SetActive(true);
 			base.Invoke("ListenAH", 0.01f);
 			return;
 		}
@@ -124,8 +132,11 @@ public class AuthManager : MonoBehaviour
 		});
 		this._userId = array[0];
 		this._userHash = array[1];
-		PlayerPrefs.SetString("user_id", this._userId);
-		PlayerPrefs.SetString("user_hash", this._userHash);
+    DMGlobalVariables.currentLoggedRobot.id = this._userId;
+    DMGlobalVariables.currentLoggedRobot.hash = this._userHash;
+
+		//PlayerPrefs.SetString("user_id", this._userId);
+		//PlayerPrefs.SetString("user_hash", this._userHash);
 		this.obvyazka.SendU("AU", string.Concat(new string[]
 		{
 			this._uniq,

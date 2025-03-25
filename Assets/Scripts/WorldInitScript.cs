@@ -5,7 +5,7 @@ using System.Net;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
-
+using Assets.Scripts.DrugsMod;
 
 public class WorldInitScript : MonoBehaviour
 {
@@ -114,65 +114,16 @@ public class WorldInitScript : MonoBehaviour
 		}
 		UnityEngine.Debug.Log(w.width + "x" + w.height + " - in " + w.name);
 		ConnectionManager.THIS.connectionText.text = "";
-        UnityEngine.Debug.Log(VERSION);//
-
-
-
-
-        //// Тестовый апдейт
-
-        string testURI = "https://disk.yandex.ru/d/2zycAue7KcybQA";
-
-
-        /*pad.gameObject.SetActive(value: true);
-        UpdateWindow.SetActive(value: true);
-        UpdateText.text = "ВЫШЛА НОВАЯ ВЕРСИЯ ИГРЫ. ОБНОВИТЕ ИГРУ ПРЯМО СЕЙЧАС\n\nВ обновлении v" + w.version + ":\n" + w.update_desc;
-        UpdateButton.onClick.AddListener(delegate
-        {
-            if (!updatingStarted)
-            {
-                updatingStarted = true;
-                UpdateText.text += "\n\n<color=red>ДОЖДИТЕСЬ НАЧАЛА ЗАГРУЗКИ...</color>";
-                UpdateText.text += "\n\n(если ничего не происходит - скачайте клиент на minesgame.ru)";
-                downloadedFilename = Application.temporaryCachePath + "/autoupdate.apk";
-                wb.DownloadProgressChanged += wb_DownloadProgressChanged;
-                wb.DownloadFileCompleted += wb_DownloadFileCompleted;
-                wb.DownloadFileAsync(new Uri(testURI), downloadedFilename);
-                UpdateButton.gameObject.SetActive(value: false);
-            }
-        });*/
-
-        ////
-        /*
-        if (w.v > VERSION)
-		{
-			pad.gameObject.SetActive(value: true);
-			UpdateWindow.SetActive(value: true);
-			UpdateText.text = "ВЫШЛА НОВАЯ ВЕРСИЯ ИГРЫ. ОБНОВИТЕ ИГРУ ПРЯМО СЕЙЧАС\n\nВ обновлении v" + w.version + ":\n" + w.update_desc;
-			UpdateButton.onClick.AddListener(delegate
-			{
-				if (!updatingStarted)
-				{
-					updatingStarted = true;
-					UpdateText.text += "\n\n<color=red>ДОЖДИТЕСЬ НАЧАЛА ЗАГРУЗКИ...</color>";
-					UpdateText.text += "\n\n(если ничего не происходит - скачайте клиент на minesgame.ru)";
-					downloadedFilename = Application.temporaryCachePath + "/autoupdate.exe";
-					wb.DownloadProgressChanged += wb_DownloadProgressChanged;
-					wb.DownloadFileCompleted += wb_DownloadFileCompleted;
-					wb.DownloadFileAsync(new Uri(w.update_url), downloadedFilename);
-					UpdateButton.gameObject.SetActive(value: false);
-				}
-			});
-			return;
-		}*/
+    UnityEngine.Debug.Log(VERSION);
 		if (!inited)
 		{
-			string text = obvyazka.vk_access_token2;
-			if (text == "")
-			{
-				text = SystemInfo.deviceUniqueIdentifier;
-			}
-			ServerTime.THIS.SendTypicalMessage(-1, "Rndm", 0, 0, "hash=" + text);
+      UnityEngine.Debug.Log("WorldInitScript.OnWorldConfig() started the initiation.");
+			//string text = obvyazka.vk_access_token2;
+			//if (text == "")
+			//{
+			//	text = SystemInfo.deviceUniqueIdentifier;
+			//}
+			ServerTime.THIS.SendTypicalMessage(-1, "Rndm", 0, 0, "hash=" + DMGlobalVariables.currentLoggedRobot.hwid);
 			if (!ConnectionManager.THIS.DEBUG)
 			{
 				SetupExceptionHandling();
@@ -265,7 +216,16 @@ public class WorldInitScript : MonoBehaviour
 
 	private static bool WantsToQuit()
 	{
-		if (!saved)
+    DMGlobalVariables.currentLoggedRobot.isLoggedIn = false;
+    DMRegistryFunctionality.OverrideRobot(
+      DMGlobalVariables.currentLoggedRobot.name,
+      DMGlobalVariables.currentLoggedRobot.hwid,
+      DMGlobalVariables.currentLoggedRobot.uniq,
+      DMGlobalVariables.currentLoggedRobot.hash,
+      DMGlobalVariables.currentLoggedRobot.id,
+      DMGlobalVariables.currentLoggedRobot.isLoggedIn
+    );
+		if (!saved && inited)
 		{
 			string text = "СОХРАНЕНИЕ КАРТЫ.\nДОЖДИТЕСЬ ЗАВЕРШЕНИЯ ПРИЛОЖЕНИЯ";
 			ConnectionManager.THIS.connectionText.text = text;
@@ -277,6 +237,7 @@ public class WorldInitScript : MonoBehaviour
 		{
 			return false;
 		}
+    THIS.Invoke("QuitAfterSaving", 0.5f);
 		return true;
 	}
 

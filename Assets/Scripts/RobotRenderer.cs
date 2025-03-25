@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Assets.Scripts.DrugsMod;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -224,6 +225,18 @@ public class RobotRenderer : MonoBehaviour
         {
             if (Time.unscaledTime > this.lastMyRobotNamingTime + 2f)
             {
+                
+                if(DMGlobalVariables.IsSigningInNewRobot){
+                  UnityEngine.Debug.Log("RobotRenderer.Update() is this function running constantly?");
+                  DMGlobalVariables.currentLoggedRobot.name = this.nicks[this.clientController.myBotId];
+                  DMRegistryFunctionality.AddRobot(DMGlobalVariables.currentLoggedRobot.name,
+                                                   DMGlobalVariables.currentLoggedRobot.hwid,
+                                                   DMGlobalVariables.currentLoggedRobot.uniq,
+                                                   DMGlobalVariables.currentLoggedRobot.hash,
+                                                   DMGlobalVariables.currentLoggedRobot.id,
+                                                   DMGlobalVariables.currentLoggedRobot.isLoggedIn);
+                  DMGlobalVariables.IsSigningInNewRobot = false;
+                }
                 this.nickTF.text = this.nicks[this.clientController.myBotId];
                 this.lastMyRobotNamingTime = Time.unscaledTime;
             }
