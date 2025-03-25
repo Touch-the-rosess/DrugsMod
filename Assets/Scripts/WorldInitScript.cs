@@ -256,7 +256,8 @@ public class WorldInitScript : MonoBehaviour
 	{
 		if (ClientController.map != null)
 		{
-			ClientController.map.SaveMapV2();
+      if(inited)
+			  ClientController.map.SaveMapV2();
 			ClientController.map.Destroy();
 		}
 		THIS.Invoke("QuitAfterSaving", 0.5f);
