@@ -11,7 +11,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Assets.Scripts.DrugsMod;
-using UnityEditor.Build.Player;
+// using UnityEditor.Build.Player;
 //using UnityEngine.UIElements;
 
 
@@ -52,13 +52,33 @@ namespace Assets.Scripts.DrugsMod
           //the list content is the one holding the lines
           //get the folders from reg
           this.scrollView.SetActive(true);
-
+          this.loginPageButtonRow.GetComponentsInChildren<Button>()[0].onClick.AddListener(delegate (){SignInRobot(); }); //new account
+          this.loginPageButtonRow.GetComponentsInChildren<Button>()[1].onClick.AddListener(delegate (){ 
+            RobotData import =  DMRegistryFunctionality.LoadRobotData();
+            DMRegistryFunctionality.ImportSingleRobot(import,true);
+            PrepareLoginPage();
+            
+          }); //import account
           foreach(var robot in DMRegistryFunctionality.GetAllRobots())
           {
-            GameObject buttonLineElement = UnityEngine.Object.Instantiate<GameObject>(this.buttonLinePrefab);
+            AddNewLogInButtonLine(robot);
+          }
+
+        }
+        private void AddNewLogInButtonLine(RobotData robot){
+            GameObject buttonLineElement = UnityEngine.Object.Instantiate<GameObject>(this.logInButtonLinePrefab);
             buttonLineElement.transform.SetParent(this.listContent.transform, false);
-            buttonLineElement.GetComponentsInChildren<Text>()[1].text = robot.name;
-            buttonLineElement.GetComponentsInChildren<Text>()[0].text = "Log in";
+            buttonLineElement.GetComponentsInChildren<Text>()[0].text = robot.name;
+            buttonLineElement.GetComponentsInChildren<Text>()[1].text = "Log in";
+            UnityEngine.Debug.Log($"DMPopupManager.AddNewLogInButtonLine() = ",buttonLineElement.GetComponentsInChildren<Button>()[1]);
+            buttonLineElement.GetComponentsInChildren<Button>()[1].onClick.AddListener(delegate (){ // TODO: decouple it in to a separate function
+              UnityEngine.Debug.Log("DMPopupManager.AddNewLogInButtonLine() Export button pressed");
+              DMRegistryFunctionality.SaveJsonFile(robot.name+".json",DMRegistryFunctionality.ExportRobot(robot.name));
+            }); //export
+            buttonLineElement.GetComponentsInChildren<Button>()[2].onClick.AddListener(delegate (){ 
+              DMRegistryFunctionality.RemoveRobot(robot.name); 
+              buttonLineElement.SetActive(false);
+            }); //delete
             
             if (robot.isLoggedIn)
             {
@@ -69,9 +89,6 @@ namespace Assets.Scripts.DrugsMod
                 buttonLineElement.GetComponentInChildren<Button>().onClick.AddListener(delegate (){ LogInRobot(robot); });
             }
             buttonLineElement.transform.SetParent(this.listContent.transform);
-            
-          }
-
         }
         public void SignInRobot(){
           DMGlobalVariables.currentLoggedRobot = new RobotData();
@@ -95,8 +112,8 @@ namespace Assets.Scripts.DrugsMod
             this.tabsRow.SetActive(true);
             this.pages[0].SetActive(false);//hide login page
             this.ModGUIWindow.SetActive(true);
-            if(this.signInButton.activeSelf)this.signInButton.SetActive(false);
-
+            //if(this.signInButton.activeSelf)this.signInButton.SetActive(false);
+            if(this.loginPageButtonRow.activeSelf)this.loginPageButtonRow.SetActive(false);
             ShowPage(pages.Length-1);//showing the last page that would allways be about page
           }
           
@@ -165,9 +182,9 @@ namespace Assets.Scripts.DrugsMod
         public GameObject openedTabPrefab;
         public GameObject closedTabPrefab;
         public GameObject scrollView;
-        public GameObject buttonLinePrefab;
+        public GameObject logInButtonLinePrefab;
         public GameObject listContent; // its for stcrollviewa
-        public GameObject signInButton;
+        public GameObject loginPageButtonRow;
         public GameObject[] pages; // there ill assign the pages that would be shown wen pressing on tabs
         public static DMPopupManager THIS;
     }
