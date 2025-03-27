@@ -53,12 +53,12 @@ namespace Assets.Scripts.DrugsMod
           //get the folders from reg
           this.scrollView.SetActive(true);
           this.loginPageButtonRow.GetComponentsInChildren<Button>()[0].onClick.AddListener(delegate (){SignInRobot(); }); //new account
-          this.loginPageButtonRow.GetComponentsInChildren<Button>()[1].onClick.AddListener(delegate (){ 
-            RobotData import =  DMRegistryFunctionality.LoadRobotData();
-            DMRegistryFunctionality.ImportSingleRobot(import,true);
-            PrepareLoginPage();
-            
+          this.loginPageButtonRow.GetComponentsInChildren<Button>()[1].onClick.AddListener(async delegate (){
+            DMRegistryFunctionality.ImportRobotData();
+            //PrepareLoginPage();
           }); //import account
+          //DMRegistryFunctionality.ImportSingleRobot(import,true);
+          //RobotData import =  DMRegistryFunctionality.LoadRobotData();
           foreach(var robot in DMRegistryFunctionality.GetAllRobots())
           {
             AddNewLogInButtonLine(robot);
@@ -67,26 +67,31 @@ namespace Assets.Scripts.DrugsMod
         }
         private void AddNewLogInButtonLine(RobotData robot){
             GameObject buttonLineElement = UnityEngine.Object.Instantiate<GameObject>(this.logInButtonLinePrefab);
-            buttonLineElement.transform.SetParent(this.listContent.transform, false);
+            //UnityEngine.Debug.Log($"DMPopupManager.AddNewLogInButtonLine() = ",buttonLineElement.GetComponentsInChildren<Button>()[1]);
+            //buttonLineElement.transform.SetParent(this.listContent.transform, false);
             buttonLineElement.GetComponentsInChildren<Text>()[0].text = robot.name;
             buttonLineElement.GetComponentsInChildren<Text>()[1].text = "Log in";
-            UnityEngine.Debug.Log($"DMPopupManager.AddNewLogInButtonLine() = ",buttonLineElement.GetComponentsInChildren<Button>()[1]);
-            buttonLineElement.GetComponentsInChildren<Button>()[1].onClick.AddListener(delegate (){ // TODO: decouple it in to a separate function
+            
+            buttonLineElement.GetComponentsInChildren<Button>()[0].onClick.AddListener(delegate (){ 
               UnityEngine.Debug.Log("DMPopupManager.AddNewLogInButtonLine() Export button pressed");
-              DMRegistryFunctionality.SaveJsonFile(robot.name+".json",DMRegistryFunctionality.ExportRobot(robot.name));
+              DMRegistryFunctionality.ExportRobotData(robot);
             }); //export
+            
+            UnityEngine.Debug.Log("DMPopupManager.AddNewLogInButtonLine() ", buttonLineElement.GetComponentsInChildren<Button>()[1]);
             buttonLineElement.GetComponentsInChildren<Button>()[2].onClick.AddListener(delegate (){ 
+              UnityEngine.Debug.Log("DMPopupManager.AddNewLogInButtonLine() Delete button pressed");
               DMRegistryFunctionality.RemoveRobot(robot.name); 
               buttonLineElement.SetActive(false);
             }); //delete
             
             if (robot.isLoggedIn)
             {
-                buttonLineElement.GetComponentInChildren<Button>().gameObject.SetActive(false); // TODO: Make the button disabled, not invisible
+                //buttonLineElement.GetComponentInChildren<Button>().gameObject.SetActive(false); // TODO: Make the button disabled, not invisible
+                buttonLineElement.GetComponentsInChildren<Button>()[1].interactable = false; 
             }
             else
             {
-                buttonLineElement.GetComponentInChildren<Button>().onClick.AddListener(delegate (){ LogInRobot(robot); });
+                buttonLineElement.GetComponentsInChildren<Button>()[1].onClick.AddListener(delegate (){ LogInRobot(robot); });
             }
             buttonLineElement.transform.SetParent(this.listContent.transform);
         }
@@ -187,5 +192,6 @@ namespace Assets.Scripts.DrugsMod
         public GameObject loginPageButtonRow;
         public GameObject[] pages; // there ill assign the pages that would be shown wen pressing on tabs
         public static DMPopupManager THIS;
+
     }
 }

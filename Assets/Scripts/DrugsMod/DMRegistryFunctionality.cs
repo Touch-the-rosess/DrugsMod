@@ -13,15 +13,10 @@ using UnityEngine.UI;
 using System.Data.Common;
 using System.IO;
 using System.Net.Http.Headers;
+//using Assets.Plugins.SimpleFileBrowser;
+using SimpleFileBrowser;
 
 
-#if UNITY_STANDALONE_WIN || UNITY_STANDALONE_OSX //|| UNITY_EDITOR
-using System.Windows.Forms; // Requires System.Windows.Forms.dll for Windows
-using System.Runtime.InteropServices; // For macOS native calls
-#endif
-#if UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX || UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX || UNITY_ANDROID
-using System.Diagnostics;
-#endif
 
 namespace Assets.Scripts.DrugsMod
 {
@@ -351,342 +346,61 @@ namespace Assets.Scripts.DrugsMod
         }
     }
 
-#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
-    private static void SaveJsonFileWindows(string defaultFileName, string jsonContent)
+    public static void ImportRobotData()
     {
-        SaveFileDialog saveFileDialog = new SaveFileDialog
-        {
-            FileName = defaultFileName,
-            Filter = "JSON files (*.json)|*.json",
-            Title = "Save JSON File"
-        };
-
-        if (saveFileDialog.ShowDialog() == DialogResult.OK)
-        {
-            File.WriteAllText(saveFileDialog.FileName, jsonContent);
-            UnityEngine.Debug.Log("JSON file saved to: " + saveFileDialog.FileName);
-        }
-        else
-        {
-            UnityEngine.Debug.Log("Save file dialog canceled.");
-        }
-    }
-#endif
-
-#if UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
-    private static void SaveJsonFileMacOS(string defaultFileName, string jsonContent)
-    {
-        string tempPath = Path.Combine(Application.temporaryCachePath, defaultFileName);
-        File.WriteAllText(tempPath, jsonContent);
-
-        string appleScript = $"tell app \"System Events\" to set savePath to POSIX path of (choose file name with prompt \"Save JSON File\" default name \"{defaultFileName}\")" +
-                             $"\nset tempPath to POSIX path of \"{tempPath}\"" +
-                             $"\ndo shell script \"mv \" & quoted form of tempPath & \" \" & quoted form of savePath";
-
-        try
-        {
-            System.Diagnostics.Process process = new System.Diagnostics.Process
+        FileBrowser.SetFilters(true, new string[] { ".json" });
+        FileBrowser.ShowLoadDialog((paths) => {
+            if (paths.Count() == 1)
             {
-                StartInfo = new System.Diagnostics.ProcessStartInfo
+                string path = paths[0];
+                try
                 {
-                    FileName = "osascript",
-                    Arguments = $"-e '{appleScript}'",
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    CreateNoWindow = true
+                    RobotData currentRobotData;
+                    string jsonContent = FileBrowserHelpers.ReadTextFromFile(path);
+                    currentRobotData = JsonUtility.FromJson<RobotData>(jsonContent);
+                    if (currentRobotData == null)
+                    {
+                        Debug.LogError("Failed to deserialize RobotData from " + path);
+                    }
+                    else
+                    {
+                        //use the importsingle robot
+                        DMRegistryFunctionality.ImportSingleRobot(currentRobotData,true);
+                        DMPopupManager.THIS.PrepareLoginPage();
+                        Debug.Log("Robot data imported from " + path);
+                    }
                 }
-            };
-            process.Start();
-            process.WaitForExit();
-            UnityEngine.Debug.Log("JSON file saved via macOS dialog.");
-        }
-        catch (System.Exception e)
-        {
-            UnityEngine.Debug.LogError("Failed to save JSON file on macOS: " + e.Message);
-            string fallbackPath = Path.Combine(Application.persistentDataPath, defaultFileName);
-            File.WriteAllText(fallbackPath, jsonContent);
-            UnityEngine.Debug.Log("Fallback JSON save to: " + fallbackPath);
-        }
-    }
-#endif
-
-#if UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX
-    private static void SaveJsonFileLinux(string defaultFileName, string jsonContent)
-    {
-        try
-        {
-            // Use zenity for a simple file save dialog on Linux
-            string tempPath = Path.Combine(Application.temporaryCachePath, defaultFileName);
-            File.WriteAllText(tempPath, jsonContent);
-
-            System.Diagnostics.Process process = new System.Diagnostics.Process
-            {
-                StartInfo = new System.Diagnostics.ProcessStartInfo
+                catch (Exception e)
                 {
-                    FileName = "zenity",
-                    Arguments = $"--file-selection --save --filename=\"{defaultFileName}\" --file-filter=\"JSON files (*.json) | *.json\"",
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    CreateNoWindow = true
+                    Debug.LogError("Error importing robot data: " + e.Message);
                 }
-            };
-
-            process.Start();
-            string output = process.StandardOutput.ReadToEnd();
-            process.WaitForExit();
-
-            if (process.ExitCode == 0 && !string.IsNullOrEmpty(output))
-            {
-                string savePath = output.Trim();
-                File.Move(tempPath, savePath);
-                UnityEngine.Debug.Log("JSON file saved to: " + savePath);
             }
-            else
+        }, null, FileBrowser.PickMode.Files, false);
+    }
+
+    public static void ExportRobotData(RobotData currentRobotData)
+    {
+        if (currentRobotData == null)
+        {
+            Debug.Log("No robot data to export.");
+            return;
+        }
+        string jsonContent = JsonUtility.ToJson(currentRobotData);
+        FileBrowser.SetFilters(true, new string[] { ".json" });
+        FileBrowser.ShowSaveDialog((path) => {
+            if (!string.IsNullOrWhiteSpace(path[0]))
             {
-                UnityEngine.Debug.Log("Save file dialog canceled on Linux.");
-                File.Delete(tempPath);
-            }
-        }
-        catch (System.Exception e)
-        {
-            UnityEngine.Debug.LogError("Failed to save JSON file on Linux: " + e.Message);
-            // Fallback to persistentDataPath
-            string fallbackPath = Path.Combine(Application.persistentDataPath, defaultFileName);
-            File.WriteAllText(fallbackPath, jsonContent);
-            UnityEngine.Debug.Log("Fallback JSON save to: " + fallbackPath);
-        }
-    }
-#endif
-
-#if UNITY_ANDROID || UNITY_IOS
-    private static void SaveJsonFileMobile(string defaultFileName, string jsonContent)
-    {
-        string path = Path.Combine(Application.persistentDataPath, defaultFileName);
-        File.WriteAllText(path, jsonContent);
-        UnityEngine.Debug.Log("JSON file saved to: " + path);
-    }
-#endif
-
-// Main method to call the appropriate platform-specific save function
-public static void SaveJsonFile(string defaultFileName, string jsonContent)
-{
-#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
-    SaveJsonFileWindows(defaultFileName, jsonContent);
-#elif UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
-    SaveJsonFileMacOS(defaultFileName, jsonContent);
-#elif UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX
-     SaveJsonFileLinux(defaultFileName, jsonContent);
-#elif UNITY_ANDROID || UNITY_IOS
-    SaveJsonFileMobile(defaultFileName, jsonContent);
-#else
-    // Default fallback for unsupported platforms
-    string fallbackPath = Path.Combine(Application.persistentDataPath, defaultFileName);
-    File.WriteAllText(fallbackPath, jsonContent);
-    UnityEngine.Debug.Log("JSON file saved to fallback path: " + fallbackPath);
-#endif
-    UnityEngine.Debug.Log("DmRegistryFunctionality.SaveJsonFile()");
-}
-
-#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
-    private static RobotData LoadJsonFileWindows(string title = "Select Robot Data JSON File")
-    {
-        OpenFileDialog openFileDialog = new OpenFileDialog
-        {
-            Filter = "JSON files (*.json)|*.json",
-            Title = title
-        };
-
-        if (openFileDialog.ShowDialog() == DialogResult.OK)
-        {
-            string filePath = openFileDialog.FileName;
-            return LoadAndValidateJson(filePath);
-        }
-        else
-        {
-            UnityEngine.Debug.Log("File open dialog canceled.");
-            return null;
-        }
-    }
-#endif
-
-#if UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
-    private static RobotData LoadJsonFileMacOS(string title = "Select Robot Data JSON File")
-    {
-        try
-        {
-            string appleScript = $"tell app \"System Events\" to set filePath to POSIX path of (choose file with prompt \"{title}\" of type {{\"json\"}})" +
-                                 $"\nreturn filePath";
-
-            Process process = new Process
-            {
-                StartInfo = new ProcessStartInfo
+                try
                 {
-                    FileName = "osascript",
-                    Arguments = $"-e '{appleScript}'",
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    CreateNoWindow = true
+                    FileBrowserHelpers.WriteTextToFile(path[0], jsonContent);
+                    Debug.Log("Robot data exported to " + path);
                 }
-            };
-            process.Start();
-            string filePath = process.StandardOutput.ReadToEnd().Trim();
-            process.WaitForExit();
-
-            if (process.ExitCode == 0 && !string.IsNullOrEmpty(filePath))
-            {
-                return LoadAndValidateJson(filePath);
-            }
-            else
-            {
-                UnityEngine.Debug.Log("File open dialog canceled on macOS.");
-                return null;
-            }
-        }
-        catch (System.Exception e)
-        {
-            UnityEngine.Debug.LogError("Failed to load JSON file on macOS: " + e.Message);
-            return null;
-        }
-    }
-#endif
-
-#if UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX
-    private static RobotData LoadJsonFileLinux(string title = "Select Robot Data JSON File")
-    {
-        try
-        {
-            Process process = new Process
-            {
-                StartInfo = new ProcessStartInfo
+                catch (Exception e)
                 {
-                    FileName = "zenity",
-                    Arguments = $"--file-selection --title=\"{title}\" --file-filter=\"JSON files (*.json) | *.json\"",
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    CreateNoWindow = true
+                    Debug.LogError("Error exporting robot data: " + e.Message);
                 }
-            };
-
-            process.Start();
-            string filePath = process.StandardOutput.ReadToEnd().Trim();
-            process.WaitForExit();
-
-            if (process.ExitCode == 0 && !string.IsNullOrEmpty(filePath))
-            {
-                return LoadAndValidateJson(filePath);
             }
-            else
-            {
-                UnityEngine.Debug.Log("File open dialog canceled on Linux.");
-                return null;
-            }
-        }
-        catch (System.Exception e)
-        {
-            UnityEngine.Debug.LogError("Failed to load JSON file on Linux: " + e.Message);
-            return null;
-        }
-    }
-#endif
-
-#if UNITY_ANDROID
-    private static RobotData LoadJsonFileAndroid(string title = "Select Robot Data JSON File")
-    {
-        string defaultPath = Path.Combine(Application.persistentDataPath, "robot_data.json");
-        if (File.Exists(defaultPath))
-        {
-            return LoadAndValidateJson(defaultPath);
-        }
-        else
-        {
-            UnityEngine.Debug.LogWarning("No default JSON file found at: " + defaultPath + ". Use a plugin like 'Native File Picker' for full file selection.");
-            return null;
-        }
-    }
-#endif
-
-    // Helper method to load and validate JSON
-    private static RobotData LoadAndValidateJson(string filePath)
-    {
-        try
-        {
-            if (!File.Exists(filePath))
-            {
-                UnityEngine.Debug.LogError("File does not exist: " + filePath);
-                return null;
-            }
-
-            string jsonContent = File.ReadAllText(filePath);
-            if (string.IsNullOrEmpty(jsonContent))
-            {
-                UnityEngine.Debug.LogError("JSON file is empty: " + filePath);
-                return null;
-            }
-
-            RobotData robotData = JsonUtility.FromJson<RobotData>(jsonContent);
-            if (robotData == null)
-            {
-                UnityEngine.Debug.LogError("Failed to deserialize JSON to RobotData: " + filePath);
-                return null;
-            }
-
-            // Safety checks for required fields
-            if (string.IsNullOrEmpty(robotData.name))
-            {
-                UnityEngine.Debug.LogWarning("RobotData 'name' is missing or empty. Setting default.");
-                return null;
-            }
-            if (string.IsNullOrEmpty(robotData.hwid))
-            {
-                UnityEngine.Debug.LogWarning("RobotData 'hwid' is missing or empty. Generating new HWID.");
-                return null;
-            }
-            if (string.IsNullOrEmpty(robotData.uniq))
-            {
-                UnityEngine.Debug.LogWarning("RobotData 'uniq' is missing or empty. Setting default.");
-                return null;
-            }
-            if (string.IsNullOrEmpty(robotData.hash))
-            {
-                UnityEngine.Debug.LogWarning("RobotData 'hash' is missing or empty. Setting default.");
-                return null;
-            }
-            if (string.IsNullOrEmpty(robotData.id))
-            {
-                UnityEngine.Debug.LogWarning("RobotData 'id' is missing or empty. Setting default.");
-                return null;
-            }
-
-            UnityEngine.Debug.Log("RobotData loaded successfully from: " + filePath);
-            return robotData;
-        }
-        catch (System.Exception e)
-        {
-            UnityEngine.Debug.LogError("Error loading or validating JSON file: " + e.Message);
-            return null;
-        }
-    }
-
-    // Main method to call the appropriate platform-specific load function
-    public static RobotData LoadRobotData(string title = "Select Robot Data JSON File")
-    {
-#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
-        return LoadJsonFileWindows(title);
-#elif UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
-        return LoadJsonFileMacOS(title);
-#elif UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX
-        return LoadJsonFileLinux(title);
-#elif UNITY_ANDROID
-        return LoadJsonFileAndroid(title);
-#else
-        UnityEngine.Debug.LogWarning("File loading not implemented for this platform. Using fallback.");
-        string fallbackPath = Path.Combine(Application.persistentDataPath, "robot_data.json");
-        if (File.Exists(fallbackPath))
-        {
-            return LoadAndValidateJson(fallbackPath);
-        }
-        return null;
-#endif
+        }, null, FileBrowser.PickMode.Files, false, null, "robot_data.json", "Save Robot Data", "Save");
     }
 
   }
