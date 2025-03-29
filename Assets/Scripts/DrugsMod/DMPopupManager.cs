@@ -78,7 +78,7 @@ namespace Assets.Scripts.DrugsMod
           {
             AddNewLogInButtonLine(robot);
           }
-
+          this.LastEnteredRobotText.text = "Last Account: " + PlayerPrefs.GetString("LastRobot");
         }
         private void AddNewLogInButtonLine(RobotData robot){
             GameObject buttonLineElement = UnityEngine.Object.Instantiate<GameObject>(this.logInButtonLinePrefab);
@@ -124,6 +124,7 @@ namespace Assets.Scripts.DrugsMod
           DMRegistryFunctionality.OverrideRobot(robot.name,robot.hwid,robot.uniq, robot.hash,robot.id, robot.isLoggedIn);
           ConnectionManager.THIS.FirstConnect();
           this.ModGUIWindow.SetActive(false);
+          PlayerPrefs.SetString("LastRobot", robot.name);
         }
         public void Show(){
           if(!this.ModGUIWindow.activeSelf){
@@ -208,6 +209,7 @@ namespace Assets.Scripts.DrugsMod
         public GameObject openedTabPrefab;
         public GameObject closedTabPrefab;
         public GameObject logInButtonLinePrefab;
+        public Text LastEnteredRobotText;
         public static DMPopupManager THIS;
 
         //public Dictionary<GameObject, CustomTabUIClass> TabPagesPair;//openWith =new Dictionary<string, string>();
