@@ -100,7 +100,7 @@ MonoBehaviour:
     type: 3}
   lampPrefab: {fileID: 1790376288100401922, guid: 7b0a5e07bd094ab8a273ce350c5dd199,
     type: 3}
-  gunRadiusPrefab: {fileID: 1790376288100401994, guid: 2d7bcd644ed5437e8491154b1612a0af,
+  gunRadiusPrefab: {fileID: 1790376288100401994, guid: 8328b5e4b7e9db5429cd6f2203d75b16,
     type: 3}
   leviPrefab: {fileID: 1790376288100401950, guid: 8924bd36815c4b849410ae0c0851e176,
     type: 3}

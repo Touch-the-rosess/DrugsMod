@@ -17,6 +17,9 @@ namespace Assets.Scripts.DrugsMod
 {
   public static class DMGlobalVariables{
     public static RobotData currentLoggedRobot;
-    public static bool IsSigningInNewRobot = false;
+    public static bool IsSigningInNewRobot  = false;
+        public static bool GunRadius_First  = true;
+        public static bool GunRadius_Second = false;
+        public static bool GunRadius_Third  = false;
   } 
 }

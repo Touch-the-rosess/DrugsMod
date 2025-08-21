@@ -1,3 +1,4 @@
+using Assets.Scripts.DrugsMod;
 using System;
 using UnityEngine;
 
@@ -20,12 +21,15 @@ public class PackSpriteScript : MonoBehaviour
             PackSpriteScript.volc_sprites = Resources.LoadAll<Sprite>("volcano");
             PackSpriteScript.inited = true;
         }
+        Debug.Log("Assets/Scripts/PackSpriteScript.cs 23, InitSprites() : ");
     }
 
     private void Start()
     {
         this.ChangeSpriteToModel();
         this.instanceInited = true;
+        Debug.Log("Assets/Scripts/PackSpriteScript.cs 30, gunRadiusPrefab : ");
+       
     }
 
     public void ChangeSpriteToModel()
@@ -186,6 +190,9 @@ public class PackSpriteScript : MonoBehaviour
                 if (this._Obj.off > 0)
                 {
                     this.gunRadius = UnityEngine.Object.Instantiate<GameObject>(this.gunRadiusPrefab);
+                    this.gunRadius.transform.GetChild(0).gameObject.SetActive(DMGlobalVariables.GunRadius_First);
+                    this.gunRadius.transform.GetChild(1).gameObject.SetActive(DMGlobalVariables.GunRadius_Second);
+                    this.gunRadius.transform.GetChild(2).gameObject.SetActive(DMGlobalVariables.GunRadius_Third);
                     this.gunRadius.transform.SetParent(base.gameObject.transform);
                     this.gunRadius.transform.localPosition = new Vector3(0.08f, -0.08f, -1f);
                     this.gunRadius.GetComponent<SpriteRenderer>().color = this.zoneColors[this._Obj.off];
@@ -247,39 +254,54 @@ public class PackSpriteScript : MonoBehaviour
                 base.GetComponent<SpriteRenderer>().sprite = PackSpriteScript.sprites[num2];
             }
         }
-        if (this.gunRadius != null && this.lastGunUpdate < Time.unscaledTime)
-        {
-            if (ClientConfig.gunRadius)
+        if (this.gunRadius != null ) {
+            if (DMGlobalVariables.GunRadius_First)
             {
-                this.lastGunUpdate = Time.unscaledTime + 0.051f;
-                this.gunFrame++;
-                if (this.gunFrame == 4)
-                {
-                    this.gunFrame = 0;
-                }
-                switch (this.gunFrame)
-                {
-                    case 0:
-                        this.gunRadius.transform.localScale = new Vector3(0.16f, 0.16f, 1f);
-                        return;
-                    case 1:
-                        this.gunRadius.transform.localScale = new Vector3(-0.16f, 0.16f, 1f);
-                        return;
-                    case 2:
-                        this.gunRadius.transform.localScale = new Vector3(-0.16f, -0.16f, 1f);
-                        return;
-                    case 3:
-                        this.gunRadius.transform.localScale = new Vector3(0.16f, -0.16f, 1f);
-                        return;
-                    default:
-                        return;
-                }
+                this.gunRadius.transform.GetChild(0).gameObject.SetActive(DMGlobalVariables.GunRadius_First);
             }
-            else
+            if (DMGlobalVariables.GunRadius_Second)
             {
-                this.gunRadius.transform.localScale = new Vector3(0f, -0f, 0f);
+                this.gunRadius.transform.GetChild(1).gameObject.SetActive(DMGlobalVariables.GunRadius_Second);
             }
+            if (DMGlobalVariables.GunRadius_Third)
+            {
+                this.gunRadius.transform.GetChild(2).gameObject.SetActive(DMGlobalVariables.GunRadius_Third);
+            }
+
         }
+        //if (this.gunRadius != null && this.lastGunUpdate < Time.unscaledTime)
+        //{
+        //    if (ClientConfig.gunRadius)
+        //    {
+        //        this.lastGunUpdate = Time.unscaledTime + 0.051f;
+        //        this.gunFrame++;
+        //        if (this.gunFrame == 4)
+        //        {
+        //            this.gunFrame = 0;
+        //        }
+        //        switch (this.gunFrame)
+        //        {
+        //            case 0:
+        //                this.gunRadius.transform.localScale = new Vector3(0.16f, 0.16f, 1f);
+        //                return;
+        //            case 1:
+        //                this.gunRadius.transform.localScale = new Vector3(-0.16f, 0.16f, 1f);
+        //                return;
+        //            case 2:
+        //                this.gunRadius.transform.localScale = new Vector3(-0.16f, -0.16f, 1f);
+        //                return;
+        //            case 3:
+        //                this.gunRadius.transform.localScale = new Vector3(0.16f, -0.16f, 1f);
+        //                return;
+        //            default:
+        //                return;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        this.gunRadius.transform.localScale = new Vector3(0f, -0f, 0f);
+        //    }
+        //}
     }
 
     public static Sprite[] sprites;
