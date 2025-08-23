@@ -188,6 +188,7 @@ public class RobotScript : MonoBehaviour
     {
         this.body.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);
         int num = this.skin;
+        //Debug.Log(this.skin);
         if (num != 1)
         {
             if (num == 2)
@@ -196,7 +197,15 @@ public class RobotScript : MonoBehaviour
                 this.layerZ = 2f;
                 return;
             }
-            this.body.GetComponent<SpriteRenderer>().sprite = RobotScript.sprites[this.skin];
+            try
+            {
+                this.body.GetComponent<SpriteRenderer>().sprite = RobotScript.sprites[this.skin]; //default line
+            }
+            catch (Exception)
+            {
+                Debug.Log($"The game tryed to render the skin with the id of: {this.skin}");
+                this.body.GetComponent<SpriteRenderer>().sprite = RobotScript.sprites[0];
+            }
             this.layerZ = 2f;
         }
         else
