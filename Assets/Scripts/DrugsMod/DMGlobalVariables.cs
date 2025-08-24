@@ -19,7 +19,7 @@ namespace Assets.Scripts.DrugsMod
     public static RobotData currentLoggedRobot;
     public static bool IsSigningInNewRobot  = false;
         public static bool GunRadius_First  = true;
-        public static bool GunRadius_Second = false;
-        public static bool GunRadius_Third  = false;
+        public static bool GunRadius_Second = true;
+        public static bool GunRadius_Third  = true;
   } 
 }
