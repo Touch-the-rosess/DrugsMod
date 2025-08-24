@@ -21,15 +21,12 @@ public class PackSpriteScript : MonoBehaviour
             PackSpriteScript.volc_sprites = Resources.LoadAll<Sprite>("volcano");
             PackSpriteScript.inited = true;
         }
-        Debug.Log("Assets/Scripts/PackSpriteScript.cs 23, InitSprites() : ");
     }
 
     private void Start()
     {
         this.ChangeSpriteToModel();
         this.instanceInited = true;
-        Debug.Log("Assets/Scripts/PackSpriteScript.cs 30, gunRadiusPrefab : ");
-       
     }
 
     public void ChangeSpriteToModel()
@@ -190,9 +187,9 @@ public class PackSpriteScript : MonoBehaviour
                 if (this._Obj.off > 0)
                 {
                     this.gunRadius = UnityEngine.Object.Instantiate<GameObject>(this.gunRadiusPrefab);
-                    this.gunRadius.transform.GetChild(0).gameObject.SetActive(DMGlobalVariables.GunRadius_First);
+                    this.gunRadius.transform.GetChild(0).gameObject.SetActive(DMGlobalVariables.GunRadius_First );
                     this.gunRadius.transform.GetChild(1).gameObject.SetActive(DMGlobalVariables.GunRadius_Second);
-                    this.gunRadius.transform.GetChild(2).gameObject.SetActive(DMGlobalVariables.GunRadius_Third);
+                    this.gunRadius.transform.GetChild(2).gameObject.SetActive(DMGlobalVariables.GunRadius_Third );
                     this.gunRadius.transform.SetParent(base.gameObject.transform);
                     this.gunRadius.transform.localPosition = new Vector3(0.08f, -0.08f, -1f);
                     this.gunRadius.GetComponent<SpriteRenderer>().color = this.zoneColors[this._Obj.off];
@@ -255,19 +252,10 @@ public class PackSpriteScript : MonoBehaviour
             }
         }
         if (this.gunRadius != null ) {
-            if (DMGlobalVariables.GunRadius_First)
-            {
-                this.gunRadius.transform.GetChild(0).gameObject.SetActive(DMGlobalVariables.GunRadius_First);
-            }
-            if (DMGlobalVariables.GunRadius_Second)
-            {
-                this.gunRadius.transform.GetChild(1).gameObject.SetActive(DMGlobalVariables.GunRadius_Second);
-            }
-            if (DMGlobalVariables.GunRadius_Third)
-            {
-                this.gunRadius.transform.GetChild(2).gameObject.SetActive(DMGlobalVariables.GunRadius_Third);
-            }
-
+            this.gunRadius.gameObject.SetActive(ClientConfig.gunRadius);
+            this.gunRadius.transform.GetChild(0).gameObject.SetActive(DMGlobalVariables.GunRadius_First);
+            this.gunRadius.transform.GetChild(1).gameObject.SetActive(DMGlobalVariables.GunRadius_Second);
+            this.gunRadius.transform.GetChild(2).gameObject.SetActive(DMGlobalVariables.GunRadius_Third);
         }
         //if (this.gunRadius != null && this.lastGunUpdate < Time.unscaledTime)
         //{

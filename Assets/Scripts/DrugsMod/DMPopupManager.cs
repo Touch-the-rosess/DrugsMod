@@ -26,21 +26,36 @@ namespace Assets.Scripts.DrugsMod
             //DMRegistryFunctionality.AddRobot("test3","hwid3","uniq3","hash3","1",false);
             //DMRegistryFunctionality.AddRobot("test4","hwid4","uniq4","hash4","1",false);
             //DMRegistryFunctionality.AddRobot("test5","hwid5","uniq5","hash5","1",false);
-            
+
             this.tabsArray = new CustomTabUIClass[] {
-              new CustomTabUIClass("Main"),
-              new CustomTabUIClass("Жывки"),
+              new CustomTabUIClass("First"),
+              new CustomTabUIClass("Second"),
               new CustomTabUIClass("Third"),
               new CustomTabUIClass("About",true)
             };
             //this.ConstructTabsVisually();
             this.PrepareLoginPage();
-            this.newAccountButton.onClick.AddListener(delegate (){ SignInRobot(); });
+            this.newAccountButton.onClick.AddListener(delegate () { SignInRobot(); });
             this.exitButton.onClick.AddListener(new UnityAction(this.OnExit));
+            this.AddListenerToGunRadiusCheckboxes();
+            //TabPagesPair = new Dictionary<GameObject, CustomTabUIClass>();
 
-            
         }
-        
+        public void AddListenerToGunRadiusCheckboxes() {
+            gunRadiusToggleCheckboxes[0].onValueChanged.AddListener((isOn) => { 
+                ClientConfig.gunRadius = isOn; 
+                Debug.Log($"ClientConfig.gunRadius: {isOn}");
+                gunRadiusToggleCheckboxes[1].interactable = isOn;
+                gunRadiusToggleCheckboxes[2].interactable = isOn;
+                gunRadiusToggleCheckboxes[3].interactable = isOn;
+            });
+            gunRadiusToggleCheckboxes[1].onValueChanged.AddListener((isOn) => { DMGlobalVariables.GunRadius_First  = isOn;  Debug.Log($"DMGlobalVariables.GunRadius_First : {isOn}"); });
+            gunRadiusToggleCheckboxes[2].onValueChanged.AddListener((isOn) => { DMGlobalVariables.GunRadius_Second = isOn;  Debug.Log($"DMGlobalVariables.GunRadius_Second: {isOn}"); });
+            gunRadiusToggleCheckboxes[3].onValueChanged.AddListener((isOn) => { DMGlobalVariables.GunRadius_Third  = isOn;  Debug.Log($"DMGlobalVariables.GunRadius_Third : {isOn}"); });
+            //gameObject.GetComponent<Button>().onClick.AddListener(delegate () {
+            //    this.CommonButtonListener("tab", temp);
+            //});
+        }
         public void PrepareLoginPage(){
           Vector2 sizeDelta = this.scrollView.GetComponent<RectTransform>().sizeDelta;
           sizeDelta.y = 300f;
@@ -136,6 +151,7 @@ namespace Assets.Scripts.DrugsMod
               tabsArray[i].SetTabAsClosed();
               if(i == tabId){
                 tabsArray[i].SetTabAsOpened();
+                ShowPage(i+1);
               }
             }
             ConstructTabsVisually();
@@ -182,16 +198,19 @@ namespace Assets.Scripts.DrugsMod
         public CustomTabUIClass[] tabsArray;
         public GameObject ModGUIWindow;
         public GameObject tabsRow;
+        public GameObject loginPageButtonRow;
         public Button exitButton;
         public Button newAccountButton;
+        public GameObject scrollView;
+        public GameObject listContent; // its for stcrollviewa
+        public GameObject[] pages; // there ill assign the pages that would be shown wen pressing on tabs
+        public Toggle[] gunRadiusToggleCheckboxes; 
         public GameObject openedTabPrefab;
         public GameObject closedTabPrefab;
-        public GameObject scrollView;
         public GameObject logInButtonLinePrefab;
-        public GameObject listContent; // its for stcrollviewa
-        public GameObject loginPageButtonRow;
-        public GameObject[] pages; // there ill assign the pages that would be shown wen pressing on tabs
         public static DMPopupManager THIS;
+
+        //public Dictionary<GameObject, CustomTabUIClass> TabPagesPair;//openWith =new Dictionary<string, string>();
 
     }
 }
