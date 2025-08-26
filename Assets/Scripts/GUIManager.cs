@@ -34,6 +34,10 @@ public class GUIManager : MonoBehaviour
                 array2[i] = 1;
             }
         }
+        if (w * h == 1681)
+        {
+            array2 = DMGlobalVariables.gunWith3Radiuses;
+        }
         OverlayRenderer.THIS.AddGrid(w, h, array2, dx, dy, d);
     }
 
