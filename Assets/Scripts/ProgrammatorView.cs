@@ -204,65 +204,12 @@ public class ProgrammatorView : MonoBehaviour
 
     public int BufShift(int code)
     {
-        if (code == 0)
-        {
-            return 0;
-        }
-        if (code == 1)
-        {
-            return 0;
-        }
-        if (code == 40)
-        {
-            return 0;
-        }
-        if (code == 166)
-        {
-            return 3;
-        }
-        if (code == 24)
-        {
-            return 3;
-        }
-        if (code == 140)
-        {
-            return 3;
-        }
-        if (code == 139)
-        {
-            return 3;
-        }
-        if (code == 25)
-        {
-            return 3;
-        }
-        if (code == 26)
-        {
-            return 3;
-        }
-        if (code == 137)
-        {
-            return 3;
-        }
-        if (code == 120)
-        {
-            return 7;
-        }
-        if (code == 119)
-        {
-            return 7;
-        }
-        if (code == 123)
-        {
-            return 7;
-        }
-        if (code == 181)
-        {
-            return 4;
-        }
-        if (code == 182)
-        {
-            return 4;
+        switch(code){
+          case   0: case 1:   case 40:  return 0;
+          case 160: case 24:  case 140: case 139: case 25: case 26: case 137: return 3;
+          case 120: case 119: case 123: return 7;
+          case 181: case 182: return 4;
+          default: return 1;
         }
         return 1;
     }
