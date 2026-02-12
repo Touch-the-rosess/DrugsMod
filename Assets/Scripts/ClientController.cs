@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using System.Threading.Tasks;
+
 
 public class ClientController : MonoBehaviour
 {
@@ -652,6 +654,21 @@ public class ClientController : MonoBehaviour
             {
                 this.Cursor.GetComponent<SpriteRenderer>().color = new Color(0f, 1f, 0f, 0.5f + 0.5f * Mathf.Sin(10f * Time.time));
             }
+            if (this.myBot != null){
+                if (UnityEngine.Input.GetKeyDown(KeyCode.LeftAlt) && UnityEngine.Input.GetKeyDown(KeyCode.F1)) {
+                //if (UnityEngine.Input.GetKeyDown(KeyCode.PageUp)) {
+                          Task.Run(async () => {
+                              ServerTime.THIS.SendTypicalMessage(THIS.TimeOfMove(), "Locl", 0, 0, "console");
+                              await Task.Delay(200);
+                              ServerTime.THIS.SendTypicalMessage(THIS.TimeOfMove(), "GUI_", 0, 0, "{\"b\":\"consoleharakiri\"}");
+                              await Task.Delay(200);
+
+                              ServerTime.THIS.SendTypicalMessage(THIS.TimeOfMove(), "GUI_", 0, 0, "{\"b\":\"exit\"}");
+
+                          });
+
+                        }
+            }
             if (this.myBot != null && !ConnectionManager.disconnected && !ChatManager.THIS.ChatInput.isFocused && !GUIManager.THIS.localChatInput.isFocused && (GUIManager.THIS.m_EventSystem.currentSelectedGameObject == null || GUIManager.THIS.m_EventSystem.currentSelectedGameObject.name != "InputField") && !AYSWindowManager.THIS.gameObject.activeSelf && !ProgrammatorView.active)
             {
                 if (!PopupManager.THIS.GUIWindow.activeSelf && !MapViewer.THIS.gameObject.activeSelf)
@@ -747,6 +764,7 @@ public class ClientController : MonoBehaviour
                 {
                     ServerTime.THIS.SendTypicalMessage(-1, this.str6, 0, 0, "_");
                 }
+                
             }
             if (this.myBot != null && !ConnectionManager.disconnected && !ChatManager.THIS.ChatInput.isFocused && !GUIManager.THIS.localChatInput.isFocused && !ProgrammatorView.active && (GUIManager.THIS.m_EventSystem.currentSelectedGameObject == null || GUIManager.THIS.m_EventSystem.currentSelectedGameObject.name != "InputField") && !AYSWindowManager.THIS.gameObject.activeSelf && (!this.isProgrammator || ProgPanel.handMode))
             {
@@ -882,9 +900,7 @@ public class ClientController : MonoBehaviour
                             this.MoveOrBz(0, -1, 2, false, this.isControl);
                         }
                     }
-                    else if (UnityEngine.Input.GetKey(KeyCode.LeftAlt) && UnityEngine.Input.GetKey(KeyCode.F1)) {
-                        ServerTime.THIS.SendTypicalMessage(THIS.TimeOfMove(), "Locl", 0, 0, ">harakiri");
-                    }
+                    
                     if (this.TimeForNextOperation < Time.unscaledTime)
                     {
                         this.TimeForNextOperation = Time.unscaledTime;
