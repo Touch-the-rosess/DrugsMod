@@ -208,27 +208,34 @@ public class ProgrammatorView : MonoBehaviour
         }
     }
 
-    private void CyclicChange(int[] cycle, int usePrev)
+    private void CyclicChange(int[] cycle, int fallbackIndex = -1)
     {
-        int num = -1;
-        for (int i = 0; i < cycle.Length; i++)
+      int currentIndexInCycle = -1;
+      int currentId = actions[position].id;
+
+      for (int i = 0; i < cycle.Length; i++)
+      {
+        if (cycle[i] == currentId)
         {
-            if (cycle[i] == ProgrammatorView.actions[this.position].id)
-            {
-                num = i;
-            }
+          currentIndexInCycle = i;
+          break;  // Early exit once found
         }
-        if (num == -1)
-        {
-            num = usePrev;
-        }
-        int num2 = cycle[(num + 1) % cycle.Length];
-        if (ProgrammatorView.actions[this.position].id != num2)
-        {
-            ProgrammatorView.unsaved = true;
-            this.titleTF.text = ProgrammatorView.title + " [*]";
-        }
-        ProgrammatorView.actions[this.position].ChangeTo(num2);
+      }
+
+      if (currentIndexInCycle == -1) {
+        currentIndexInCycle = fallbackIndex;
+      }
+
+      int nextIndex = (currentIndexInCycle + 1) % cycle.Length;
+      int nextId = cycle[nextIndex];
+
+      if (currentId != nextId)
+      {
+        unsaved = true;
+        titleTF.text = title + " [*]";
+      }
+
+      actions[position].ChangeTo(nextId);
     }
 
     public int BufShift(int code)
