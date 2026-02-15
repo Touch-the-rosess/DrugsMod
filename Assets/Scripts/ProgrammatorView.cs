@@ -303,12 +303,12 @@ public class ProgrammatorView : MonoBehaviour
             source = source.Replace("...", "\n\n\n");
             source = source.Replace("..", "\n\n");
             source = source.Replace(".", "\n");
-            this.str200 = source;
-            this.int1 = 0;
-            this.int2 = 0;
-            this.int3 = ProgrammatorView.COLS;
-            this.int4 = ProgrammatorView.COLS * ProgrammatorView.ROWS;
-            while (this.int1 < this.str200.Length)
+            this.preprocessedProgramText = source;
+            this.currentCharIndex = 0;
+            this.currentCellIndex = 0;
+            this.remainingColsInRow = ProgrammatorView.COLS;
+            this.remainingCellsOnPage = ProgrammatorView.COLS * ProgrammatorView.ROWS;
+            while (this.currentCharIndex < this.preprocessedProgramText.Length)
             {
                 string text = this.NewProgramm2();
                 
@@ -339,14 +339,14 @@ public class ProgrammatorView : MonoBehaviour
                     case "->":
                         {
                             num2 = 26;
-                            ProgrammatorView.code_labels[this.int2] = this.NewProgramm('>');
+                            ProgrammatorView.code_labels[this.currentCellIndex] = this.NewProgramm('>');
                             break;
                         }
                     case "\n":
                         {
-                            this.int2 += this.int3;
-                            this.int4 -= this.int3;
-                            this.int3 = ProgrammatorView.COLS;
+                            this.currentCellIndex += this.remainingColsInRow;
+                            this.remainingCellsOnPage -= this.remainingColsInRow;
+                            this.remainingColsInRow = ProgrammatorView.COLS;
                             break;
                         }
                     case "BEEP;":
@@ -449,13 +449,13 @@ public class ProgrammatorView : MonoBehaviour
                                 num2 = 119;
                                 
                             }
-                            ProgrammatorView.code_labels[this.int2] = array4[0];
+                            ProgrammatorView.code_labels[this.currentCellIndex] = array4[0];
                             int num4 = 0;
                             if (!int.TryParse(array4[1], out num4))
                             {
                                 num4 = 0;
                             }
-                            ProgrammatorView.nums[this.int2] = num4;
+                            ProgrammatorView.nums[this.currentCellIndex] = num4;
                             Debug.Log(array4[0]);
                             break;
                         }
@@ -477,13 +477,13 @@ public class ProgrammatorView : MonoBehaviour
                     case ">":
                         {
                             num2 = 24;
-                            ProgrammatorView.code_labels[this.int2] = this.NewProgramm('|');
+                            ProgrammatorView.code_labels[this.currentCellIndex] = this.NewProgramm('|');
                             break;
                         }
                     case "?":
                         {
                             num2 = 139;
-                            ProgrammatorView.code_labels[this.int2] = this.NewProgramm('<');
+                            ProgrammatorView.code_labels[this.currentCellIndex] = this.NewProgramm('<');
                             break;
                         }
                     case "ia":
@@ -619,7 +619,7 @@ public class ProgrammatorView : MonoBehaviour
                     case "!{":
                         {
                             num2 = 181;
-                            ProgrammatorView.code_labels[this.int2] = this.NewProgramm('}');
+                            ProgrammatorView.code_labels[this.currentCellIndex] = this.NewProgramm('}');
                             break;
                         }
                     case "RAND;":
@@ -715,13 +715,13 @@ public class ProgrammatorView : MonoBehaviour
                     case "!?":
                         {
                             num2 = 140;
-                            ProgrammatorView.code_labels[this.int2] = this.NewProgramm('<');
+                            ProgrammatorView.code_labels[this.currentCellIndex] = this.NewProgramm('<');
                             break;
                         }
                     case "=>":
                         {
                             num2 = 137;
-                            ProgrammatorView.code_labels[this.int2] = this.NewProgramm('>');
+                            ProgrammatorView.code_labels[this.currentCellIndex] = this.NewProgramm('>');
                             break;
                         }
                     case "B2;":
@@ -732,7 +732,7 @@ public class ProgrammatorView : MonoBehaviour
                     case ":>":
                         {
                             num2 = 25;
-                            ProgrammatorView.code_labels[this.int2] = this.NewProgramm('>');
+                            ProgrammatorView.code_labels[this.currentCellIndex] = this.NewProgramm('>');
                             break;
                         }
                     case "DIGG;":
@@ -747,9 +747,9 @@ public class ProgrammatorView : MonoBehaviour
                         }
                     case "~\n":
                         {
-                            this.int2 += this.int4;
-                            this.int3 = ProgrammatorView.COLS;
-                            this.int4 = ProgrammatorView.COLS * ProgrammatorView.ROWS;
+                            this.currentCellIndex += this.remainingCellsOnPage;
+                            this.remainingColsInRow = ProgrammatorView.COLS;
+                            this.remainingCellsOnPage = ProgrammatorView.COLS * ProgrammatorView.ROWS;
                             UnityEngine.Debug.Log("next page!!!");
                             break;
                         }
@@ -897,7 +897,7 @@ public class ProgrammatorView : MonoBehaviour
                         {
                             num2 = 40;
                             string text3 = this.NewProgramm(':');
-                            ProgrammatorView.code_labels[this.int2] = text3;
+                            ProgrammatorView.code_labels[this.currentCellIndex] = text3;
                             break;
                         }
                     case "r":
@@ -913,19 +913,19 @@ public class ProgrammatorView : MonoBehaviour
                     case "{":
                         {
                             num2 = 182;
-                            ProgrammatorView.code_labels[this.int2] = this.NewProgramm('}');
+                            ProgrammatorView.code_labels[this.currentCellIndex] = this.NewProgramm('}');
                             break;
                         }
                 }
                 if (num2 != -1)
                 {
-                    ProgrammatorView.codes[this.int2] = num2;
-                    this.int2++;
-                    this.int3--;
-                    this.int4--;
+                    ProgrammatorView.codes[this.currentCellIndex] = num2;
+                    this.currentCellIndex++;
+                    this.remainingColsInRow--;
+                    this.remainingCellsOnPage--;
                     //break;
                 }
-                if (this.int2 > ProgrammatorView.COLS * ProgrammatorView.ROWS * ProgrammatorView.PAGES)
+                if (this.currentCellIndex > ProgrammatorView.COLS * ProgrammatorView.ROWS * ProgrammatorView.PAGES)
                 {
                     break;
                 }
@@ -943,12 +943,12 @@ public class ProgrammatorView : MonoBehaviour
             source = source.Replace("...", "\n\n\n");
             source = source.Replace("..", "\n\n");
             source = source.Replace(".", "\n");
-            this.str200 = source;
-            this.int1 = 0;
-            this.int2 = 0;
-            this.int3 = ProgrammatorView.COLS;
-            this.int4 = ProgrammatorView.COLS * ProgrammatorView.ROWS;
-            while (this.int1 < this.str200.Length)
+            this.preprocessedProgramText = source;
+            this.currentCharIndex = 0;
+            this.currentCellIndex = 0;
+            this.remainingColsInRow = ProgrammatorView.COLS;
+            this.remainingCellsOnPage = ProgrammatorView.COLS * ProgrammatorView.ROWS;
+            while (this.currentCharIndex < this.preprocessedProgramText.Length)
             {
                 string text4 = this.NewProgramm1();
                 int num5 = -1;
@@ -977,14 +977,14 @@ public class ProgrammatorView : MonoBehaviour
                     case "->":
                         {
                             num5 = 26;
-                            ProgrammatorView.code_labels[this.int2] = this.NewProgramm('>');
+                            ProgrammatorView.code_labels[this.currentCellIndex] = this.NewProgramm('>');
                             break;
                         }
                     case "\n":
                         {
-                            this.int2 += this.int3;
-                            this.int4 -= this.int3;
-                            this.int3 = ProgrammatorView.COLS;
+                            this.currentCellIndex += this.remainingColsInRow;
+                            this.remainingCellsOnPage -= this.remainingColsInRow;
+                            this.remainingColsInRow = ProgrammatorView.COLS;
                             break;
                         }
                     case "BEEP;":
@@ -1084,13 +1084,13 @@ public class ProgrammatorView : MonoBehaviour
                                 });
                                 num5 = 119;
                             }
-                            ProgrammatorView.code_labels[this.int2] = array5[0];
+                            ProgrammatorView.code_labels[this.currentCellIndex] = array5[0];
                             int num6 = 0;
                             if (!int.TryParse(array5[1], out num6))
                             {
                                 num6 = 0;
                             }
-                            ProgrammatorView.nums[this.int2] = num6;
+                            ProgrammatorView.nums[this.currentCellIndex] = num6;
                             break;
                         }
                     case "AUT+":
@@ -1111,13 +1111,13 @@ public class ProgrammatorView : MonoBehaviour
                     case ">":
                         {
                             num5 = 24;
-                            ProgrammatorView.code_labels[this.int2] = this.NewProgramm('|');
+                            ProgrammatorView.code_labels[this.currentCellIndex] = this.NewProgramm('|');
                             break;
                         }
                     case "?":
                         {
                             num5 = 139;
-                            ProgrammatorView.code_labels[this.int2] = this.NewProgramm('<');
+                            ProgrammatorView.code_labels[this.currentCellIndex] = this.NewProgramm('<');
                             break;
                         }
                     case "ia":
@@ -1253,7 +1253,7 @@ public class ProgrammatorView : MonoBehaviour
                     case "!{":
                         {
                             num5 = 181;
-                            ProgrammatorView.code_labels[this.int2] = this.NewProgramm('}');
+                            ProgrammatorView.code_labels[this.currentCellIndex] = this.NewProgramm('}');
                             break;
                         }
                     case "RAND;":
@@ -1349,13 +1349,13 @@ public class ProgrammatorView : MonoBehaviour
                     case "!?":
                         {
                             num5 = 140;
-                            ProgrammatorView.code_labels[this.int2] = this.NewProgramm('<');
+                            ProgrammatorView.code_labels[this.currentCellIndex] = this.NewProgramm('<');
                             break;
                         }
                     case "=>":
                         {
                             num5 = 137;
-                            ProgrammatorView.code_labels[this.int2] = this.NewProgramm('>');
+                            ProgrammatorView.code_labels[this.currentCellIndex] = this.NewProgramm('>');
                             break;
                         }
                     case "B2;":
@@ -1366,7 +1366,7 @@ public class ProgrammatorView : MonoBehaviour
                     case ":>":
                         {
                             num5 = 25;
-                            ProgrammatorView.code_labels[this.int2] = this.NewProgramm('>');
+                            ProgrammatorView.code_labels[this.currentCellIndex] = this.NewProgramm('>');
                             break;
                         }
                     case "DIGG;":
@@ -1381,9 +1381,9 @@ public class ProgrammatorView : MonoBehaviour
                         }
                     case "~\n":
                         {
-                            this.int2 += this.int4;
-                            this.int3 = ProgrammatorView.COLS;
-                            this.int4 = ProgrammatorView.COLS * ProgrammatorView.ROWS;
+                            this.currentCellIndex += this.remainingCellsOnPage;
+                            this.remainingColsInRow = ProgrammatorView.COLS;
+                            this.remainingCellsOnPage = ProgrammatorView.COLS * ProgrammatorView.ROWS;
                             UnityEngine.Debug.Log("next page!!!");
                             break;
                         }
@@ -1531,7 +1531,7 @@ public class ProgrammatorView : MonoBehaviour
                         {
                             num5 = 40;
                             string text6 = this.NewProgramm(':');
-                            ProgrammatorView.code_labels[this.int2] = text6;
+                            ProgrammatorView.code_labels[this.currentCellIndex] = text6;
                             break;
                         }
                     case "r":
@@ -1547,19 +1547,19 @@ public class ProgrammatorView : MonoBehaviour
                     case "{":
                         {
                             num5 = 182;
-                            ProgrammatorView.code_labels[this.int2] = this.NewProgramm('}');
+                            ProgrammatorView.code_labels[this.currentCellIndex] = this.NewProgramm('}');
                             break;
                         }
                         
                 }
                 if (num5 != -1)
                 {
-                    ProgrammatorView.codes[this.int2] = num5;
-                    this.int2++;
-                    this.int3--;
-                    this.int4--;
+                    ProgrammatorView.codes[this.currentCellIndex] = num5;
+                    this.currentCellIndex++;
+                    this.remainingColsInRow--;
+                    this.remainingCellsOnPage--;
                 }
-                if (this.int2 > ProgrammatorView.COLS * ProgrammatorView.ROWS * ProgrammatorView.PAGES)
+                if (this.currentCellIndex > ProgrammatorView.COLS * ProgrammatorView.ROWS * ProgrammatorView.PAGES)
                 {
                     break;
                 }
@@ -2056,7 +2056,7 @@ public class ProgrammatorView : MonoBehaviour
         array[0] = 1;
         this.back_button = array;
         this.position = -1;
-        this.str200 = "";
+        this.preprocessedProgramText = "";
         this.strmas1 = new string[]
         {
             " ",
@@ -2281,56 +2281,56 @@ public class ProgrammatorView : MonoBehaviour
             "!{",
             "{"
         };
-        this.str201 = "XQAAgACaAQAAAAAAAAA+gDAFAhG0ciqkm4PJHRcPgIruSXXpLO0McQ2EaD0CLDkX1Bwh+LW9OM3QB1T+3qVdAUpFp581o584qDxt6eJa5ZmL9IccwWgVwreNz8sedV9O4qdfTvr9Fq21T0SXWLC0hOZTGUlNudYz1VsnqRCp4i7gf/AWcIHs2KgLmwS8IEgJkaNgAA==";
-        this.str202 = "XQAAgADOAQAAAAAAAABKADAFCPBEHWF/wkqwvU4Eb7ohVxyHTQCnB1tuOQ/mId9a0zVcyCiQh32E9c7xYZu2Pl8fEh/P3fjzX7/iO1MmqYc/qeocZ8w1lXWa7RaZcFhX7GuXWTLBsXzjlA0KeZpby+P8vwIXwiaA4LU3j9kw1D7zQzt/VRLMs5eYauhxvlEpC/VRXtxodxe8aLB9QD25fpbplLo/R0aUG1SxETQdFrKdpAzY2gA=";
-        this.str203 = "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";
+        this.sampleProgram1 = "XQAAgACaAQAAAAAAAAA+gDAFAhG0ciqkm4PJHRcPgIruSXXpLO0McQ2EaD0CLDkX1Bwh+LW9OM3QB1T+3qVdAUpFp581o584qDxt6eJa5ZmL9IccwWgVwreNz8sedV9O4qdfTvr9Fq21T0SXWLC0hOZTGUlNudYz1VsnqRCp4i7gf/AWcIHs2KgLmwS8IEgJkaNgAA==";
+        this.sampleProgram2 = "XQAAgADOAQAAAAAAAABKADAFCPBEHWF/wkqwvU4Eb7ohVxyHTQCnB1tuOQ/mId9a0zVcyCiQh32E9c7xYZu2Pl8fEh/P3fjzX7/iO1MmqYc/qeocZ8w1lXWa7RaZcFhX7GuXWTLBsXzjlA0KeZpby+P8vwIXwiaA4LU3j9kw1D7zQzt/VRLMs5eYauhxvlEpC/VRXtxodxe8aLB9QD25fpbplLo/R0aUG1SxETQdFrKdpAzY2gA=";
+        this.sampleProgram3 = "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";
 
     }
 
     private string NewProgramm(char ch2)
     {
         int num = 0;
-        while (num < 13 && this.int1 + num < this.str200.Length)
+        while (num < 13 && this.currentCharIndex + num < this.preprocessedProgramText.Length)
         {
-            if (this.str200[this.int1 + num] == ch2)
+            if (this.preprocessedProgramText[this.currentCharIndex + num] == ch2)
             {
-                string result = this.str200.Substring(this.int1, num);
-                this.int1 += num + 1;
+                string result = this.preprocessedProgramText.Substring(this.currentCharIndex, num);
+                this.currentCharIndex += num + 1;
                 return result;
             }
             num++;
         }
-        this.int1++;
+        this.currentCharIndex++;
         return "";
     }
 
     private string NewProgramm1()
     {
-        string text = this.str200.Substring(this.int1);
+        string text = this.preprocessedProgramText.Substring(this.currentCharIndex);
         for (int i = 0; i < this.strmas1.Length; i++)
         {
             if (text.StartsWith(this.strmas1[i]))
             {
-                this.int1 += this.strmas1[i].Length;
+                this.currentCharIndex += this.strmas1[i].Length;
                 return this.strmas1[i];
             }
         }
-        this.int1++;
+        this.currentCharIndex++;
         return "";
     }
 
     private string NewProgramm2()
     {
-        string text = this.str200.Substring(this.int1);
+        string text = this.preprocessedProgramText.Substring(this.currentCharIndex);
         for (int i = 0; i < this.strmas2.Length; i++)
         {
             if (text.StartsWith(this.strmas2[i]))
             {
-                this.int1 += this.strmas2[i].Length;
+                this.currentCharIndex += this.strmas2[i].Length;
                 return this.strmas2[i];
             }
         }
-        this.int1++;
+        this.currentCharIndex++;
         //Debug.Log(text);
         return "";
     }
@@ -2344,7 +2344,7 @@ public class ProgrammatorView : MonoBehaviour
         string text = "";
         for (int i = 0; i < ProgrammatorView.codes.Length; i++)
         {
-            this.int2 = i;
+            this.currentCellIndex = i;
             int num = i % ProgrammatorView.COLS;
             int num2 = Mathf.FloorToInt((float)(i / ProgrammatorView.COLS)) % ProgrammatorView.ROWS;
             Mathf.FloorToInt((float)(i / (ProgrammatorView.COLS * ProgrammatorView.ROWS)));
@@ -2424,17 +2424,17 @@ public class ProgrammatorView : MonoBehaviour
                     break;
                 case 24:
                     text += ">";
-                    text += ProgrammatorView.code_labels[this.int2];
+                    text += ProgrammatorView.code_labels[this.currentCellIndex];
                     text += "|";
                     break;
                 case 25:
                     text += ":>";
-                    text += ProgrammatorView.code_labels[this.int2];
+                    text += ProgrammatorView.code_labels[this.currentCellIndex];
                     text += ">";
                     break;
                 case 26:
                     text += "->";
-                    text += ProgrammatorView.code_labels[this.int2];
+                    text += ProgrammatorView.code_labels[this.currentCellIndex];
                     text += ">";
                     break;
                 case 27:
@@ -2475,7 +2475,7 @@ public class ProgrammatorView : MonoBehaviour
                     break;
                 case 40:
                     text += "|";
-                    text += ProgrammatorView.code_labels[this.int2];
+                    text += ProgrammatorView.code_labels[this.currentCellIndex];
                     text += ":";
                     break;
                 case 43:
@@ -2537,21 +2537,21 @@ public class ProgrammatorView : MonoBehaviour
                     break;
                 case 119:
                     text += "(";
-                    text += ProgrammatorView.code_labels[this.int2];
+                    text += ProgrammatorView.code_labels[this.currentCellIndex];
                     text += ">";
                     text += ProgrammatorView.nums[i];
                     text += ")";
                     break;
                 case 120:
                     text += "(";
-                    text += ProgrammatorView.code_labels[this.int2];
+                    text += ProgrammatorView.code_labels[this.currentCellIndex];
                     text += "<";
                     text += ProgrammatorView.nums[i];
                     text += ")";
                     break;
                 case 123:
                     text += "(";
-                    text += ProgrammatorView.code_labels[this.int2];
+                    text += ProgrammatorView.code_labels[this.currentCellIndex];
                     text += "=";
                     text += ProgrammatorView.nums[i];
                     text += ")";
@@ -2576,7 +2576,7 @@ public class ProgrammatorView : MonoBehaviour
                     break;
                 case 137:
                     text += "=>";
-                    text += ProgrammatorView.code_labels[this.int2];
+                    text += ProgrammatorView.code_labels[this.currentCellIndex];
                     text += ">";
                     break;
                 case 138:
@@ -2584,12 +2584,12 @@ public class ProgrammatorView : MonoBehaviour
                     break;
                 case 139:
                     text += "?";
-                    text += ProgrammatorView.code_labels[this.int2];
+                    text += ProgrammatorView.code_labels[this.currentCellIndex];
                     text += "<";
                     break;
                 case 140:
                     text += "!?";
-                    text += ProgrammatorView.code_labels[this.int2];
+                    text += ProgrammatorView.code_labels[this.currentCellIndex];
                     text += "<";
                     break;
                 case 141:
@@ -2651,7 +2651,7 @@ public class ProgrammatorView : MonoBehaviour
                     break;
                 case 166:
                     text += "#R";
-                    text += ProgrammatorView.code_labels[this.int2];
+                    text += ProgrammatorView.code_labels[this.currentCellIndex];
                     text += "<";
                     break;
                 case 167:
@@ -2698,12 +2698,12 @@ public class ProgrammatorView : MonoBehaviour
                     break;
                 case 181:
                     text += "!{";
-                    text += ProgrammatorView.code_labels[this.int2];
+                    text += ProgrammatorView.code_labels[this.currentCellIndex];
                     text += "}";
                     break;
                 case 182:
                     text += "{";
-                    text += ProgrammatorView.code_labels[this.int2];
+                    text += ProgrammatorView.code_labels[this.currentCellIndex];
                     text += "}";
                     break;
                 case 200:
@@ -3501,24 +3501,24 @@ public class ProgrammatorView : MonoBehaviour
 
     private Dictionary<string, int> labels;
 
-    private string str200;
+    private string preprocessedProgramText;
 
-    private int int1;
+    private int currentCharIndex;
 
-    private int int2;
+    private int currentCellIndex;
 
-    private int int3;
+    private int remainingColsInRow;
 
-    private int int4;
+    private int remainingCellsOnPage;
 
     private string[] strmas1;
 
     private string[] strmas2;
 
-    private string str201;
+    private string sampleProgram1;
 
-    private string str202;
+    private string sampleProgram2;
 
-    private string str203;
+    private string sampleProgram3;
 }
 
