@@ -1796,6 +1796,20 @@ public class ProgrammatorView : MonoBehaviour
                         this.MakeCycle(this.c_button, -1);
                     }
                 }
+
+                if (UnityEngine.Input.GetKeyDown(KeyCode.K))
+                {
+                  this.MakeCycle(this.k_button, -1);
+                }
+                if (UnityEngine.Input.GetKeyDown(KeyCode.N))
+                {
+                  if (UnityEngine.Input.GetKey(KeyCode.LeftShift) || UnityEngine.Input.GetKey(KeyCode.RightShift)){
+                    this.MakeCycle(this.shn_button, -1);
+                  }else{
+                    this.MakeCycle(this.n_button, -1);
+                  }
+                }
+
                 if (UnityEngine.Input.GetKeyDown(KeyCode.W))
                 {
                     if (UnityEngine.Input.GetKey(KeyCode.LeftShift) || UnityEngine.Input.GetKey(KeyCode.RightShift))
@@ -1864,7 +1878,11 @@ public class ProgrammatorView : MonoBehaviour
                 }
                 if (UnityEngine.Input.GetKeyDown(KeyCode.V))
                 {
+                  if (UnityEngine.Input.GetKey(KeyCode.LeftShift) || UnityEngine.Input.GetKey(KeyCode.RightShift)){
+                    this.MakeCycle(this.shv_button, -1);
+                  }else{
                     this.MakeCycle(this.v_button, -1);
+                  }
                 }
                 if (UnityEngine.Input.GetKeyDown(KeyCode.R))
                 {
@@ -1889,6 +1907,14 @@ public class ProgrammatorView : MonoBehaviour
                 {
                     this.MakeCycle(this.t_button, -1);
                 }
+                if (UnityEngine.Input.GetKeyDown(KeyCode.K))
+                {
+                  this.MakeCycle(this.k_button, -1);
+                }
+                if (UnityEngine.Input.GetKeyDown(KeyCode.N))
+                {
+                  this.MakeCycle(this.n_button, -1);
+                }
                 if (UnityEngine.Input.GetKeyDown(KeyCode.L))
                 {
                     this.MakeCycle(this.l_button, -1);
@@ -1907,7 +1933,11 @@ public class ProgrammatorView : MonoBehaviour
                 }
                 if (UnityEngine.Input.GetKeyDown(KeyCode.I))
                 {
+                  if (UnityEngine.Input.GetKey(KeyCode.LeftShift) || UnityEngine.Input.GetKey(KeyCode.RightShift)){
+                    this.MakeCycle(this.shi_button, -1);
+                  }else{
                     this.MakeCycle(this.i_button, -1);
+                  }
                 }
                 if (UnityEngine.Input.GetKeyDown(KeyCode.H))
                 {
@@ -1989,42 +2019,6 @@ public class ProgrammatorView : MonoBehaviour
         int[] array = new int[2];
         array[0] = 1;
         this.back_button = array;
-        this.t_button = new int[]
-        {
-            141,
-            142,
-            143,
-            145
-        };
-        this.v_button = new int[]
-        {
-            123,
-            120,
-            119
-        };
-        this.g_button = new int[]
-        {
-            24,
-            25,
-            26,
-            137
-        };
-        this.h_button = new int[]
-        {
-            148,
-            149
-        };
-        this.j_button = new int[]
-        {
-            146,
-            147
-        };
-        this.q_button = new int[]
-        {
-            27,
-            28,
-            138
-        };
         this.position = -1;
         this.str200 = "";
         this.strmas1 = new string[]
@@ -2719,503 +2713,776 @@ public class ProgrammatorView : MonoBehaviour
 
     public GameObject iconPrefab;
 
-	public GameObject iconContainer;
-
-	public StringSelectorScript pageSelector;
-
-	public Text titleTF;
-
-	public static bool opened = false;
-
-	public static bool unsaved = false;
-
-	public const int EMPTY = 0;
-
-	public const int BACK = 1;
-
-	public const int START = 2;
-
-	public const int END = 3;
-
-	public const int MOVE_W = 4;
-
-	public const int MOVE_A = 5;
-
-	public const int MOVE_S = 6;
-
-	public const int MOVE_D = 7;
-
-	public const int DIGG = 8;
-
-	public const int LOOK_W = 9;
-
-	public const int LOOK_A = 10;
-
-	public const int LOOK_S = 11;
-
-	public const int LOOK_D = 12;
-
-	public const int LAST = 13;
-
-	public const int MOVE_F = 14;
-
-	public const int ROTATE_CCW = 15;
-
-	public const int ROTATE_CW = 16;
-
-	public const int ACTION_BUILD = 17;
-
-	public const int ACTION_GEO = 18;
-
-	public const int ACTION_ROAD = 19;
-
-	public const int ACTION_HEAL = 20;
-
-	public const int ACTION_QUADRO = 21;
-
-	public const int ACTION_RANDOM = 22;
-
-	public const int ACTION_BIBIKA = 23;
-
-	public const int ACTION_B1 = 162;
-
-	public const int ACTION_B3 = 163;
-
-	public const int ACTION_B2 = 164;
-
-	public const int ACTION_WB = 165;
-
-	public const int ACTION_GEOPACK = 167;
-
-	public const int ACTION_ZM = 168;
-
-	public const int ACTION_C190 = 169;
-
-	public const int ACTION_POLY = 170;
-
-	public const int ACTION_UP = 171;
-
-	public const int ACTION_CRAFT = 172;
-
-	public const int ACTION_NANO = 173;
-
-	public const int ACTION_REMBOT = 174;
-
-	public const int INVDIR_W = 175;
-
-	public const int INVDIR_A = 176;
-
-	public const int INVDIR_S = 177;
-
-	public const int INVDIR_D = 178;
-
-	public const int LABEL = 40;
-
-	public const int GOTO = 24;
-
-	public const int GOSUB = 25;
-
-	public const int GOSUB1 = 26;
-
-	public const int GOSUBF = 137;
-
-	public const int RETURN = 27;
-
-	public const int RETURN1 = 28;
-
-	public const int RETURNF = 138;
-
-	public const int CELL_W = 31;
-
-	public const int CELL_WA = 29;
-
-	public const int CELL_A = 33;
-
-	public const int CELL_AS = 36;
-
-	public const int CELL_S = 37;
-
-	public const int CELL_SD = 30;
-
-	public const int CELL_D = 35;
-
-	public const int CELL_DW = 32;
-
-	public const int CELL_WW = 131;
-
-	public const int CELL_AA = 132;
-
-	public const int CELL_SS = 133;
-
-	public const int CELL_DD = 134;
-
-	public const int CELL_F = 135;
-
-	public const int CELL_FF = 136;
-
-	public const int CC_NOTEMPTY = 43;
-
-	public const int CC_EMPTY = 44;
-
-	public const int CC_GRAVITY = 45;
-
-	public const int CC_CRYSTALL = 46;
-
-	public const int CC_ALIVE = 47;
-
-	public const int CC_BOLDER = 48;
-
-	public const int CC_SAND = 49;
-
-	public const int CC_ROCK = 50;
-
-	public const int CC_DEAD = 51;
-
-	public const int CCC_REDROCK = 52;
-
-	public const int CCC_BLACKROCK = 53;
-
-	public const int CC_ACID = 54;
-
-	public const int CCC_QUADRO = 57;
-
-	public const int CCC_ROAD = 58;
-
-	public const int CCC_REDBLOCK = 59;
-
-	public const int CCC_YELLOWBLOCK = 60;
-
-	public const int CCC_GREENBLOCK = 77;
-
-	public const int CCC_OPOR = 76;
-
-	public const int CCC_BOX = 74;
-
-	public const int BOOLMODE_OR = 38;
-
-	public const int BOOLMODE_AND = 39;
-
-	public const int MODE_AUTODIGG_ON = 158;
-
-	public const int MODE_AUTODIGG_OFF = 159;
-
-	public const int MODE_AGR_ON = 160;
-
-	public const int MODE_AGR_OFF = 161;
-
-	public const int VAR_LESS = 120;
-
-	public const int VAR_MORE = 119;
-
-	public const int VAR_EQUAL = 123;
-
-	public const int IF_NOT_GOTO = 139;
-
-	public const int IF_GOTO = 140;
-
-	public const int STD_DIGG = 141;
-
-	public const int STD_BUILD = 142;
-
-	public const int STD_HEAL = 143;
-
-	public const int STD_MINE = 145;
-
-	public const int CELL_RIGHT_HAND = 156;
-
-	public const int CELL_LEFT_HAND = 157;
-
-	public const int CC_GUN = 146;
-
-	public const int FILL_GUN = 147;
-
-	public const int CB_HP = 148;
-
-	public const int CB_HP50 = 149;
-
-	public const int PROG_FLIP = 144;
-
-	public const int ON_RESP = 166;
-
-	public const int RESTART = 200;
-
-	public const int HANDMODE_ON = 179;
-
-	public const int HANDMODE_OFF = 180;
-
-	public const int DEBUG_BREAK = 181;
-
-	public const int DEBUG_SET = 182;
-
-	private int[] c_button = new int[]
-	{
-		43,
-		44,
-		45,
-		46,
-		47,
-		48,
-		49,
-		50,
-		51,
-		54
-	};
-
-	private int[] shc_button = new int[]
-	{
-		53,
-		52,
-		77,
-		60,
-		59,
-		76,
-		57,
-		58,
-		74
-	};
-
-	private int[] w_button = new int[]
-	{
-		4,
-		9,
-		175
-	};
-
-	private int[] a_button = new int[]
-	{
-		5,
-		10,
-		176
-	};
-
-	private int[] s_button = new int[]
-	{
-		6,
-		11,
-		177
-	};
-
-	private int[] d_button = new int[]
-	{
-		7,
-		12,
-		178
-	};
-
-	private int[] b_button = new int[]
-	{
-		23,
-		181,
-		182
-	};
-
-	private int[] shb_button = new int[]
-	{
-		179,
-		180
-	};
-
-	private int[] m_button = new int[]
-	{
-		158,
-		159,
-		160,
-		161
-	};
-
-	private int[] shw_button = new int[]
-	{
-		31,
-		33,
-		29,
-		31,
-		35,
-		32,
-		31,
-		131
-	};
-
-	private int[] sha_button = new int[]
-	{
-		33,
-		31,
-		29,
-		33,
-		37,
-		36,
-		33,
-		132
-	};
-
-	private int[] shs_button = new int[]
-	{
-		37,
-		33,
-		36,
-		37,
-		35,
-		30,
-		37,
-		133
-	};
-
-	private int[] shd_button = new int[]
-	{
-		35,
-		37,
-		30,
-		35,
-		31,
-		32,
-		35,
-		134
-	};
-
-	private int[] z_button = new int[]
-	{
-		8,
-		17,
-		18,
-		19,
-		20,
-		21
-	};
-
-	private int[] shz_button = new int[]
-	{
-		165,
-		162,
-		164,
-		163
-	};
-
-	private int[] x_button = new int[]
-	{
-		167,
-		168,
-		170,
-		169
-	};
-
-	private int[] shx_button = new int[]
-	{
-		172,
-		171,
-		173,
-		174
-	};
-
-	private int[] f_button = new int[]
-	{
-		14
-	};
-
-	private int[] shf_button = new int[]
-	{
-		135,
-		136,
-		156,
-		157
-	};
-
-	private int[] e_button = new int[]
-	{
-		2,
-		3,
-		166
-	};
-
-	private int[] r_button = new int[]
-	{
-		15,
-		16,
-		22
-	};
-
-	private int[] l_button = new int[]
-	{
-		40
-	};
-
-	private int[] y_button = new int[]
-	{
-		144
-	};
-
-	private int[] o_button = new int[]
-	{
-		38,
-		39
-	};
-
-	private int[] i_button = new int[]
-	{
-		139,
-		140
-	};
-
-	private int[] del_button = new int[1];
-
-	private int[] back_button;
-
-	private int[] t_button;
-
-	private int[] v_button;
-
-	private int[] g_button;
-
-	private int[] h_button;
-
-	private int[] j_button;
-
-	private int[] q_button;
-
-	public static ProgrammatorView THIS;
-
-	private static int ROWS = 12;
-
-	private static int COLS = 16;
-
-	private static int PAGES = 16;
-
-	public static int[] codes = new int[ProgrammatorView.PAGES * ProgrammatorView.ROWS * ProgrammatorView.COLS];
-
-	public static int[] nums = new int[ProgrammatorView.PAGES * ProgrammatorView.ROWS * ProgrammatorView.COLS];
-
-	public static string[] code_labels = new string[ProgrammatorView.PAGES * ProgrammatorView.ROWS * ProgrammatorView.COLS];
-
-	public static ProgAction[] actions = new ProgAction[ProgrammatorView.ROWS * ProgrammatorView.COLS];
-
-	public static bool active = false;
-
-	public static int programId = 0;
-
-	public static string title = "";
-
-	private int prevPage;
-
-	private int position;
-
-	private Dictionary<string, int> labels;
-
-	private string str200;
-
-	private int int1;
-
-	private int int2;
-
-	private int int3;
-
-	private int int4;
-
-	private string[] strmas1;
-
-	private string[] strmas2;
-
-	private string str201;
-
-	private string str202;
-
-	private string str203;
+    public GameObject iconContainer;
+
+    public StringSelectorScript pageSelector;
+
+    public Text titleTF;
+
+    public static bool opened = false;
+
+    public static bool unsaved = false;
+
+
+    public enum CustomProgAction : int
+    {                            
+      None                       = 0,
+      NextLine                   = 1,
+      SetStart                   = 2,
+      Terminate                  = 3,
+      MoveUp                     = 4,
+      MoveLeft                   = 5,
+      MoveDown                   = 6,
+      MoveRight                  = 7,
+      Dig                        = 8,
+      RotateUp                   = 9,
+      RotateLeft                 = 10,
+      RotateDown                 = 11,
+      RotateRight                = 12,
+      RepeatLastAction           = 13,
+      MoveForward                = 14,
+      RotateLefthand             = 15,
+      RotateRighthand            = 16,
+      BuildBlock                 = 17,
+      UseGeo                     = 18,
+      BuildRoad                  = 19,
+      Heal                       = 20,
+      BuildQuadro                = 21,
+      RotateRandom               = 22,
+      PlaySound                  = 23,
+      Goto                       = 24,
+      Call                       = 25,
+      CallArg                    = 26,
+      Return                     = 27,
+      ReturnArg                  = 28,
+      CellUpLeft                 = 29,
+      CellDownRight              = 30,
+      CellUp                     = 31,
+      CellUpRight                = 32,
+      CellLeft                   = 33,
+      Cell                       = 34,
+      CellRight                  = 35,
+      CellDownLeft               = 36,
+      CellDown                   = 37,
+      BooleanOR                  = 38,
+      BooleanAND                 = 39,
+      Label                      = 40,
+      YesNoReturn                = 41,
+      NoYesReturn                = 42,
+      IsNotEmpty                 = 43,
+      IsEmpty                    = 44,
+      IsFalling                  = 45,
+      IsCrystal                  = 46,
+      IsAliveCrystal             = 47,
+      IsFallingLikeBoulder       = 48,
+      IsFallingLikeLiquid        = 49,
+      IsBreakable                = 50,
+      IsUnbreakable              = 51,
+      IsRedRock                  = 52,
+      IsBlackRock                = 53,
+      IsAcid                     = 54,
+      UNKNOWN_CONDITION          = 55,
+      IsSand                     = 56,
+      IsQuadro                   = 57,
+      IsRoad                     = 58,
+      IsRedBlock                 = 59,
+      IsYellowBlock              = 60,
+      UNKNOWN_MINUS_HEALTH       = 61,
+      UNKNOWN_LESS_HEALTH        = 62,
+      IsAcidRock                 = 63,
+      IsBoulder                  = 64,
+      IsLava                     = 65,
+      IsCyanAlive                = 66,
+      IsWhiteAlive               = 67,
+      IsRedAlive                 = 68,
+      IsVioletAlive              = 69,
+      IsBlackAlive               = 70,
+      IsBlueAlive                = 71,
+      IsRainbowAlive             = 72,
+      UNKNOWN_73                 = 73,
+      IsBox                      = 74,
+      UNKNOWN_75                 = 75,
+      IsStructure                = 76,
+      IsGreenBlock               = 77,
+      IsBasketFull               = 78,
+      IsGeoFull                  = 79,
+      UNKNOWN_80                 = 80,
+      SetStartWhenDied           = 81,
+      SetStartWhenHurt           = 82,
+      SetStartWhenBotNearby      = 83,
+      UNKNOWN_84                 = 84,
+      UNKNOWN_85                 = 85,
+      ShiftLefthand              = 86,
+      ShiftRighthand             = 87,
+      ShiftBackwards             = 88,
+      BoxAll                     = 89,
+      BoxHalf                    = 90,
+      BoxWhite                   = 91,
+      BoxGreen                   = 92,
+      BoxRed                     = 93,
+      BoxBlue                    = 94,
+      BoxCyan                    = 95,
+      BoxViolet                  = 96,
+      WriteStateToVar            = 97,
+      ReadVarToState             = 98,
+      SetNumberToVar             = 99,
+      AddNumberToVar             = 100,
+      MultNumberToVar            = 101,
+      DivNumberToVar             = 102,
+      SubNumberToVar             = 103,
+      AddStateToVar              = 104,
+      MultStateToVar             = 105,
+      DivStateToVar              = 106,
+      SubStateToVar              = 107,
+      AddVarToVar                = 108,
+      MultVarToVar               = 109,
+      DivVarToVar                = 110,
+      SubVarToVar                = 111,
+      VarLessThanState           = 112,
+      VarGreaterThanState        = 113,
+      VarGreaterThanOrEqualsState= 114,
+      VarLessThanOrEqualState    = 115,
+      VarEqualsState             = 116,
+      VarNotEqualsState          = 117,
+      UNKNOWN_118                = 118,
+      VarGreaterThanNumber       = 119,
+      VarLessThanNumber          = 120,
+      VarGreaterThanOrEqualNumber= 121,
+      VarLessThanOrEqualNumber   = 122,
+      VarEqualsNumber            = 123,
+      VarNotEqualsNumber         = 124,
+      VarRound                   = 125,
+      VarCeil                    = 126,
+      VarFloor                   = 127,
+      Var_UNK_128                = 128,
+      Var_UNK_129                = 129,
+      Var_UNK_130                = 130,
+      ShiftUp                    = 131,
+      ShiftLeft                  = 132,
+      ShiftDown                  = 133,
+      ShiftRight                 = 134,
+      CellForward                = 135,
+      ShiftForward               = 136,
+      CallState                  = 137,
+      ReturnState                = 138,
+      YesNoGoto                  = 139,
+      NoYesGoto                  = 140,
+      STDDig                     = 141,
+      STDBlock                   = 142,
+      STDHeal                    = 143,
+      Flip                       = 144,
+      STDTunnel                  = 145,
+      IsInsideGun                = 146,
+      ChargeGun                  = 147,
+      IsHealthNotFull            = 148,
+      IsHealthLessThanHalf       = 149,
+      YesNoNextRow               = 150,
+      NoYesNextRow               = 151,
+      YesNoGotoStart             = 152,
+      NoYesGotoStart             = 153,
+      YesNoTerminate             = 154,
+      NoYesTerminate             = 155,
+      CellLefthand               = 156,
+      CellRighthand              = 157,
+      EnableAutoDig              = 158,
+      DisableAutoDig             = 159,
+      EnableAggression           = 160,
+      DisableAggression          = 161,
+      UseBoom                    = 162,
+      UseRaz                     = 163,
+      UseProt                    = 164,
+      BuildWar                   = 165,
+      CallWhenDied               = 166,
+      UseGeopack                 = 167,
+      UseZZ                      = 168,
+      UseC190                    = 169,
+      UsePoly                    = 170,
+      Upgrade                    = 171,
+      RefillCraft                = 172,
+      UseNano                    = 173,
+      UseRem                     = 174,
+      InventoryUp                = 175,
+      InventoryLeft              = 176,
+      InventoryDown              = 177,
+      InventoryRight             = 178,
+      EnableHand                 = 179,
+      DisableHand                = 180,
+      DebugPause                 = 181,
+      DebugShow                  = 182,
+      UNUSED_183                 = 183,
+      UNUSED_184                 = 184,
+      UNUSED_185                 = 185,
+      UNUSED_186                 = 186,
+      UNUSED_187                 = 187,
+      UNUSED_188                 = 188,
+      UNUSED_189                 = 189,
+      UNUSED_190                 = 190,
+      UNUSED_191                 = 191,
+      UNUSED_192                 = 192,
+      UNUSED_193                 = 193,
+      UNUSED_194                 = 194,
+      UNUSED_195                 = 195,
+      UNUSED_196                 = 196,
+      UNUSED_197                 = 197,
+      UNUSED_198                 = 198,
+      UNUSED_199                 = 199,
+      UNUSED_200                 = 200,
+      UNUSED_201                 = 201,
+      UNUSED_202                 = 202,
+      UNUSED_203                 = 203,
+      UNUSED_204                 = 204,
+      UNUSED_205                 = 205,
+      UNUSED_206                 = 206,
+      UNUSED_207                 = 207,
+      UNUSED_208                 = 208,
+      UNUSED_209                 = 209,
+      UNUSED_210                 = 210,
+      UNUSED_211                 = 211,
+      UNUSED_212                 = 212,
+      UNUSED_213                 = 213,
+      UNUSED_214                 = 214,
+      UNUSED_215                 = 215,
+      UNUSED_216                 = 216,
+      UNUSED_217                 = 217,
+      UNUSED_218                 = 218,
+      UNUSED_219                 = 219,
+      UNUSED_220                 = 220,
+      UNUSED_221                 = 221,
+      UNUSED_222                 = 222,
+      UNUSED_223                 = 223,
+      UNUSED_224                 = 224,
+      UNUSED_225                 = 225,
+      UNUSED_226                 = 226,
+      UNUSED_227                 = 227,
+      UNUSED_228                 = 228,
+      UNUSED_229                 = 229,
+      UNUSED_230                 = 230,
+      UNUSED_231                 = 231,
+      UNUSED_232                 = 232,
+      UNUSED_233                 = 233,
+      UNUSED_234                 = 234,
+      UNUSED_235                 = 235,
+      UNUSED_236                 = 236,
+      UNUSED_237                 = 237,
+      UNUSED_238                 = 238,
+      UNUSED_239                 = 239,
+      UNUSED_240                 = 240,
+      UNUSED_241                 = 241,
+      UNUSED_242                 = 242,
+      UNUSED_243                 = 243,
+      UNUSED_244                 = 244,
+      UNUSED_245                 = 245,
+      UNUSED_246                 = 246,
+      UNUSED_247                 = 247,
+      UNUSED_248                 = 248,
+      UNUSED_249                 = 249,
+      UNUSED_250                 = 250,
+      UNUSED_251                 = 251,
+      UNUSED_252                 = 252,
+      UNUSED_253                 = 253,
+      UNUSED_254                 = 254,
+      UNUSED_255                 = 255,
+    }                            
+
+
+    //public const int EMPTY = 0;
+    //public const int BACK = 1;
+    //public const int START = 2;
+    //public const int END = 3;
+    //public const int MOVE_W = 4;
+    //public const int MOVE_A = 5;
+    //public const int MOVE_S = 6;
+    //public const int MOVE_D = 7;
+    //public const int DIGG = 8;
+    //public const int LOOK_W = 9;
+    //public const int LOOK_A = 10;
+    //public const int LOOK_S = 11;
+    //public const int LOOK_D = 12;
+    //public const int LAST = 13;
+    //public const int MOVE_F = 14;
+    //public const int ROTATE_CCW = 15;
+    //public const int ROTATE_CW = 16;
+    //public const int ACTION_BUILD = 17;
+    //public const int ACTION_GEO = 18;
+    //public const int ACTION_ROAD = 19;
+    //public const int ACTION_HEAL = 20;
+    //public const int ACTION_QUADRO = 21;
+    //public const int ACTION_RANDOM = 22;
+    //public const int ACTION_BIBIKA = 23;
+    //public const int ACTION_B1 = 162;
+    //public const int ACTION_B3 = 163;
+    //public const int ACTION_B2 = 164;
+    //public const int ACTION_WB = 165;
+    //public const int ACTION_GEOPACK = 167;
+    //public const int ACTION_ZM = 168;
+    //public const int ACTION_C190 = 169;
+    //public const int ACTION_POLY = 170;
+    //public const int ACTION_UP = 171;
+    //public const int ACTION_CRAFT = 172;
+    //public const int ACTION_NANO = 173;
+    //public const int ACTION_REMBOT = 174;
+    //public const int INVDIR_W = 175;
+    //public const int INVDIR_A = 176;
+    //public const int INVDIR_S = 177;
+    //public const int INVDIR_D = 178;
+    //public const int LABEL = 40;
+    //public const int GOTO = 24;
+    //public const int GOSUB = 25;
+    //public const int GOSUB1 = 26;
+    //public const int GOSUBF = 137;
+    //public const int RETURN = 27;
+    //public const int RETURN1 = 28;
+    //public const int RETURNF = 138;
+    //public const int CELL_W = 31;
+    //public const int CELL_WA = 29;
+    //public const int CELL_A = 33;
+    //public const int CELL_AS = 36;
+    //public const int CELL_S = 37;
+    //public const int CELL_SD = 30;
+    //public const int CELL_D = 35;
+    //public const int CELL_DW = 32;
+    //public const int CELL_WW = 131;
+    //public const int CELL_AA = 132;
+    //public const int CELL_SS = 133;
+    //public const int CELL_DD = 134;
+    //public const int CELL_F = 135;
+    //public const int CELL_FF = 136;
+    //public const int CC_NOTEMPTY = 43;
+    //public const int CC_EMPTY = 44;
+    //public const int CC_GRAVITY = 45;
+    //public const int CC_CRYSTALL = 46;
+    //public const int CC_ALIVE = 47;
+    //public const int CC_BOLDER = 48;
+    //public const int CC_SAND = 49;
+    //public const int CC_ROCK = 50;
+    //public const int CC_DEAD = 51;
+    //public const int CCC_REDROCK = 52;
+    //public const int CCC_BLACKROCK = 53;
+    //public const int CC_ACID = 54;
+    //public const int CCC_QUADRO = 57;
+    //public const int CCC_ROAD = 58;
+    //public const int CCC_REDBLOCK = 59;
+    //public const int CCC_YELLOWBLOCK = 60;
+    //public const int CCC_GREENBLOCK = 77;
+    //public const int CCC_OPOR = 76;
+    //public const int CCC_BOX = 74;
+    //public const int BOOLMODE_OR = 38;
+    //public const int BOOLMODE_AND = 39;
+    //public const int MODE_AUTODIGG_ON = 158;
+    //public const int MODE_AUTODIGG_OFF = 159;
+    //public const int MODE_AGR_ON = 160;
+    //public const int MODE_AGR_OFF = 161;
+    //public const int VAR_LESS = 120;
+    //public const int VAR_MORE = 119;
+    //public const int VAR_EQUAL = 123;
+    //public const int IF_NOT_GOTO = 139;
+    //public const int IF_GOTO = 140;
+    //public const int STD_DIGG = 141;
+    //public const int STD_BUILD = 142;
+    //public const int STD_HEAL = 143;
+    //public const int STD_MINE = 145;
+    //public const int CELL_RIGHT_HAND = 156;
+    //public const int CELL_LEFT_HAND = 157;
+    //public const int CC_GUN = 146;
+    //public const int FILL_GUN = 147;
+    //public const int CB_HP = 148;
+    //public const int CB_HP50 = 149;
+    //public const int PROG_FLIP = 144;
+    //public const int ON_RESP = 166;
+    //public const int RESTART = 200;
+    //public const int HANDMODE_ON = 179;
+    //public const int HANDMODE_OFF = 180;
+    //public const int DEBUG_BREAK = 181;
+    //public const int DEBUG_SET = 182;
+
+    private int[] k_button = new int[] { // there would seat unknown actions
+      //(int)CustomProgAction.Return                     ,
+      //(int)CustomProgAction.UNKNOWN_73,
+      //(int)CustomProgAction.UNKNOWN_75,
+      //(int)CustomProgAction.UNKNOWN_80,
+      //(int)CustomProgAction.UNKNOWN_84,
+      //(int)CustomProgAction.UNKNOWN_85,
+      (int)CustomProgAction.UNKNOWN_CONDITION,
+      //(int)CustomProgAction.UNKNOWN_118,
+
+    };
+    private int[] c_button = new int[]
+    {
+      (int)CustomProgAction.IsNotEmpty                 ,
+      (int)CustomProgAction.IsEmpty                    ,
+      (int)CustomProgAction.IsFalling                  ,
+      (int)CustomProgAction.IsCrystal                  ,
+      (int)CustomProgAction.IsAliveCrystal             ,
+      (int)CustomProgAction.IsFallingLikeBoulder       ,
+      (int)CustomProgAction.IsFallingLikeLiquid        ,
+      (int)CustomProgAction.IsBreakable                ,
+      (int)CustomProgAction.IsUnbreakable              ,
+      (int)CustomProgAction.IsAcid                     
+    };
+
+    private int[] shc_button = new int[]
+    {
+      (int)CustomProgAction.IsBlackRock                ,
+      (int)CustomProgAction.IsRedRock                  ,
+      (int)CustomProgAction.IsGreenBlock               ,
+      (int)CustomProgAction.IsYellowBlock              ,
+      (int)CustomProgAction.IsRedBlock                 ,
+      (int)CustomProgAction.IsStructure                ,
+      (int)CustomProgAction.IsQuadro                   ,
+      (int)CustomProgAction.IsRoad                     ,
+      (int)CustomProgAction.IsBox                      ,
+      (int)CustomProgAction.IsCyanAlive,
+      (int)CustomProgAction.IsWhiteAlive,
+      (int)CustomProgAction.IsRedAlive,
+      (int)CustomProgAction.IsVioletAlive,
+      (int)CustomProgAction.IsBlackAlive,
+      (int)CustomProgAction.IsBlueAlive,
+      (int)CustomProgAction.IsRainbowAlive,
+      (int)CustomProgAction.IsBasketFull,
+      (int)CustomProgAction.IsGeoFull,
+      (int)CustomProgAction.IsSand                     ,
+      (int)CustomProgAction.IsAcidRock                 ,
+      (int)CustomProgAction.IsBoulder                  ,
+      (int)CustomProgAction.IsLava,
+    };
+
+    private int[] w_button = new int[]
+    {
+      (int)CustomProgAction.MoveUp                     ,
+      (int)CustomProgAction.RotateUp                   ,
+      (int)CustomProgAction.InventoryUp                
+    };
+
+    private int[] a_button = new int[]
+    {
+      (int)CustomProgAction.MoveLeft                   ,
+      (int)CustomProgAction.RotateLeft                 ,
+      (int)CustomProgAction.InventoryLeft              
+    };
+
+    private int[] s_button = new int[]
+    {
+      (int)CustomProgAction.MoveDown                   ,
+      (int)CustomProgAction.RotateDown                 ,
+      (int)CustomProgAction.InventoryDown              
+    };
+
+    private int[] d_button = new int[]
+    {
+      (int)CustomProgAction.MoveRight                  ,
+      (int)CustomProgAction.RotateRight                ,
+      (int)CustomProgAction.InventoryRight             
+    };
+
+
+    private int[] m_button = new int[]
+    {
+      (int)CustomProgAction.EnableAutoDig              ,
+      (int)CustomProgAction.DisableAutoDig             ,
+      (int)CustomProgAction.EnableAggression           ,
+      (int)CustomProgAction.DisableAggression          
+    };
+
+
+    private int[] shw_button = new int[]
+    {
+      (int)CustomProgAction.CellUp                     ,
+      (int)CustomProgAction.CellUpRight                ,
+      (int)CustomProgAction.CellUpLeft                 ,
+      (int)CustomProgAction.CellUp                     ,
+      (int)CustomProgAction.CellRight                  ,
+      (int)CustomProgAction.CellUpRight                ,
+      (int)CustomProgAction.CellUp                     ,
+      (int)CustomProgAction.ShiftUp                    ,
+    };
+
+    private int[] sha_button = new int[]
+    {
+      (int)CustomProgAction.CellLeft                   ,
+      (int)CustomProgAction.CellUp                     ,
+      (int)CustomProgAction.CellUpLeft                 ,
+      (int)CustomProgAction.CellLeft                   ,
+      (int)CustomProgAction.CellDown                   ,
+      (int)CustomProgAction.CellDownLeft               ,
+      (int)CustomProgAction.CellLeft                   ,
+      (int)CustomProgAction.ShiftLeft                  ,
+      (int)CustomProgAction.ShiftLefthand,
+    };
+
+    private int[] shs_button = new int[]
+    {
+      (int)CustomProgAction.CellDown                   ,
+      (int)CustomProgAction.CellLeft                   ,
+      (int)CustomProgAction.CellDownLeft               ,
+      (int)CustomProgAction.CellDown                   ,
+      (int)CustomProgAction.CellRight                  ,
+      (int)CustomProgAction.CellDownRight              ,
+      (int)CustomProgAction.CellDown                   ,
+      (int)CustomProgAction.ShiftDown                  
+    };
+
+    private int[] shd_button = new int[]
+    {
+      (int)CustomProgAction.CellRight                  ,
+      (int)CustomProgAction.CellDown                   ,
+      (int)CustomProgAction.CellDownRight              ,
+      (int)CustomProgAction.CellRight                  ,
+      (int)CustomProgAction.CellUp                     ,
+      (int)CustomProgAction.CellUpRight                ,
+      (int)CustomProgAction.CellRight                  ,
+      (int)CustomProgAction.ShiftRight                 ,
+      (int)CustomProgAction.ShiftRighthand,
+    };
+
+    private int[] z_button = new int[]
+    {
+      (int)CustomProgAction.Dig                        ,
+      (int)CustomProgAction.BuildBlock                 ,
+      (int)CustomProgAction.BuildQuadro                ,
+      (int)CustomProgAction.BuildWar                   ,
+      (int)CustomProgAction.BuildRoad                  ,
+      (int)CustomProgAction.UseGeo                     ,
+      (int)CustomProgAction.Heal                       ,
+    };
+
+    private int[] shz_button = new int[]
+    {
+      (int)CustomProgAction.BoxAll,
+      (int)CustomProgAction.BoxHalf,
+      (int)CustomProgAction.BoxWhite,
+      (int)CustomProgAction.BoxGreen,
+      (int)CustomProgAction.BoxRed,
+      (int)CustomProgAction.BoxBlue,
+      (int)CustomProgAction.BoxCyan,
+      (int)CustomProgAction.BoxViolet
+    };
+
+    private int[] x_button = new int[]
+    {
+      (int)CustomProgAction.UseGeopack                 ,
+      (int)CustomProgAction.UseZZ                      ,
+      (int)CustomProgAction.UsePoly                    ,
+      (int)CustomProgAction.UseC190                    ,
+      (int)CustomProgAction.UseBoom                    ,
+      (int)CustomProgAction.UseProt                    ,
+      (int)CustomProgAction.UseRaz                     ,
+    };
+
+    private int[] shx_button = new int[]
+    {
+      (int)CustomProgAction.RefillCraft                ,
+      (int)CustomProgAction.Upgrade                    ,
+      (int)CustomProgAction.UseNano                    ,
+      (int)CustomProgAction.UseRem                     
+    };
+
+    private int[] f_button = new int[]
+    {
+      (int)CustomProgAction.MoveForward                
+    };
+
+    private int[] shf_button = new int[]
+    {
+      (int)CustomProgAction.CellForward                ,
+      (int)CustomProgAction.ShiftForward               ,
+      (int)CustomProgAction.CellLefthand               ,
+      (int)CustomProgAction.CellRighthand              ,
+      (int)CustomProgAction.ShiftForward              ,
+      (int)CustomProgAction.ShiftBackwards,
+    };
+
+    private int[] e_button = new int[]
+    {
+      (int)CustomProgAction.SetStart                   ,
+      (int)CustomProgAction.Terminate                  ,
+      (int)CustomProgAction.CallWhenDied               ,
+      (int)CustomProgAction.SetStartWhenDied,
+      (int)CustomProgAction.SetStartWhenHurt,
+      (int)CustomProgAction.SetStartWhenBotNearby,
+
+    };
+
+    private int[] r_button = new int[]
+    {
+      (int)CustomProgAction.RotateLefthand             ,
+      (int)CustomProgAction.RotateRighthand            ,
+      (int)CustomProgAction.RotateRandom               ,
+      (int)CustomProgAction.RepeatLastAction,
+    };
+
+    private int[] l_button = new int[]
+    {
+      (int)CustomProgAction.Label                      
+    };
+
+    private int[] y_button = new int[]
+    {
+      (int)CustomProgAction.Flip                       
+    };
+
+    private int[] o_button = new int[]
+    {
+      (int)CustomProgAction.BooleanOR                  ,
+      (int)CustomProgAction.BooleanAND                 
+    };
+
+    private int[] i_button = new int[]
+    {
+      (int)CustomProgAction.YesNoGoto                  ,
+      (int)CustomProgAction.NoYesGoto                  ,
+      (int)CustomProgAction.YesNoReturn                ,
+      (int)CustomProgAction.NoYesReturn                ,
+    };
+    private int[] shi_button = new int[] {
+      (int)CustomProgAction.YesNoNextRow,
+      (int)CustomProgAction.NoYesNextRow,
+
+      (int)CustomProgAction.YesNoGotoStart,
+      (int)CustomProgAction.NoYesGotoStart,
+      (int)CustomProgAction.YesNoTerminate,
+      (int)CustomProgAction.NoYesTerminate,
+    };
+
+    private int[] del_button = new int[1];
+
+    private int[] back_button;
+
+    private int[] t_button = new int[]
+    {
+      (int)CustomProgAction.STDDig                     ,
+      (int)CustomProgAction.STDBlock                   ,
+      (int)CustomProgAction.STDHeal                    ,
+      (int)CustomProgAction.STDTunnel                  
+    };
+    private int[] v_button = new int[]
+    {
+      (int)CustomProgAction.VarEqualsNumber            ,
+      (int)CustomProgAction.VarLessThanNumber          ,
+      (int)CustomProgAction.VarLessThanOrEqualNumber,
+      (int)CustomProgAction.VarGreaterThanNumber       ,
+      (int)CustomProgAction.VarGreaterThanOrEqualNumber,
+      (int)CustomProgAction.VarNotEqualsNumber,
+
+      (int)CustomProgAction.WriteStateToVar,
+      (int)CustomProgAction.ReadVarToState,
+      (int)CustomProgAction.SetNumberToVar,
+      (int)CustomProgAction.VarEqualsState,
+      (int)CustomProgAction.VarNotEqualsState,
+      (int)CustomProgAction.VarLessThanState,
+      (int)CustomProgAction.VarGreaterThanState
+    };
+    private int[] shv_button = new int[] {
+      (int)CustomProgAction.AddNumberToVar,
+      (int)CustomProgAction.SubNumberToVar,
+      (int)CustomProgAction.MultNumberToVar,
+      (int)CustomProgAction.DivNumberToVar,
+      (int)CustomProgAction.AddStateToVar,
+      (int)CustomProgAction.VarLessThanOrEqualState,
+      (int)CustomProgAction.VarGreaterThanOrEqualsState,
+    };
+
+    private int[] b_button = new int[]
+    {
+      (int)CustomProgAction.VarRound,
+      (int)CustomProgAction.VarCeil,
+      (int)CustomProgAction.VarFloor,
+      (int)CustomProgAction.Var_UNK_128,
+      (int)CustomProgAction.Var_UNK_129,
+      (int)CustomProgAction.Var_UNK_130,
+    };
+    private int[] shb_button = new int[]
+    {
+      (int)CustomProgAction.AddVarToVar,
+      (int)CustomProgAction.MultVarToVar,
+      (int)CustomProgAction.DivVarToVar,
+      (int)CustomProgAction.SubVarToVar,
+    };
+
+    private int[] n_button = new int[]
+    {
+      (int)CustomProgAction.PlaySound                  ,
+      (int)CustomProgAction.DebugPause                 ,
+      (int)CustomProgAction.DebugShow                  
+    };
+
+    private int[] shn_button = new int[]
+    {
+      (int)CustomProgAction.EnableHand                 ,
+      (int)CustomProgAction.DisableHand                
+    };
+
+    private int[] g_button = new int[]
+    {
+      (int)CustomProgAction.Goto                       ,
+      (int)CustomProgAction.Call                       ,
+      (int)CustomProgAction.CallArg                    ,
+      (int)CustomProgAction.CallState                  
+    };
+    private int[] h_button = new int[]
+    {
+      (int)CustomProgAction.IsHealthNotFull            ,
+      (int)CustomProgAction.IsHealthLessThanHalf       ,
+      (int)CustomProgAction.UNKNOWN_MINUS_HEALTH,
+      (int)CustomProgAction.UNKNOWN_LESS_HEALTH,
+    };
+    private int[] j_button = new int[]
+    {
+      (int)CustomProgAction.IsInsideGun                ,
+      (int)CustomProgAction.ChargeGun                  
+    };
+    private int[] q_button = new int[]
+    {
+      (int)CustomProgAction.Return                     ,
+      (int)CustomProgAction.ReturnArg                  ,
+      (int)CustomProgAction.ReturnState                
+    };
+
+    public static ProgrammatorView THIS;
+
+    private static int ROWS = 12;
+
+    private static int COLS = 16;
+
+    private static int PAGES = 16;
+
+    public static int[] codes = new int[ProgrammatorView.PAGES * ProgrammatorView.ROWS * ProgrammatorView.COLS];
+
+    public static int[] nums = new int[ProgrammatorView.PAGES * ProgrammatorView.ROWS * ProgrammatorView.COLS];
+
+    public static string[] code_labels = new string[ProgrammatorView.PAGES * ProgrammatorView.ROWS * ProgrammatorView.COLS];
+
+    public static ProgAction[] actions = new ProgAction[ProgrammatorView.ROWS * ProgrammatorView.COLS];
+
+    public static bool active = false;
+
+    public static int programId = 0;
+
+    public static string title = "";
+
+    private int prevPage;
+
+    private int position;
+
+    private Dictionary<string, int> labels;
+
+    private string str200;
+
+    private int int1;
+
+    private int int2;
+
+    private int int3;
+
+    private int int4;
+
+    private string[] strmas1;
+
+    private string[] strmas2;
+
+    private string str201;
+
+    private string str202;
+
+    private string str203;
 }
 
