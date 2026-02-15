@@ -106,20 +106,24 @@ public class ProgrammatorView : MonoBehaviour
 
     private bool MakePosition()
     {
-        Vector2 vector = default(Vector2);
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(base.gameObject.GetComponent<RectTransform>(), UnityEngine.Input.mousePosition, null, out vector);
-        int num = Mathf.FloorToInt(vector.x / 32f);
-        int num2 = Mathf.FloorToInt(-vector.y / 32f);
-        if (num < 0 || num > ProgrammatorView.COLS - 1)
-        {
-            return false;
-        }
-        if (num2 < 0 || num2 > ProgrammatorView.ROWS - 1)
-        {
-            return false;
-        }
-        this.position = num2 * ProgrammatorView.COLS + num;
-        return true;
+      Vector2 localMousePos;
+      bool success = RectTransformUtility.ScreenPointToLocalPointInRectangle( GetComponent<RectTransform>(), Input.mousePosition, null,out localMousePos);
+
+      if (!success)
+        return false;
+
+      int col = Mathf.FloorToInt(localMousePos.x / 32f);
+      int row = Mathf.FloorToInt(-localMousePos.y / 32f);
+
+      if (col < 0 || col >= COLS)
+        return false;
+
+      if (row < 0 || row >= ROWS)
+        return false;
+
+      position = row * COLS + col;
+
+      return true;
     }
 
     private void ShiftCode(int dx, int dy)
