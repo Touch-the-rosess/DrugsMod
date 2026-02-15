@@ -2057,230 +2057,6 @@ public class ProgrammatorView : MonoBehaviour
         this.back_button = array;
         this.position = -1;
         this.preprocessedProgramText = "";
-        this.strmas1 = new string[]
-        {
-            " ",
-            "\n",
-            "~\n",
-            ",",
-            "#S",
-            "#E",
-            "W",
-            "A",
-            "S",
-            "D",
-            "z",
-            "w",
-            "a",
-            "s",
-            "d",
-            "l",
-            "F",
-            "CCW;",
-            "CW;",
-            "b",
-            "g",
-            "r",
-            "h",
-            "q",
-            "RAND;",
-            "BEEP;",
-            "B1;",
-            "B2;",
-            "B3;",
-            "VB;",
-            "GEO;",
-            "ZZ;",
-            "C190;",
-            "POLY;",
-            "UP;",
-            "CRAFT;",
-            "NANO;",
-            "REM;",
-            "iw",
-            "ia",
-            "is",
-            "id",
-            "|",
-            ">",
-            ":>",
-            "->",
-            "=>",
-            "<|",
-            "<-|",
-            "<=|",
-            "[W]",
-            "[WA]",
-            "[A]",
-            "[AS]",
-            "[S]",
-            "[SD]",
-            "[D]",
-            "[DW]",
-            "[w]",
-            "[a]",
-            "[s]",
-            "[d]",
-            "[F]",
-            "[f]",
-            "=n",
-            "=e",
-            "=f",
-            "=c",
-            "=a",
-            "=b",
-            "=s",
-            "=k",
-            "=d",
-            "=K",
-            "=B",
-            "=A",
-            "=q",
-            "=R",
-            "=r",
-            "=y",
-            "=g",
-            "=o",
-            "=x",
-            "OR",
-            "AND",
-            "AUT+",
-            "AUT-",
-            "AGR+",
-            "AGR-",
-            "(",
-            "?",
-            "!?",
-            "DIGG;",
-            "BUILD;",
-            "HEAL;",
-            "MINE;",
-            "[r]",
-            "[l]",
-            "=G",
-            "FILL;",
-            "=hp-",
-            "=hp50",
-            "FLIP;",
-            "#R",
-            "RESTART;",
-            "Hand+",
-            "Hand-",
-            "!{",
-            "{"
-        };
-        this.strmas2 = new string[]
-        {
-            " ",
-            "\n",
-            "~\n",
-            ",",
-            "#S",
-            "#E",
-            "^W",
-            "^A",
-            "^S",
-            "^D",
-            "z",
-            "w",
-            "a",
-            "s",
-            "d",
-            "l",
-            "^F",
-            "CCW;",
-            "CW;",
-            "b",
-            "g",
-            "r",
-            "h",
-            "q",
-            "RAND;",
-            "BEEP;",
-            "B1;",
-            "B2;",
-            "B3;",
-            "VB;",
-            "GEO;",
-            "ZZ;",
-            "C190;",
-            "POLY;",
-            "UP;",
-            "CRAFT;",
-            "NANO;",
-            "REM;",
-            "iw",
-            "ia",
-            "is",
-            "id",
-            "|",
-            ">",
-            ":>",
-            "->",
-            "=>",
-            "<|",
-            "<-|",
-            "<=|",
-            "[W]",
-            "[WA]",
-            "[A]",
-            "[AS]",
-            "[S]",
-            "[SD]",
-            "[D]",
-            "[DW]",
-            "[w]",
-            "[a]",
-            "[s]",
-            "[d]",
-            "[F]",
-            "[f]",
-            "=n",
-            "=e",
-            "=f",
-            "=c",
-            "=a",
-            "=b",
-            "=s",
-            "=k",
-            "=d",
-            "=K",
-            "=B",
-            "=A",
-            "=q",
-            "=R",
-            "=r",
-            "=y",
-            "=g",
-            "=o",
-            "=x",
-            "OR",
-            "AND",
-            "AUT+",
-            "AUT-",
-            "AGR+",
-            "AGR-",
-            "(",
-            "?",
-            "!?",
-            "DIGG;",
-            "BUILD;",
-            "HEAL;",
-            "MINE;",
-            "[r]",
-            "[l]",
-            "=G",
-            "FILL;",
-            "=hp-",
-            "=hp50",
-            "FLIP;",
-            "#R",
-            "RESTART;",
-            "Hand+",
-            "Hand-",
-            "!{",
-            "{"
-        };
         this.sampleProgram1 = "XQAAgACaAQAAAAAAAAA+gDAFAhG0ciqkm4PJHRcPgIruSXXpLO0McQ2EaD0CLDkX1Bwh+LW9OM3QB1T+3qVdAUpFp581o584qDxt6eJa5ZmL9IccwWgVwreNz8sedV9O4qdfTvr9Fq21T0SXWLC0hOZTGUlNudYz1VsnqRCp4i7gf/AWcIHs2KgLmwS8IEgJkaNgAA==";
         this.sampleProgram2 = "XQAAgADOAQAAAAAAAABKADAFCPBEHWF/wkqwvU4Eb7ohVxyHTQCnB1tuOQ/mId9a0zVcyCiQh32E9c7xYZu2Pl8fEh/P3fjzX7/iO1MmqYc/qeocZ8w1lXWa7RaZcFhX7GuXWTLBsXzjlA0KeZpby+P8vwIXwiaA4LU3j9kw1D7zQzt/VRLMs5eYauhxvlEpC/VRXtxodxe8aLB9QD25fpbplLo/R0aUG1SxETQdFrKdpAzY2gA=";
         this.sampleProgram3 = "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";
@@ -2350,365 +2126,203 @@ public class ProgrammatorView : MonoBehaviour
             Mathf.FloorToInt((float)(i / (ProgrammatorView.COLS * ProgrammatorView.ROWS)));
             switch (ProgrammatorView.codes[i])
             {
-                case 0:
-                    text += " ";
-                    break;
-                case 1:
-                    text += ",";
-                    break;
-                case 2:
-                    text += "#S";
-                    break;
-                case 3:
-                    text += "#E";
-                    break;
-                case 4:
-                    text += "^W";
-                    break;
-                case 5:
-                    text += "^A";
-                    break;
-                case 6:
-                    text += "^S";
-                    break;
-                case 7:
-                    text += "^D";
-                    break;
-                case 8:
-                    text += "z";
-                    break;
-                case 9:
-                    text += "w";
-                    break;
-                case 10:
-                    text += "a";
-                    break;
-                case 11:
-                    text += "s";
-                    break;
-                case 12:
-                    text += "d";
-                    break;
-                case 13:
-                    text += "l";
-                    break;
-                case 14:
-                    text += "^F";
-                    break;
-                case 15:
-                    text += "CCW;";
-                    break;
-                case 16:
-                    text += "CW;";
-                    break;
-                case 17:
-                    text += "b";
-                    break;
-                case 18:
-                    text += "g";
-                    break;
-                case 19:
-                    text += "r";
-                    break;
-                case 20:
-                    text += "h";
-                    break;
-                case 21:
-                    text += "q";
-                    break;
-                case 22:
-                    text += "RAND;";
-                    break;
-                case 23:
-                    text += "BEEP;";
-                    break;
-                case 24:
+                case (int)CustomProgAction.None: text += " "; break;
+                case (int)CustomProgAction.NextLine: text += ","; break;
+                case (int)CustomProgAction.SetStart: text += "#S"; break;
+                case (int)CustomProgAction.Terminate: text += "#E"; break;
+                case (int)CustomProgAction.MoveUp: text += "^W"; break;
+                case (int)CustomProgAction.MoveLeft: text += "^A"; break;
+                case (int)CustomProgAction.MoveDown: text += "^S"; break;
+                case (int)CustomProgAction.MoveRight: text += "^D"; break;
+                case (int)CustomProgAction.Dig: text += "z"; break;
+                case (int)CustomProgAction.RotateUp: text += "w"; break;
+                case (int)CustomProgAction.RotateLeft: text += "a"; break;
+                case (int)CustomProgAction.RotateDown: text += "s"; break;
+                case (int)CustomProgAction.RotateRight: text += "d"; break;
+                case (int)CustomProgAction.RepeatLastAction: text += "l"; break;
+                case (int)CustomProgAction.MoveForward: text += "^F"; break;
+                case (int)CustomProgAction.RotateLefthand: text += "CCW;"; break;
+                case (int)CustomProgAction.RotateRighthand: text += "CW;"; break;
+                case (int)CustomProgAction.BuildBlock: text += "b"; break;
+                case (int)CustomProgAction.UseGeo: text += "g"; break;
+                case (int)CustomProgAction.BuildRoad: text += "r"; break;
+                case (int)CustomProgAction.Heal: text += "h"; break;
+                case (int)CustomProgAction.BuildQuadro: text += "q"; break;
+                case (int)CustomProgAction.RotateRandom: text += "RAND;"; break;
+                case (int)CustomProgAction.PlaySound: text += "BEEP;"; break;
+                case (int)CustomProgAction.Goto:
                     text += ">";
                     text += ProgrammatorView.code_labels[this.currentCellIndex];
                     text += "|";
                     break;
-                case 25:
+                case (int)CustomProgAction.Call:
                     text += ":>";
                     text += ProgrammatorView.code_labels[this.currentCellIndex];
                     text += ">";
                     break;
-                case 26:
+                case (int)CustomProgAction.CallArg:
                     text += "->";
                     text += ProgrammatorView.code_labels[this.currentCellIndex];
                     text += ">";
                     break;
-                case 27:
-                    text += "<|";
-                    break;
-                case 28:
-                    text += "<-|";
-                    break;
-                case 29:
-                    text += "[WA]";
-                    break;
-                case 30:
-                    text += "[SD]";
-                    break;
-                case 31:
-                    text += "[W]";
-                    break;
-                case 32:
-                    text += "[DW]";
-                    break;
-                case 33:
-                    text += "[A]";
-                    break;
-                case 35:
-                    text += "[D]";
-                    break;
-                case 36:
-                    text += "[AS]";
-                    break;
-                case 37:
-                    text += "[S]";
-                    break;
-                case 38:
-                    text += "OR";
-                    break;
-                case 39:
-                    text += "AND";
-                    break;
-                case 40:
+                case (int)CustomProgAction.Return: text += "<|"; break;
+                case (int)CustomProgAction.ReturnArg: text += "<-|"; break;
+                case (int)CustomProgAction.CellUpLeft: text += "[WA]"; break;
+                case (int)CustomProgAction.CellDownRight: text += "[SD]"; break;
+                case (int)CustomProgAction.CellUp: text += "[W]"; break;
+                case (int)CustomProgAction.CellUpRight: text += "[DW]"; break;
+                case (int)CustomProgAction.CellLeft: text += "[A]"; break;
+                case (int)CustomProgAction.CellRight: text += "[D]"; break;
+                case (int)CustomProgAction.CellDownLeft: text += "[AS]"; break;
+                case (int)CustomProgAction.CellDown: text += "[S]"; break;
+                case (int)CustomProgAction.BooleanOR: text += "OR"; break;
+                case (int)CustomProgAction.BooleanAND: text += "AND"; break;
+                case (int)CustomProgAction.Label:
                     text += "|";
                     text += ProgrammatorView.code_labels[this.currentCellIndex];
                     text += ":";
                     break;
-                case 43:
-                    text += "=n";
-                    break;
-                case 44:
-                    text += "=e";
-                    break;
-                case 45:
-                    text += "=f";
-                    break;
-                case 46:
-                    text += "=c";
-                    break;
-                case 47:
-                    text += "=a";
-                    break;
-                case 48:
-                    text += "=b";
-                    break;
-                case 49:
-                    text += "=s";
-                    break;
-                case 50:
-                    text += "=k";
-                    break;
-                case 51:
-                    text += "=d";
-                    break;
-                case 52:
-                    text += "=K";
-                    break;
-                case 53:
-                    text += "=B";
-                    break;
-                case 54:
-                    text += "=A";
-                    break;
-                case 57:
-                    text += "=q";
-                    break;
-                case 58:
-                    text += "=R";
-                    break;
-                case 59:
-                    text += "=r";
-                    break;
-                case 60:
-                    text += "=y";
-                    break;
-                case 74:
-                    text += "=x";
-                    break;
-                case 76:
-                    text += "=o";
-                    break;
-                case 77:
-                    text += "=g";
-                    break;
-                case 119:
+                case (int)CustomProgAction.IsNotEmpty: text += "=n"; break;
+                case (int)CustomProgAction.IsEmpty: text += "=e"; break;
+                case (int)CustomProgAction.IsFalling: text += "=f"; break;
+                case (int)CustomProgAction.IsCrystal: text += "=c"; break;
+                case (int)CustomProgAction.IsAliveCrystal: text += "=a"; break;
+                case (int)CustomProgAction.IsFallingLikeBoulder: text += "=b"; break;
+                case (int)CustomProgAction.IsFallingLikeLiquid: text += "=s"; break;
+                case (int)CustomProgAction.IsBreakable: text += "=k"; break;
+                case (int)CustomProgAction.IsUnbreakable: text += "=d"; break;
+                case (int)CustomProgAction.IsRedRock: text += "=K"; break;
+                case (int)CustomProgAction.IsBlackRock: text += "=B"; break;
+                case (int)CustomProgAction.IsAcid: text += "=A"; break;
+                case (int)CustomProgAction.IsQuadro: text += "=q"; break;
+                case (int)CustomProgAction.IsRoad: text += "=R"; break;
+                case (int)CustomProgAction.IsRedBlock: text += "=r"; break;
+                case (int)CustomProgAction.IsYellowBlock: text += "=y"; break;
+                case (int)CustomProgAction.IsBox: text += "=x"; break;
+                case (int)CustomProgAction.IsStructure: text += "=o"; break;
+                case (int)CustomProgAction.IsGreenBlock: text += "=g"; break;
+                case (int)CustomProgAction.VarGreaterThanNumber:
                     text += "(";
                     text += ProgrammatorView.code_labels[this.currentCellIndex];
                     text += ">";
                     text += ProgrammatorView.nums[i];
                     text += ")";
                     break;
-                case 120:
+                case (int)CustomProgAction.VarLessThanNumber:
                     text += "(";
                     text += ProgrammatorView.code_labels[this.currentCellIndex];
                     text += "<";
                     text += ProgrammatorView.nums[i];
                     text += ")";
                     break;
-                case 123:
+                case (int)CustomProgAction.VarEqualsNumber:
                     text += "(";
                     text += ProgrammatorView.code_labels[this.currentCellIndex];
                     text += "=";
                     text += ProgrammatorView.nums[i];
                     text += ")";
                     break;
-                case 131:
-                    text += "[w]";
+                case (int)CustomProgAction.VarLessThanOrEqualNumber:
+                    text += "(";
+                    text += ProgrammatorView.code_labels[this.currentCellIndex];
+                    text += "<=";
+                    text += ProgrammatorView.nums[i];
+                    text += ")";
                     break;
-                case 132:
-                    text += "[a]";
+                case (int)CustomProgAction.VarGreaterThanOrEqualNumber:
+                    text += "(";
+                    text += ProgrammatorView.code_labels[this.currentCellIndex];
+                    text += ">=";
+                    text += ProgrammatorView.nums[i];
+                    text += ")";
                     break;
-                case 133:
-                    text += "[s]";
+                case (int)CustomProgAction.VarNotEqualsNumber:
+                    text += "(";
+                    text += ProgrammatorView.code_labels[this.currentCellIndex];
+                    text += "<>";
+                    text += ProgrammatorView.nums[i];
+                    text += ")";
                     break;
-                case 134:
-                    text += "[d]";
-                    break;
-                case 135:
-                    text += "[F]";
-                    break;
-                case 136:
-                    text += "[f]";
-                    break;
-                case 137:
+                //case (int)CustomProgAction.AddNumberToVar:
+                //    text += "(";
+                //    text += ProgrammatorView.code_labels[this.currentCellIndex];
+                //    text += "+";
+                //    text += ProgrammatorView.nums[i];
+                //    text += ")";
+                //    break;
+
+
+                case (int)CustomProgAction.ShiftUp: text += "[w]"; break;
+                case (int)CustomProgAction.ShiftLeft: text += "[a]"; break;
+                case (int)CustomProgAction.ShiftDown: text += "[s]"; break;
+                case (int)CustomProgAction.ShiftRight: text += "[d]"; break;
+                case (int)CustomProgAction.CellForward: text += "[F]"; break;
+                case (int)CustomProgAction.ShiftForward: text += "[f]"; break;
+                case (int)CustomProgAction.CallState:
                     text += "=>";
                     text += ProgrammatorView.code_labels[this.currentCellIndex];
                     text += ">";
                     break;
-                case 138:
-                    text += "<=|";
-                    break;
-                case 139:
+                case (int)CustomProgAction.ReturnState: text += "<=|"; break;
+                case (int)CustomProgAction.YesNoGoto:
                     text += "?";
                     text += ProgrammatorView.code_labels[this.currentCellIndex];
                     text += "<";
                     break;
-                case 140:
+                case (int)CustomProgAction.NoYesGoto:
                     text += "!?";
                     text += ProgrammatorView.code_labels[this.currentCellIndex];
                     text += "<";
                     break;
-                case 141:
-                    text += "DIGG;";
-                    break;
-                case 142:
-                    text += "BUILD;";
-                    break;
-                case 143:
-                    text += "HEAL;";
-                    break;
-                case 144:
-                    text += "FLIP;";
-                    break;
-                case 145:
-                    text += "MINE;";
-                    break;
-                case 146:
-                    text += "=G";
-                    break;
-                case 147:
-                    text += "FILL;";
-                    break;
-                case 148:
-                    text += "=hp-";
-                    break;
-                case 149:
-                    text += "=hp50";
-                    break;
-                case 156:
-                    text += "[r]";
-                    break;
-                case 157:
-                    text += "[l]";
-                    break;
-                case 158:
-                    text += "AUT+";
-                    break;
-                case 159:
-                    text += "AUT-";
-                    break;
-                case 160:
-                    text += "AGR+";
-                    break;
-                case 161:
-                    text += "AGR-";
-                    break;
-                case 162:
-                    text += "B1;";
-                    break;
-                case 163:
-                    text += "B2;";
-                    break;
-                case 164:
-                    text += "B3;";
-                    break;
-                case 165:
-                    text += "VB;";
-                    break;
-                case 166:
+                case (int)CustomProgAction.STDDig: text += "DIGG;"; break;
+                case (int)CustomProgAction.STDBlock: text += "BUILD;"; break;
+                case (int)CustomProgAction.STDHeal: text += "HEAL;"; break;
+                case (int)CustomProgAction.Flip: text += "FLIP;"; break;
+                case (int)CustomProgAction.STDTunnel: text += "MINE;"; break;
+                case (int)CustomProgAction.IsInsideGun: text += "=G"; break;
+                case (int)CustomProgAction.ChargeGun: text += "FILL;"; break;
+                case (int)CustomProgAction.IsHealthNotFull: text += "=hp-"; break;
+                case (int)CustomProgAction.IsHealthLessThanHalf: text += "=hp50"; break;
+                case (int)CustomProgAction.CellLefthand: text += "[r]"; break;
+                case (int)CustomProgAction.CellRighthand: text += "[l]"; break;
+                case (int)CustomProgAction.EnableAutoDig: text += "AUT+"; break;
+                case (int)CustomProgAction.DisableAutoDig: text += "AUT-"; break;
+                case (int)CustomProgAction.EnableAggression: text += "AGR+"; break;
+                case (int)CustomProgAction.DisableAggression: text += "AGR-"; break;
+                case (int)CustomProgAction.UseBoom: text += "B1;"; break;
+                case (int)CustomProgAction.UseRaz: text += "B2;"; break;
+                case (int)CustomProgAction.UseProt: text += "B3;"; break;
+                case (int)CustomProgAction.BuildWar: text += "VB;"; break;
+                case (int)CustomProgAction.CallWhenDied:
                     text += "#R";
                     text += ProgrammatorView.code_labels[this.currentCellIndex];
                     text += "<";
                     break;
-                case 167:
-                    text += "GEO;";
-                    break;
-                case 168:
-                    text += "ZZ;";
-                    break;
-                case 169:
-                    text += "C190;";
-                    break;
-                case 170:
-                    text += "POLY;";
-                    break;
-                case 171:
-                    text += "UP;";
-                    break;
-                case 172:
-                    text += "CRAFT;";
-                    break;
-                case 173:
-                    text += "NANO;";
-                    break;
-                case 174:
-                    text += "REM;";
-                    break;
-                case 175:
-                    text += "iw";
-                    break;
-                case 176:
-                    text += "ia";
-                    break;
-                case 177:
-                    text += "is";
-                    break;
-                case 178:
-                    text += "id";
-                    break;
-                case 179:
-                    text += "Hand+";
-                    break;
-                case 180:
-                    text += "Hand-";
-                    break;
-                case 181:
+                case (int)CustomProgAction.UseGeopack: text += "GEO;"; break;
+                case (int)CustomProgAction.UseZZ: text += "ZZ;"; break;
+                case (int)CustomProgAction.UseC190: text += "C190;"; break;
+                case (int)CustomProgAction.UsePoly: text += "POLY;"; break;
+                case (int)CustomProgAction.Upgrade: text += "UP;"; break;
+                case (int)CustomProgAction.RefillCraft: text += "CRAFT;"; break;
+                case (int)CustomProgAction.UseNano: text += "NANO;"; break;
+                case (int)CustomProgAction.UseRem: text += "REM;"; break;
+                case (int)CustomProgAction.InventoryUp: text += "iw"; break;
+                case (int)CustomProgAction.InventoryLeft: text += "ia"; break;
+                case (int)CustomProgAction.InventoryDown: text += "is"; break;
+                case (int)CustomProgAction.InventoryRight: text += "id"; break;
+                case (int)CustomProgAction.EnableHand: text += "Hand+"; break;
+                case (int)CustomProgAction.DisableHand: text += "Hand-"; break;
+                case (int)CustomProgAction.DebugPause:
                     text += "!{";
                     text += ProgrammatorView.code_labels[this.currentCellIndex];
                     text += "}";
                     break;
-                case 182:
+                case (int)CustomProgAction.DebugShow:
                     text += "{";
                     text += ProgrammatorView.code_labels[this.currentCellIndex];
                     text += "}";
                     break;
-                case 200:
-                    text += "RESTART;";
-                    break;
+                case (int)CustomProgAction.UNUSED_200: text += "RESTART;"; break;
             }
             if (num == ProgrammatorView.COLS - 1)
             {
@@ -3020,117 +2634,6 @@ public class ProgrammatorView : MonoBehaviour
       UNUSED_255                 = 255,
     }                            
 
-
-    //public const int EMPTY = 0;
-    //public const int BACK = 1;
-    //public const int START = 2;
-    //public const int END = 3;
-    //public const int MOVE_W = 4;
-    //public const int MOVE_A = 5;
-    //public const int MOVE_S = 6;
-    //public const int MOVE_D = 7;
-    //public const int DIGG = 8;
-    //public const int LOOK_W = 9;
-    //public const int LOOK_A = 10;
-    //public const int LOOK_S = 11;
-    //public const int LOOK_D = 12;
-    //public const int LAST = 13;
-    //public const int MOVE_F = 14;
-    //public const int ROTATE_CCW = 15;
-    //public const int ROTATE_CW = 16;
-    //public const int ACTION_BUILD = 17;
-    //public const int ACTION_GEO = 18;
-    //public const int ACTION_ROAD = 19;
-    //public const int ACTION_HEAL = 20;
-    //public const int ACTION_QUADRO = 21;
-    //public const int ACTION_RANDOM = 22;
-    //public const int ACTION_BIBIKA = 23;
-    //public const int ACTION_B1 = 162;
-    //public const int ACTION_B3 = 163;
-    //public const int ACTION_B2 = 164;
-    //public const int ACTION_WB = 165;
-    //public const int ACTION_GEOPACK = 167;
-    //public const int ACTION_ZM = 168;
-    //public const int ACTION_C190 = 169;
-    //public const int ACTION_POLY = 170;
-    //public const int ACTION_UP = 171;
-    //public const int ACTION_CRAFT = 172;
-    //public const int ACTION_NANO = 173;
-    //public const int ACTION_REMBOT = 174;
-    //public const int INVDIR_W = 175;
-    //public const int INVDIR_A = 176;
-    //public const int INVDIR_S = 177;
-    //public const int INVDIR_D = 178;
-    //public const int LABEL = 40;
-    //public const int GOTO = 24;
-    //public const int GOSUB = 25;
-    //public const int GOSUB1 = 26;
-    //public const int GOSUBF = 137;
-    //public const int RETURN = 27;
-    //public const int RETURN1 = 28;
-    //public const int RETURNF = 138;
-    //public const int CELL_W = 31;
-    //public const int CELL_WA = 29;
-    //public const int CELL_A = 33;
-    //public const int CELL_AS = 36;
-    //public const int CELL_S = 37;
-    //public const int CELL_SD = 30;
-    //public const int CELL_D = 35;
-    //public const int CELL_DW = 32;
-    //public const int CELL_WW = 131;
-    //public const int CELL_AA = 132;
-    //public const int CELL_SS = 133;
-    //public const int CELL_DD = 134;
-    //public const int CELL_F = 135;
-    //public const int CELL_FF = 136;
-    //public const int CC_NOTEMPTY = 43;
-    //public const int CC_EMPTY = 44;
-    //public const int CC_GRAVITY = 45;
-    //public const int CC_CRYSTALL = 46;
-    //public const int CC_ALIVE = 47;
-    //public const int CC_BOLDER = 48;
-    //public const int CC_SAND = 49;
-    //public const int CC_ROCK = 50;
-    //public const int CC_DEAD = 51;
-    //public const int CCC_REDROCK = 52;
-    //public const int CCC_BLACKROCK = 53;
-    //public const int CC_ACID = 54;
-    //public const int CCC_QUADRO = 57;
-    //public const int CCC_ROAD = 58;
-    //public const int CCC_REDBLOCK = 59;
-    //public const int CCC_YELLOWBLOCK = 60;
-    //public const int CCC_GREENBLOCK = 77;
-    //public const int CCC_OPOR = 76;
-    //public const int CCC_BOX = 74;
-    //public const int BOOLMODE_OR = 38;
-    //public const int BOOLMODE_AND = 39;
-    //public const int MODE_AUTODIGG_ON = 158;
-    //public const int MODE_AUTODIGG_OFF = 159;
-    //public const int MODE_AGR_ON = 160;
-    //public const int MODE_AGR_OFF = 161;
-    //public const int VAR_LESS = 120;
-    //public const int VAR_MORE = 119;
-    //public const int VAR_EQUAL = 123;
-    //public const int IF_NOT_GOTO = 139;
-    //public const int IF_GOTO = 140;
-    //public const int STD_DIGG = 141;
-    //public const int STD_BUILD = 142;
-    //public const int STD_HEAL = 143;
-    //public const int STD_MINE = 145;
-    //public const int CELL_RIGHT_HAND = 156;
-    //public const int CELL_LEFT_HAND = 157;
-    //public const int CC_GUN = 146;
-    //public const int FILL_GUN = 147;
-    //public const int CB_HP = 148;
-    //public const int CB_HP50 = 149;
-    //public const int PROG_FLIP = 144;
-    //public const int ON_RESP = 166;
-    //public const int RESTART = 200;
-    //public const int HANDMODE_ON = 179;
-    //public const int HANDMODE_OFF = 180;
-    //public const int DEBUG_BREAK = 181;
-    //public const int DEBUG_SET = 182;
-
     private int[] k_button = new int[] { // there would seat unknown actions
       //(int)CustomProgAction.Return                     ,
       //(int)CustomProgAction.UNKNOWN_73,
@@ -3399,7 +2902,7 @@ public class ProgrammatorView : MonoBehaviour
       (int)CustomProgAction.VarGreaterThanOrEqualNumber,
       (int)CustomProgAction.VarNotEqualsNumber,
 
-      (int)CustomProgAction.WriteStateToVar,
+      (int)CustomProgAction.WriteStateToVar, // not implemented
       (int)CustomProgAction.ReadVarToState,
       (int)CustomProgAction.SetNumberToVar,
       (int)CustomProgAction.VarEqualsState,
@@ -3511,9 +3014,233 @@ public class ProgrammatorView : MonoBehaviour
 
     private int remainingCellsOnPage;
 
-    private string[] strmas1;
+    private string[] strmas1 = new string[]
+        {
+            " ",
+            "\n",
+            "~\n",
+            ",",
+            "#S",
+            "#E",
+            "W",
+            "A",
+            "S",
+            "D",
+            "z",
+            "w",
+            "a",
+            "s",
+            "d",
+            "l",
+            "F",
+            "CCW;",
+            "CW;",
+            "b",
+            "g",
+            "r",
+            "h",
+            "q",
+            "RAND;",
+            "BEEP;",
+            "B1;",
+            "B2;",
+            "B3;",
+            "VB;",
+            "GEO;",
+            "ZZ;",
+            "C190;",
+            "POLY;",
+            "UP;",
+            "CRAFT;",
+            "NANO;",
+            "REM;",
+            "iw",
+            "ia",
+            "is",
+            "id",
+            "|",
+            ">",
+            ":>",
+            "->",
+            "=>",
+            "<|",
+            "<-|",
+            "<=|",
+            "[W]",
+            "[WA]",
+            "[A]",
+            "[AS]",
+            "[S]",
+            "[SD]",
+            "[D]",
+            "[DW]",
+            "[w]",
+            "[a]",
+            "[s]",
+            "[d]",
+            "[F]",
+            "[f]",
+            "=n",
+            "=e",
+            "=f",
+            "=c",
+            "=a",
+            "=b",
+            "=s",
+            "=k",
+            "=d",
+            "=K",
+            "=B",
+            "=A",
+            "=q",
+            "=R",
+            "=r",
+            "=y",
+            "=g",
+            "=o",
+            "=x",
+            "OR",
+            "AND",
+            "AUT+",
+            "AUT-",
+            "AGR+",
+            "AGR-",
+            "(",
+            "?",
+            "!?",
+            "DIGG;",
+            "BUILD;",
+            "HEAL;",
+            "MINE;",
+            "[r]",
+            "[l]",
+            "=G",
+            "FILL;",
+            "=hp-",
+            "=hp50",
+            "FLIP;",
+            "#R",
+            "RESTART;",
+            "Hand+",
+            "Hand-",
+            "!{",
+            "{"
+        };
+;
 
-    private string[] strmas2;
+    private string[] strmas2 = new string[]
+        {
+            " ",
+            "\n",
+            "~\n",
+            ",",
+            "#S",
+            "#E",
+            "^W",
+            "^A",
+            "^S",
+            "^D",
+            "z",
+            "w",
+            "a",
+            "s",
+            "d",
+            "l",
+            "^F",
+            "CCW;",
+            "CW;",
+            "b",
+            "g",
+            "r",
+            "h",
+            "q",
+            "RAND;",
+            "BEEP;",
+            "B1;",
+            "B2;",
+            "B3;",
+            "VB;",
+            "GEO;",
+            "ZZ;",
+            "C190;",
+            "POLY;",
+            "UP;",
+            "CRAFT;",
+            "NANO;",
+            "REM;",
+            "iw",
+            "ia",
+            "is",
+            "id",
+            "|",
+            ">",
+            ":>",
+            "->",
+            "=>",
+            "<|",
+            "<-|",
+            "<=|",
+            "[W]",
+            "[WA]",
+            "[A]",
+            "[AS]",
+            "[S]",
+            "[SD]",
+            "[D]",
+            "[DW]",
+            "[w]",
+            "[a]",
+            "[s]",
+            "[d]",
+            "[F]",
+            "[f]",
+            "=n",
+            "=e",
+            "=f",
+            "=c",
+            "=a",
+            "=b",
+            "=s",
+            "=k",
+            "=d",
+            "=K",
+            "=B",
+            "=A",
+            "=q",
+            "=R",
+            "=r",
+            "=y",
+            "=g",
+            "=o",
+            "=x",
+            "OR",
+            "AND",
+            "AUT+",
+            "AUT-",
+            "AGR+",
+            "AGR-",
+            "(",
+            "?",
+            "!?",
+            "DIGG;",
+            "BUILD;",
+            "HEAL;",
+            "MINE;",
+            "[r]",
+            "[l]",
+            "=G",
+            "FILL;",
+            "=hp-",
+            "=hp50",
+            "FLIP;",
+            "#R",
+            "RESTART;",
+            "Hand+",
+            "Hand-",
+            "!{",
+            "{"
+        };
+;
 
     private string sampleProgram1;
 
