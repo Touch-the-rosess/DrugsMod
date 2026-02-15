@@ -124,51 +124,76 @@ public class ProgrammatorView : MonoBehaviour
 
     private void ShiftCode(int dx, int dy)
     {
-        if (this.MakePosition())
+      if (!MakePosition())
+        return;
+
+      int startIndex = position;                  // Flat index of the clicked cell on the current page (0..ROWS*COLS-1)
+      int stepsToEmpty = 0;                       // How many non-empty cells we pass before hitting an empty one
+      int currentPage = Mathf.FloorToInt((float)(startIndex / (ROWS * COLS)));
+      int currentRow  = Mathf.FloorToInt((float)((startIndex - currentPage * ROWS * COLS) / COLS));
+      int currentCol  = startIndex % COLS;
+
+      int targetIndex = startIndex;
+      bool foundEmpty = false;
+
+      // Search along the line (horizontal if dy==0, vertical if dx==0) until we hit an empty cell or boundary
+      for (int i = 0; i < 1000; i++)
+      {
+        if (actions[targetIndex].id == 0)
         {
-            int num = this.position;
-            int num2 = 0;
-            int num3 = Mathf.FloorToInt((float)(this.position / (ProgrammatorView.ROWS * ProgrammatorView.COLS)));
-            int num4 = Mathf.FloorToInt((float)((this.position - num3 * ProgrammatorView.ROWS * ProgrammatorView.COLS) / ProgrammatorView.COLS));
-            int num5 = Mathf.FloorToInt((float)(this.position % ProgrammatorView.COLS));
-            bool flag = false;
-            for (int i = 0; i < 1000; i++)
-            {
-                if (ProgrammatorView.actions[num].id == 0)
-                {
-                    flag = true;
-                    break;
-                }
-                num2++;
-                num = num + dx + ProgrammatorView.COLS * dy;
-                int num6 = Mathf.FloorToInt((float)(num / (ProgrammatorView.ROWS * ProgrammatorView.COLS)));
-                int num7 = Mathf.FloorToInt((float)((num - num6 * ProgrammatorView.ROWS * ProgrammatorView.COLS) / ProgrammatorView.COLS));
-                int num8 = Mathf.FloorToInt((float)(num % ProgrammatorView.COLS));
-                if (num < 0 || num6 != num3 || (dx == 0 && num8 != num5) || (dy == 0 && num7 != num4))
-                {
-                    break;
-                }
-            }
-            if (flag)
-            {
-                for (int j = num2; j > 0; j--)
-                {
-                    int num9 = this.position + (j - 1) * dx + (j - 1) * ProgrammatorView.COLS * dy;
-                    int num10 = this.position + j * dx + j * ProgrammatorView.COLS * dy;
-                    ProgAction ProgAction = ProgrammatorView.actions[num10];
-                    ProgAction ProgAction2 = ProgrammatorView.actions[num9];
-                    ProgAction.setString(ProgAction2.getString());
-                    ProgAction.setNum(ProgAction2.getNum());
-                    ProgAction.ChangeTo(ProgAction2.id);
-                }
-                if (num2 > 0)
-                {
-                    ProgrammatorView.actions[this.position].ChangeTo(0);
-                    ProgrammatorView.unsaved = true;
-                    this.titleTF.text = ProgrammatorView.title + " [*]";
-                }
-            }
+          foundEmpty = true;
+          break;
         }
+
+        stepsToEmpty++;
+        targetIndex += dx + COLS * dy;
+
+        // Safety / boundary checks
+        if (targetIndex < 0)
+          break;
+
+        int targetPage = Mathf.FloorToInt((float)(targetIndex / (ROWS * COLS)));
+        int targetRow  = Mathf.FloorToInt((float)((targetIndex - targetPage * ROWS * COLS) / COLS));
+        int targetCol  = targetIndex % COLS;
+
+        // Must stay on the same page
+        if (targetPage != currentPage)
+          break;
+
+        // Horizontal shift (dy==0) must stay in the same row
+        if (dy == 0 && targetRow != currentRow)
+          break;
+
+        // Vertical shift (dx==0) must stay in the same column
+        if (dx == 0 && targetCol != currentCol)
+          break;
+      }
+
+      // Only shift if we actually found an empty cell in the line
+      if (foundEmpty)
+      {
+        // Move each cell one step toward the empty cell (bubble the empty space backward)
+        for (int step = stepsToEmpty; step > 0; step--)
+        {
+          int sourceIndex = startIndex + (step - 1) * (dx + COLS * dy);
+          int destIndex   = startIndex + step * (dx + COLS * dy);
+
+          ProgAction source = actions[sourceIndex];
+          ProgAction dest   = actions[destIndex];
+
+          dest.setString(source.getString());
+          dest.setNum(source.getNum());
+          dest.ChangeTo(source.id);
+        }
+
+        // If we moved anything, the original clicked cell becomes empty
+        if (stepsToEmpty > 0)
+        {
+          actions[startIndex].ChangeTo(0);
+          unsaved = true;
+          titleTF.text = title + " [*]";
+        }
+      }
     }
 
     private void MakeCycle(int[] cycle, int usePrev = -1)
