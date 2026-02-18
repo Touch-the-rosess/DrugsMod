@@ -533,153 +533,96 @@ public class ProgrammatorView : MonoBehaviour
 
     public byte[] CompileProgram()
     {
-        this.UpdateIcons();
-        this.labels = new Dictionary<string, int>();
-        int num = 0;
-        for (int i = 0; i < ProgrammatorView.PAGES; i++)
+      UpdateIcons();
+      labels = new Dictionary<string, int>();
+      int instrCount = 0;
+      for (int page = 0; page < PAGES; page++)
+      {
+        for (int row = 0; row < ROWS; row++)
         {
-            for (int j = 0; j < ProgrammatorView.ROWS; j++)
+          bool rowStarted = false;
+          bool skipRest = false;
+          for (int col = 0; col < COLS; col++)
+          {
+            if (skipRest) break;
+            int id = codes[page * ROWS * COLS + row * COLS + col];
+            if (id != (int)CustomProgAction.None) rowStarted = true;
+            if (id == (int)CustomProgAction.NextLine)
             {
-                bool flag = true;
-                bool flag2 = false;
-                for (int k = 0; k < ProgrammatorView.COLS; k++)
-                {
-                    if (!flag2)
-                    {
-                        int num2 = ProgrammatorView.codes[i * ProgrammatorView.ROWS * ProgrammatorView.COLS + j * ProgrammatorView.COLS + k];
-                        if (num2 != 0)
-                        {
-                            flag = false;
-                        }
-                        if (num2 == 1)
-                        {
-                            flag2 = true;
-                        }
-                        else if (num2 == 40)
-                        {
-                            this.labels[ProgrammatorView.code_labels[i * ProgrammatorView.ROWS * ProgrammatorView.COLS + j * ProgrammatorView.COLS + k]] = num;
-                        }
-                        num += this.BufShift(num2);
-                    }
-                }
-                if (!flag && !flag2)
-                {
-                    num++;
-                }
+              skipRest = true;
             }
-        }
-        List<int> list = new List<int>();
-        for (int l = 0; l < ProgrammatorView.PAGES; l++)
-        {
-            for (int m = 0; m < ProgrammatorView.ROWS; m++)
+            else if (id == (int)CustomProgAction.Label)
             {
-                bool flag3 = true;
-                bool flag4 = false;
-                for (int n = 0; n < ProgrammatorView.COLS; n++)
-                {
-                    if (!flag4)
-                    {
-                        int num3 = ProgrammatorView.codes[l * ProgrammatorView.ROWS * ProgrammatorView.COLS + m * ProgrammatorView.COLS + n];
-                        if (num3 != 0)
-                        {
-                            if (num3 == 1)
-                            {
-                                flag4 = true;
-                            }
-                            else if (num3 == 40)
-                            {
-                                flag3 = false;
-                            }
-                            else if (num3 == 24 || num3 == 140 || num3 == 166 || num3 == 139 || num3 == 25 || num3 == 26 || num3 == 137)
-                            {
-                                list.Add(num3);
-                                string key = ProgrammatorView.code_labels[l * ProgrammatorView.ROWS * ProgrammatorView.COLS + m * ProgrammatorView.COLS + n];
-                                int num4 = 0;
-                                if (this.labels.ContainsKey(key))
-                                {
-                                    num4 = this.labels[key];
-                                }
-                                int item = num4 / 256;
-                                int item2 = num4 % 256;
-                                list.Add(item);
-                                list.Add(item2);
-                                flag3 = false;
-                            }
-                            else if (num3 == 123 || num3 == 119 || num3 == 120)
-                            {
-                                list.Add(num3);
-                                string text2;
-                                string text = text2 = ProgrammatorView.code_labels[l * ProgrammatorView.ROWS * ProgrammatorView.COLS + m * ProgrammatorView.COLS + n];
-                                if (text.Length == 0)
-                                {
-                                    text2 += "   ";
-                                }
-                                if (text.Length == 1)
-                                {
-                                    text2 += "  ";
-                                }
-                                if (text.Length == 2)
-                                {
-                                    text2 += " ";
-                                }
-                                char[] array = text2.ToCharArray();
-                                list.Add((int)array[0]);
-                                list.Add((int)array[1]);
-                                list.Add((int)array[2]);
-                                int num5 = ProgrammatorView.nums[l * ProgrammatorView.ROWS * ProgrammatorView.COLS + m * ProgrammatorView.COLS + n];
-                                if (num5 < 0)
-                                {
-                                    num5 += 16777216;
-                                }
-                                list.Add(num5 / 65536);
-                                list.Add(num5 / 256 % 256);
-                                list.Add(num5 % 256);
-                                flag3 = false;
-                            }
-                            else if (num3 == 181 || num3 == 182)
-                            {
-                                list.Add(num3);
-                                string text4;
-                                string text3 = text4 = ProgrammatorView.code_labels[l * ProgrammatorView.ROWS * ProgrammatorView.COLS + m * ProgrammatorView.COLS + n];
-                                if (text3.Length == 0)
-                                {
-                                    text4 += "   ";
-                                }
-                                if (text3.Length == 1)
-                                {
-                                    text4 += "  ";
-                                }
-                                if (text3.Length == 2)
-                                {
-                                    text4 += " ";
-                                }
-                                char[] array2 = text4.ToCharArray();
-                                list.Add((int)array2[0]);
-                                list.Add((int)array2[1]);
-                                list.Add((int)array2[2]);
-                                flag3 = false;
-                            }
-                            else
-                            {
-                                list.Add(num3);
-                                flag3 = false;
-                            }
-                        }
-                    }
-                }
-                if (!flag3 && !flag4)
-                {
-                    list.Add(200);
-                }
+              labels[code_labels[page * ROWS * COLS + row * COLS + col]] = instrCount;
             }
+            else
+            {
+              if (rowStarted)
+              {
+                instrCount++;
+              }
+            }
+          }
         }
-        int[] array3 = list.ToArray();
-        byte[] array4 = new byte[array3.Length];
-        for (int num6 = 0; num6 < array3.Length; num6++)
+      }
+      byte[] program = new byte[instrCount * 2 + 4];
+      byte[] countBytes = BitConverter.GetBytes(instrCount);
+      Buffer.BlockCopy(countBytes, 0, program, 0, 4);
+      int index = 4;
+      for (int page = 0; page < PAGES; page++)
+      {
+        for (int row = 0; row < ROWS; row++)
         {
-            array4[num6] = (byte)array3[num6];
+          bool rowStarted = false;
+          bool skipRest = false;
+          for (int col = 0; col < COLS; col++)
+          {
+            if (skipRest) break;
+            int id = codes[page * ROWS * COLS + row * COLS + col];
+            int val = nums[page * ROWS * COLS + row * COLS + col];
+            string label = code_labels[page * ROWS * COLS + row * COLS + col];
+            if (id != (int)CustomProgAction.None) rowStarted = true;
+            if (id == (int)CustomProgAction.NextLine)
+            {
+              skipRest = true;
+            }
+            else if (id == (int)CustomProgAction.Label)
+            {
+              // already set
+            }
+            else
+            {
+              if (rowStarted)
+              {
+                int arg = 0;
+                if (id == (int)CustomProgAction.Goto ||
+                    id == (int)CustomProgAction.Call ||
+                    id == (int)CustomProgAction.CallArg ||
+                    id == (int)CustomProgAction.YesNoGoto ||
+                    id == (int)CustomProgAction.NoYesGoto ||
+                    id == (int)CustomProgAction.CallState ||
+                    id == (int)CustomProgAction.CallWhenDied)
+                {
+                  if (labels.TryGetValue(label, out int pos))
+                  {
+                    arg = pos;
+                  }
+                }
+                else if (id == (int)CustomProgAction.VarGreaterThanNumber ||
+                    id == (int)CustomProgAction.VarLessThanNumber ||
+                    id == (int)CustomProgAction.VarEqualsNumber)
+                {
+                  arg = val;
+                }
+                program[index] = (byte)id;
+                program[index + 1] = (byte)arg;
+                index += 2;
+              }
+            }
+          }
         }
-        return array4;
+      }
+      return program;
     }
 
     public void Show()
