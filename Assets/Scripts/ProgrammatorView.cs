@@ -1993,7 +1993,11 @@ public class ProgrammatorView : MonoBehaviour
                 }
                 if (UnityEngine.Input.GetKeyDown(KeyCode.M))
                 {
+                  if (UnityEngine.Input.GetKey(KeyCode.LeftShift) || UnityEngine.Input.GetKey(KeyCode.RightShift)){
+                    this.MakeCycle(this.shm_button, -1);
+                  }else{
                     this.MakeCycle(this.m_button, -1);
+                  }
                 }
                 if (UnityEngine.Input.GetKeyDown(KeyCode.Y))
                 {
@@ -2711,12 +2715,18 @@ public class ProgrammatorView : MonoBehaviour
     };
 
 
-    private int[] m_button = new int[]
-    {
+    private int[] m_button = new int[] {
       (int)CustomProgAction.EnableAutoDig              ,
       (int)CustomProgAction.DisableAutoDig             ,
       (int)CustomProgAction.EnableAggression           ,
       (int)CustomProgAction.DisableAggression          
+    };
+    private int[] shm_button = new int[] {
+      (int)CustomProgAction.DebugPause                 ,
+      (int)CustomProgAction.DebugShow                  ,
+      (int)CustomProgAction.EnableHand                 ,
+      (int)CustomProgAction.DisableHand                ,
+      (int)CustomProgAction.PlaySound                  ,
     };
 
 
@@ -2944,11 +2954,6 @@ public class ProgrammatorView : MonoBehaviour
       (int)CustomProgAction.Call                       ,
       (int)CustomProgAction.CallArg                    ,
       (int)CustomProgAction.CallState                  ,
-      (int)CustomProgAction.EnableHand                 ,
-      (int)CustomProgAction.DisableHand                ,
-      (int)CustomProgAction.PlaySound                  ,
-      (int)CustomProgAction.DebugPause                 ,
-      (int)CustomProgAction.DebugShow                  
     };
     private int[] h_button = new int[]
     {
