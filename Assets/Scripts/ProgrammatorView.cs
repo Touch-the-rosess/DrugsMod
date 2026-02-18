@@ -262,1321 +262,200 @@ public class ProgrammatorView : MonoBehaviour
 
     public void LoadFromString(string source)
     {
-        //Debug.Log(source);
-        this.ClearSource();
-        if (source[0] == 'X')
-        {
-            byte[] array = SevenZipHelper.Decompress(Convert.FromBase64String(source));
-            Debug.Log("da");
-            this.ClearSource();
-            int num = BitConverter.ToInt32(array, 0);
-            for (int i = 0; i < num; i++)
-            {
-                ProgrammatorView.codes[i] = (int)Convert.ToInt16(array[i + 4]);
-            }
-            string[] array2 = Encoding.UTF8.GetString(array, num + 4, array.Length - num - 4).Split(new char[]
-            {
-                ':'
-            });
-            for (int j = 0; j < array2.Length; j++)
-            {
-                if (array2[j].Contains("@"))
-                {
-                    string[] array3 = array2[j].Split(new char[]
-                    {
-                        '@'
-                    });
-                    ProgrammatorView.code_labels[j] = array3[0];
-                    ProgrammatorView.nums[j] = int.Parse(array3[1]);
-                }
-                else
-                {
-                    ProgrammatorView.code_labels[j] = array2[j];
-                    ProgrammatorView.nums[j] = 0;
-                }
-            }
-            //UpdateIconsWithoutSaving();
-        }
-        else if (source[0] == '$')
-        {
-            source = source.Replace("$", "");
-            source = source.Replace("\r", "");
-            source = source.Replace("_", "   ");
-            source = source.Replace(".0.", "\n\n\n\n\n\n\n\n\n");
-            source = source.Replace(".9.", "\n\n\n\n\n\n\n\n");
-            source = source.Replace(".8.", "\n\n\n\n\n\n\n");
-            source = source.Replace(".7.", "\n\n\n\n\n\n");
-            source = source.Replace(".6.", "\n\n\n\n\n");
-            source = source.Replace(".5.", "\n\n\n\n");
-            source = source.Replace("...", "\n\n\n");
-            source = source.Replace("..", "\n\n");
-            source = source.Replace(".", "\n");
-            this.preprocessedProgramText = source;
-            this.currentCharIndex = 0;
-            this.currentCellIndex = 0;
-            this.remainingColsInRow = ProgrammatorView.COLS;
-            this.remainingCellsOnPage = ProgrammatorView.COLS * ProgrammatorView.ROWS;
-            while (this.currentCharIndex < this.preprocessedProgramText.Length)
-            {
-                string text = this.NewProgramm2();
-                
-                int num2 = -1;
+      ClearSource();
+      if (source.Length == 0) return;
 
-                switch (text)
-                {
-                    case "CRAFT;":
-                        {
-                            num2 = 172;
-                            break;
-                        }
-                    case "[DW]":
-                        {
-                            num2 = 32;
-                            break;
-                        }
-                    case "=hp50":
-                        {
-                            num2 = 149;
-                            break;
-                        }
-                    case "^A":
-                        {
-                            num2 = 5;
-                            break;
-                        }
-                    case "->":
-                        {
-                            num2 = 26;
-                            ProgrammatorView.code_labels[this.currentCellIndex] = this.NewProgramm('>');
-                            break;
-                        }
-                    case "\n":
-                        {
-                            this.currentCellIndex += this.remainingColsInRow;
-                            this.remainingCellsOnPage -= this.remainingColsInRow;
-                            this.remainingColsInRow = ProgrammatorView.COLS;
-                            break;
-                        }
-                    case "BEEP;":
-                        {
-                            num2 = 23;
-                            break;
-                        }
-                    case "HEAL;":
-                        {
-                            num2 = 143;
-                            break;
-                        }
-                    case "B1;":
-                        {
-                            num2 = 162;
-                            break;
-                        }
-                    case "^F":
-                        {
-                            num2 = 14;
-                            break;
-                        }
-                    case "^D":
-                        {
-                            num2 = 7;
-                            break;
-                        }
-                    case "#R":
-                        {
-                            num2 = 166;
-                            break;
-                        }
-                    case " ":
-                        {
-                            num2 = 0;
-                            break;
-                        }
-                    case "#S":
-                        {
-                            num2 = 2;
-                            break;
-                        }
-                    case "CW;":
-                        {
-                            num2 = 16;
-                            break;
-                        }
-                    case "^S":
-                        {
-                            num2 = 6;
-                            break;
-                        }
-                    case "^W":
-                        {
-                            num2 = 4;
-                            break;
-                        }
-                    case ",":
-                        {
-                            num2 = 1;
-                            break;
-                        }
-                    case "C190;":
-                        {
-                            num2 = 169;
-                            break;
-                        }
-                    case "(":
-                        {
-                            string text2 = this.NewProgramm(')');
-                            string[] array4;
-                            if (text2.Contains("="))
-                            {
-                                array4 = text2.Split(new char[]
-                                {
-                                    '='
-                                });
-                                num2 = 123;
-                                
-                            }
-                            else if (text2.Contains("<"))
-                            {
-                                array4 = text2.Split(new char[]
-                                {
-                                    '<'
-                                });
-                                num2 = 120;
-                                
-                            }
-                            else
-                            {
-                                if (!text2.Contains(">"))
-                                {
-                                    return;
-                                }
-                                array4 = text2.Split(new char[]
-                                {
-                                    '>'
-                                });
-                                num2 = 119;
-                                
-                            }
-                            ProgrammatorView.code_labels[this.currentCellIndex] = array4[0];
-                            int num4 = 0;
-                            if (!int.TryParse(array4[1], out num4))
-                            {
-                                num4 = 0;
-                            }
-                            ProgrammatorView.nums[this.currentCellIndex] = num4;
-                            Debug.Log(array4[0]);
-                            break;
-                        }
-                    case "AUT+":
-                        {
-                            num2 = 158;
-                            break;
-                        }
-                    case "id":
-                        {
-                            num2 = 178;
-                            break;
-                        }
-                    case "AUT-":
-                        {
-                            num2 = 159;
-                            break;
-                        }
-                    case ">":
-                        {
-                            num2 = 24;
-                            ProgrammatorView.code_labels[this.currentCellIndex] = this.NewProgramm('|');
-                            break;
-                        }
-                    case "?":
-                        {
-                            num2 = 139;
-                            ProgrammatorView.code_labels[this.currentCellIndex] = this.NewProgramm('<');
-                            break;
-                        }
-                    case "ia":
-                        {
-                            num2 = 176;
-                            break;
-                        }
-                    case "AGR+":
-                        {
-                            num2 = 160;
-                            break;
-                        }
-                    case "=k":
-                        {
-                            num2 = 50;
-                            break;
-                        }
-                    case "AGR-":
-                        {
-                            num2 = 161;
-                            break;
-                        }
-                    case "#E":
-                        {
-                            num2 = 3;
-                            break;
-                        }
-                    case "=o":
-                        {
-                            num2 = 76;
-                            break;
-                        }
-                    case "=n":
-                        {
-                            num2 = 43;
-                            break;
-                        }
-                    case "FLIP;":
-                        {
-                            num2 = 144;
-                            break;
-                        }
-                    case "=c":
-                        {
-                            num2 = 46;
-                            break;
-                        }
-                    case "=b":
-                        {
-                            num2 = 48;
-                            break;
-                        }
-                    case "=a":
-                        {
-                            num2 = 47;
-                            break;
-                        }
-                    case "=e":
-                        {
-                            num2 = 44;
-                            break;
-                        }
-                    case "=d":
-                        {
-                            num2 = 51;
-                            break;
-                        }
-                    case "iw":
-                        {
-                            num2 = 175;
-                            break;
-                        }
-                    case "=f":
-                        {
-                            num2 = 45;
-                            break;
-                        }
-                    case "=y":
-                        {
-                            num2 = 60;
-                            break;
-                        }
-                    case "=x":
-                        {
-                            num2 = 74;
-                            break;
-                        }
-                    case "=g":
-                        {
-                            num2 = 77;
-                            break;
-                        }
-                    case "<=|":
-                        {
-                            num2 = 138;
-                            break;
-                        }
-                    case "is":
-                        {
-                            num2 = 177;
-                            break;
-                        }
-                    case "GEO;":
-                        {
-                            num2 = 167;
-                            break;
-                        }
-                    case "<-|":
-                        {
-                            num2 = 28;
-                            break;
-                        }
-                    case "<|":
-                        {
-                            num2 = 27;
-                            break;
-                        }
-                    case "=r":
-                        {
-                            num2 = 59;
-                            break;
-                        }
-                    case "=q":
-                        {
-                            num2 = 57;
-                            break;
-                        }
-                    case "=s":
-                        {
-                            num2 = 49;
-                            break;
-                        }
-                    case "!{":
-                        {
-                            num2 = 181;
-                            ProgrammatorView.code_labels[this.currentCellIndex] = this.NewProgramm('}');
-                            break;
-                        }
-                    case "RAND;":
-                        {
-                            num2 = 22;
-                            break;
-                        }
-                    case "=K":
-                        {
-                            num2 = 52;
-                            break;
-                        }
-                    case "=B":
-                        {
-                            num2 = 53;
-                            break;
-                        }
-                    case "=A":
-                        {
-                            num2 = 54;
-                            break;
-                        }
-                    case "UP;":
-                        {
-                            num2 = 171;
-                            break;
-                        }
-                    case "[r]":
-                        {
-                            num2 = 156;
-                            break;
-                        }
-                    case "=R":
-                        {
-                            num2 = 58;
-                            break;
-                        }
-                    case "=G":
-                        {
-                            num2 = 146;
-                            break;
-                        }
-                    case "[S]":
-                        {
-                            num2 = 37;
-                            break;
-                        }
-                    case "[f]":
-                        {
-                            num2 = 136;
-                            break;
-                        }
-                    case "[a]":
-                        {
-                            num2 = 132;
-                            break;
-                        }
-                    case "[D]":
-                        {
-                            num2 = 35;
-                            break;
-                        }
-                    case "[W]":
-                        {
-                            num2 = 31;
-                            break;
-                        }
-                    case "=hp-":
-                        {
-                            num2 = 148;
-                            break;
-                        }
-                    case "OR":
-                        {
-                            num2 = 38;
-                            break;
-                        }
-                    case "AND":
-                        {
-                            num2 = 39;
-                            break;
-                        }
-                    case "FILL;":
-                        {
-                            num2 = 147;
-                            break;
-                        }
-                    case "B3;":
-                        {
-                            num2 = 164;
-                            break;
-                        }
-                    case "!?":
-                        {
-                            num2 = 140;
-                            ProgrammatorView.code_labels[this.currentCellIndex] = this.NewProgramm('<');
-                            break;
-                        }
-                    case "=>":
-                        {
-                            num2 = 137;
-                            ProgrammatorView.code_labels[this.currentCellIndex] = this.NewProgramm('>');
-                            break;
-                        }
-                    case "B2;":
-                        {
-                            num2 = 163;
-                            break;
-                        }
-                    case ":>":
-                        {
-                            num2 = 25;
-                            ProgrammatorView.code_labels[this.currentCellIndex] = this.NewProgramm('>');
-                            break;
-                        }
-                    case "DIGG;":
-                        {
-                            num2 = 141;
-                            break;
-                        }
-                    case "VB;":
-                        {
-                            num2 = 165;
-                            break;
-                        }
-                    case "~\n":
-                        {
-                            this.currentCellIndex += this.remainingCellsOnPage;
-                            this.remainingColsInRow = ProgrammatorView.COLS;
-                            this.remainingCellsOnPage = ProgrammatorView.COLS * ProgrammatorView.ROWS;
-                            UnityEngine.Debug.Log("next page!!!");
-                            break;
-                        }
-                    case "RESTART;":
-                        {
-                            num2 = 200;
-                            break;
-                        }
-                    case "CCW;":
-                        {
-                            num2 = 15;
-                            break;
-                        }
-                    case "[A]":
-                        {
-                            num2 = 33;
-                            break;
-                        }
-                    case "BUILD;":
-                        {
-                            num2 = 142;
-                            break;
-                        }
-                    case "[w]":
-                        {
-                            num2 = 131;
-                            break;
-                        }
-                    case "[s]":
-                        {
-                            num2 = 133;
-                            break;
-                        }
-                    case "[F]":
-                        {
-                            num2 = 135;
-                            break;
-                        }
-                    case "[d]":
-                        {
-                            num2 = 134;
-                            break;
-                        }
-                    case "[l]":
-                        {
-                            num2 = 157;
-                            break;
-                        }
-                    case "NANO;":
-                        {
-                            num2 = 173;
-                            break;
-                        }
-                    case "REM;":
-                        {
-                            num2 = 174;
-                            break;
-                        }
-                    case "POLY;":
-                        {
-                            num2 = 170;
-                            break;
-                        }
-                    case "[AS]":
-                        {
-                            num2 = 36;
-                            break;
-                        }
-                    case "ZZ;":
-                        {
-                            num2 = 168;
-                            break;
-                        }
-                    case "[SD]":
-                        {
-                            num2 = 30;
-                            break;
-                        }
-                    case "[WA]":
-                        {
-                            num2 = 29;
-                            break;
-                        }
-                    case "d":
-                        {
-                            num2 = 12;
-                            break;
-                        }
-                    case "MINE;":
-                        {
-                            num2 = 145;
-                            break;
-                        }
-                    case "Hand-":
-                        {
-                            num2 = 180;
-                            break;
-                        }
-                    case "g":
-                        {
-                            num2 = 18;
-                            break;
-                        }
-                    case "Hand+":
-                        {
-                            num2 = 179;
-                            break;
-                        }
-                    case "b":
-                        {
-                            num2 = 17;
-                            break;
-                        }
-                    case "a":
-                        {
-                            num2 = 10;
-                            break;
-                        }
-                    case "h":
-                        {
-                            num2 = 20;
-                            break;
-                        }
-                    case "l":
-                        {
-                            num2 = 13;
-                            break;
-                        }
-                    case "s":
-                        {
-                            num2 = 11;
-                            break;
-                        }
-                    case "q":
-                        {
-                            num2 = 21;
-                            break;
-                        }
-                    case "w":
-                        {
-                            num2 = 9;
-                            break;
-                        }
-                    case "|":
-                        {
-                            num2 = 40;
-                            string text3 = this.NewProgramm(':');
-                            ProgrammatorView.code_labels[this.currentCellIndex] = text3;
-                            break;
-                        }
-                    case "r":
-                        {
-                            num2 = 19;
-                            break;
-                        }
-                    case "z":
-                        {
-                            num2 = 8;
-                            break;
-                        }
-                    case "{":
-                        {
-                            num2 = 182;
-                            ProgrammatorView.code_labels[this.currentCellIndex] = this.NewProgramm('}');
-                            break;
-                        }
-                }
-                if (num2 != -1)
-                {
-                    ProgrammatorView.codes[this.currentCellIndex] = num2;
-                    this.currentCellIndex++;
-                    this.remainingColsInRow--;
-                    this.remainingCellsOnPage--;
-                    //break;
-                }
-                if (this.currentCellIndex > ProgrammatorView.COLS * ProgrammatorView.ROWS * ProgrammatorView.PAGES)
-                {
-                    break;
-                }
-            }
-        }
-        else
+      char first = source[0];
+      if (first == 'X')
+      {
+        byte[] data = SevenZipHelper.Decompress(Convert.FromBase64String(source));
+        int count = BitConverter.ToInt32(data, 0);
+        for (int i = 0; i < count; i++)
         {
-            source = source.Replace("_", "   ");
-            source = source.Replace(".0.", "\n\n\n\n\n\n\n\n\n");
-            source = source.Replace(".9.", "\n\n\n\n\n\n\n\n");
-            source = source.Replace(".8.", "\n\n\n\n\n\n\n");
-            source = source.Replace(".7.", "\n\n\n\n\n\n");
-            source = source.Replace(".6.", "\n\n\n\n\n");
-            source = source.Replace(".5.", "\n\n\n\n");
-            source = source.Replace("...", "\n\n\n");
-            source = source.Replace("..", "\n\n");
-            source = source.Replace(".", "\n");
-            this.preprocessedProgramText = source;
-            this.currentCharIndex = 0;
-            this.currentCellIndex = 0;
-            this.remainingColsInRow = ProgrammatorView.COLS;
-            this.remainingCellsOnPage = ProgrammatorView.COLS * ProgrammatorView.ROWS;
-            while (this.currentCharIndex < this.preprocessedProgramText.Length)
-            {
-                string text4 = this.NewProgramm1();
-                int num5 = -1;
-                switch (text4)
-                {
-                    case "CRAFT;":
-                        {
-                            num5 = 172;
-                            break;
-                        }
-                    case "[DW]":
-                        {
-                            num5 = 32;
-                            break;
-                        }
-                    case "=hp50":
-                        {
-                            num5 = 149;
-                            break;
-                        }
-                    case "^A":
-                        {
-                            num5 = 5;
-                            break;
-                        }
-                    case "->":
-                        {
-                            num5 = 26;
-                            ProgrammatorView.code_labels[this.currentCellIndex] = this.NewProgramm('>');
-                            break;
-                        }
-                    case "\n":
-                        {
-                            this.currentCellIndex += this.remainingColsInRow;
-                            this.remainingCellsOnPage -= this.remainingColsInRow;
-                            this.remainingColsInRow = ProgrammatorView.COLS;
-                            break;
-                        }
-                    case "BEEP;":
-                        {
-                            num5 = 23;
-                            break;
-                        }
-                    case "HEAL;":
-                        {
-                            num5 = 143;
-                            break;
-                        }
-                    case "B1;":
-                        {
-                            num5 = 162;
-                            break;
-                        }
-                    case "^F":
-                        {
-                            num5 = 14;
-                            break;
-                        }
-                    case "^D":
-                        {
-                            num5 = 7;
-                            break;
-                        }
-                    case "#R":
-                        {
-                            num5 = 166;
-                            break;
-                        }
-                    case " ":
-                        {
-                            num5 = 0;
-                            break;
-                        }
-                    case "#S":
-                        {
-                            num5 = 2;
-                            break;
-                        }
-                    case "CW;":
-                        {
-                            num5 = 16;
-                            break;
-                        }
-                    case "^S":
-                        {
-                            num5 = 6;
-                            break;
-                        }
-                    case "^W":
-                        {
-                            num5 = 4;
-                            break;
-                        }
-                    case ",":
-                        {
-                            num5 = 1;
-                            break;
-                        }
-                    case "C190;":
-                        {
-                            num5 = 169;
-                            break;
-                        }
-                    case "(":
-                        {
-                            string text5 = this.NewProgramm(')');
-                            string[] array5;
-                            if (text5.Contains("="))
-                            {
-                                array5 = text5.Split(new char[]
-                                {
-                                            '='
-                                });
-                                num5 = 123;
-                            }
-                            else if (text5.Contains("<"))
-                            {
-                                array5 = text5.Split(new char[]
-                                {
-                                            '<'
-                                });
-                                num5 = 120;
-                            }
-                            else
-                            {
-                                if (!text5.Contains(">"))
-                                {
-                                    return;
-                                }
-                                array5 = text5.Split(new char[]
-                                {
-                                            '>'
-                                });
-                                num5 = 119;
-                            }
-                            ProgrammatorView.code_labels[this.currentCellIndex] = array5[0];
-                            int num6 = 0;
-                            if (!int.TryParse(array5[1], out num6))
-                            {
-                                num6 = 0;
-                            }
-                            ProgrammatorView.nums[this.currentCellIndex] = num6;
-                            break;
-                        }
-                    case "AUT+":
-                        {
-                            num5 = 158;
-                            break;
-                        }
-                    case "id":
-                        {
-                            num5 = 178;
-                            break;
-                        }
-                    case "AUT-":
-                        {
-                            num5 = 159;
-                            break;
-                        }
-                    case ">":
-                        {
-                            num5 = 24;
-                            ProgrammatorView.code_labels[this.currentCellIndex] = this.NewProgramm('|');
-                            break;
-                        }
-                    case "?":
-                        {
-                            num5 = 139;
-                            ProgrammatorView.code_labels[this.currentCellIndex] = this.NewProgramm('<');
-                            break;
-                        }
-                    case "ia":
-                        {
-                            num5 = 176;
-                            break;
-                        }
-                    case "AGR+":
-                        {
-                            num5 = 160;
-                            break;
-                        }
-                    case "=k":
-                        {
-                            num5 = 50;
-                            break;
-                        }
-                    case "AGR-":
-                        {
-                            num5 = 161;
-                            break;
-                        }
-                    case "#E":
-                        {
-                            num5 = 3;
-                            break;
-                        }
-                    case "=o":
-                        {
-                            num5 = 76;
-                            break;
-                        }
-                    case "=n":
-                        {
-                            num5 = 43;
-                            break;
-                        }
-                    case "FLIP;":
-                        {
-                            num5 = 144;
-                            break;
-                        }
-                    case "=c":
-                        {
-                            num5 = 46;
-                            break;
-                        }
-                    case "=b":
-                        {
-                            num5 = 48;
-                            break;
-                        }
-                    case "=a":
-                        {
-                            num5 = 47;
-                            break;
-                        }
-                    case "=e":
-                        {
-                            num5 = 44;
-                            break;
-                        }
-                    case "=d":
-                        {
-                            num5 = 51;
-                            break;
-                        }
-                    case "iw":
-                        {
-                            num5 = 175;
-                            break;
-                        }
-                    case "=f":
-                        {
-                            num5 = 45;
-                            break;
-                        }
-                    case "=y":
-                        {
-                            num5 = 60;
-                            break;
-                        }
-                    case "=x":
-                        {
-                            num5 = 74;
-                            break;
-                        }
-                    case "=g":
-                        {
-                            num5 = 77;
-                            break;
-                        }
-                    case "<=|":
-                        {
-                            num5 = 138;
-                            break;
-                        }
-                    case "is":
-                        {
-                            num5 = 177;
-                            break;
-                        }
-                    case "GEO;":
-                        {
-                            num5 = 167;
-                            break;
-                        }
-                    case "<-|":
-                        {
-                            num5 = 28;
-                            break;
-                        }
-                    case "<|":
-                        {
-                            num5 = 27;
-                            break;
-                        }
-                    case "=r":
-                        {
-                            num5 = 59;
-                            break;
-                        }
-                    case "=q":
-                        {
-                            num5 = 57;
-                            break;
-                        }
-                    case "=s":
-                        {
-                            num5 = 49;
-                            break;
-                        }
-                    case "!{":
-                        {
-                            num5 = 181;
-                            ProgrammatorView.code_labels[this.currentCellIndex] = this.NewProgramm('}');
-                            break;
-                        }
-                    case "RAND;":
-                        {
-                            num5 = 22;
-                            break;
-                        }
-                    case "=K":
-                        {
-                            num5 = 52;
-                            break;
-                        }
-                    case "=B":
-                        {
-                            num5 = 53;
-                            break;
-                        }
-                    case "=A":
-                        {
-                            num5 = 54;
-                            break;
-                        }
-                    case "UP;":
-                        {
-                            num5 = 171;
-                            break;
-                        }
-                    case "[r]":
-                        {
-                            num5 = 156;
-                            break;
-                        }
-                    case "=R":
-                        {
-                            num5 = 58;
-                            break;
-                        }
-                    case "=G":
-                        {
-                            num5 = 146;
-                            break;
-                        }
-                    case "[S]":
-                        {
-                            num5 = 37;
-                            break;
-                        }
-                    case "[f]":
-                        {
-                            num5 = 136;
-                            break;
-                        }
-                    case "[a]":
-                        {
-                            num5 = 132;
-                            break;
-                        }
-                    case "[D]":
-                        {
-                            num5 = 35;
-                            break;
-                        }
-                    case "[W]":
-                        {
-                            num5 = 31;
-                            break;
-                        }
-                    case "=hp-":
-                        {
-                            num5 = 148;
-                            break;
-                        }
-                    case "OR":
-                        {
-                            num5 = 38;
-                            break;
-                        }
-                    case "AND":
-                        {
-                            num5 = 39;
-                            break;
-                        }
-                    case "FILL;":
-                        {
-                            num5 = 147;
-                            break;
-                        }
-                    case "B3;":
-                        {
-                            num5 = 164;
-                            break;
-                        }
-                    case "!?":
-                        {
-                            num5 = 140;
-                            ProgrammatorView.code_labels[this.currentCellIndex] = this.NewProgramm('<');
-                            break;
-                        }
-                    case "=>":
-                        {
-                            num5 = 137;
-                            ProgrammatorView.code_labels[this.currentCellIndex] = this.NewProgramm('>');
-                            break;
-                        }
-                    case "B2;":
-                        {
-                            num5 = 163;
-                            break;
-                        }
-                    case ":>":
-                        {
-                            num5 = 25;
-                            ProgrammatorView.code_labels[this.currentCellIndex] = this.NewProgramm('>');
-                            break;
-                        }
-                    case "DIGG;":
-                        {
-                            num5 = 141;
-                            break;
-                        }
-                    case "VB;":
-                        {
-                            num5 = 165;
-                            break;
-                        }
-                    case "~\n":
-                        {
-                            this.currentCellIndex += this.remainingCellsOnPage;
-                            this.remainingColsInRow = ProgrammatorView.COLS;
-                            this.remainingCellsOnPage = ProgrammatorView.COLS * ProgrammatorView.ROWS;
-                            UnityEngine.Debug.Log("next page!!!");
-                            break;
-                        }
-                    case "RESTART;":
-                        {
-                            num5 = 200;
-                            break;
-                        }
-                    case "CCW;":
-                        {
-                            num5 = 15;
-                            break;
-                        }
-                    case "[A]":
-                        {
-                            num5 = 33;
-                            break;
-                        }
-                    case "BUILD;":
-                        {
-                            num5 = 142;
-                            break;
-                        }
-                    case "[w]":
-                        {
-                            num5 = 131;
-                            break;
-                        }
-                    case "[s]":
-                        {
-                            num5 = 133;
-                            break;
-                        }
-                    case "[F]":
-                        {
-                            num5 = 135;
-                            break;
-                        }
-                    case "[d]":
-                        {
-                            num5 = 134;
-                            break;
-                        }
-                    case "[l]":
-                        {
-                            num5 = 157;
-                            break;
-                        }
-                    case "NANO;":
-                        {
-                            num5 = 173;
-                            break;
-                        }
-                    case "REM;":
-                        {
-                            num5 = 174;
-                            break;
-                        }
-                    case "POLY;":
-                        {
-                            num5 = 170;
-                            break;
-                        }
-                    case "[AS]":
-                        {
-                            num5 = 36;
-                            break;
-                        }
-                    case "ZZ;":
-                        {
-                            num5 = 168;
-                            break;
-                        }
-                    case "[SD]":
-                        {
-                            num5 = 30;
-                            break;
-                        }
-                    case "[WA]":
-                        {
-                            num5 = 29;
-                            break;
-                        }
-                    case "d":
-                        {
-                            num5 = 12;
-                            break;
-                        }
-                    case "MINE;":
-                        {
-                            num5 = 145;
-                            break;
-                        }
-                    case "Hand-":
-                        {
-                            num5 = 180;
-                            break;
-                        }
-                    case "g":
-                        {
-                            num5 = 18;
-                            break;
-                        }
-                    case "Hand+":
-                        {
-                            num5 = 179;
-                            break;
-                        }
-                    case "b":
-                        {
-                            num5 = 17;
-                            break;
-                        }
-                    case "a":
-                        {
-                            num5 = 10;
-                            break;
-                        }
-                    case "h":
-                        {
-                            num5 = 20;
-                            break;
-                        }
-                    case "l":
-                        {
-                            num5 = 13;
-                            break;
-                        }
-                    case "s":
-                        {
-                            num5 = 11;
-                            break;
-                        }
-                    case "q":
-                        {
-                            num5 = 21;
-                            break;
-                        }
-                    case "w":
-                        {
-                            num5 = 9;
-                            break;
-                        }
-                    case "|":
-                        {
-                            num5 = 40;
-                            string text6 = this.NewProgramm(':');
-                            ProgrammatorView.code_labels[this.currentCellIndex] = text6;
-                            break;
-                        }
-                    case "r":
-                        {
-                            num5 = 19;
-                            break;
-                        }
-                    case "z":
-                        {
-                            num5 = 8;
-                            break;
-                        }
-                    case "{":
-                        {
-                            num5 = 182;
-                            ProgrammatorView.code_labels[this.currentCellIndex] = this.NewProgramm('}');
-                            break;
-                        }
-                        
-                }
-                if (num5 != -1)
-                {
-                    ProgrammatorView.codes[this.currentCellIndex] = num5;
-                    this.currentCellIndex++;
-                    this.remainingColsInRow--;
-                    this.remainingCellsOnPage--;
-                }
-                if (this.currentCellIndex > ProgrammatorView.COLS * ProgrammatorView.ROWS * ProgrammatorView.PAGES)
-                {
-                    break;
-                }
-            }
+          codes[i] = (int)Convert.ToInt16(data[i + 4]);
         }
+        string labelsStr = Encoding.UTF8.GetString(data, count + 4, data.Length - count - 4);
+        string[] labelParts = labelsStr.Split(':');
+        for (int j = 0; j < labelParts.Length; j++)
+        {
+          string part = labelParts[j];
+          if (part.Contains("@"))
+          {
+            string[] sub = part.Split('@');
+            code_labels[j] = sub[0];
+            nums[j] = int.Parse(sub[1]);
+          }
+          else
+          {
+            code_labels[j] = part;
+            nums[j] = 0;
+          }
+        }
+      }
+      else
+      {
+        bool isNew = first == '$';
+        if (isNew) source = source.Replace("$", "");
+        source = source.Replace("\r", "").Replace("_", "   ")
+          .Replace(".0.", "\n\n\n\n\n\n\n\n\n")
+          .Replace(".9.", "\n\n\n\n\n\n\n\n")
+          .Replace(".8.", "\n\n\n\n\n\n\n")
+          .Replace(".7.", "\n\n\n\n\n\n")
+          .Replace(".6.", "\n\n\n\n\n")
+          .Replace(".5.", "\n\n\n\n")
+          .Replace("...", "\n\n\n")
+          .Replace("..", "\n\n")
+          .Replace(".", "\n");
+        preprocessedProgramText = source;
+        currentCharIndex = 0;
+        currentCellIndex = 0;
+        remainingColsInRow = COLS;
+        remainingCellsOnPage = COLS * ROWS;
 
-        for (int k = 0; k < 10; k++)
-            Debug.Log(nums[k]);
-        this.UpdateIconsWithoutSaving();
+        Func<string> getToken = isNew ? (Func<string>)NewProgramm2 : NewProgramm1;
+        while (currentCharIndex < preprocessedProgramText.Length && currentCellIndex <= COLS * ROWS * PAGES)
+        {
+          string token = getToken();
+          int id = -1;
+          switch (token)
+          {
+            case "CRAFT;": id = (int)CustomProgAction.RefillCraft; break;
+            case "[DW]": id = (int)CustomProgAction.CellUpRight; break;
+            case "=hp50": id = (int)CustomProgAction.IsHealthLessThanHalf; break;
+            case "^A": case "A": id = (int)CustomProgAction.MoveLeft; break;
+            case "->": id = (int)CustomProgAction.CallArg; code_labels[currentCellIndex] = NewProgramm('>'); break;
+            case "BEEP;": id = (int)CustomProgAction.PlaySound; break;
+            case "HEAL;": id = (int)CustomProgAction.STDHeal; break;
+            case "B1;": id = (int)CustomProgAction.UseBoom; break;
+            case "^F": case "F": id = (int)CustomProgAction.MoveForward; break;
+            case "^D": case "D": id = (int)CustomProgAction.MoveRight; break;
+            case "#R": id = (int)CustomProgAction.CallWhenDied; break;
+            case " ": id = (int)CustomProgAction.None; break;
+            case "#S": id = (int)CustomProgAction.SetStart; break;
+            case "CW;": id = (int)CustomProgAction.RotateRighthand; break;
+            case "^S": case "S": id = (int)CustomProgAction.MoveDown; break;
+            case "^W": case "W": id = (int)CustomProgAction.MoveUp; break;
+            case ",": id = (int)CustomProgAction.NextLine; break;
+            case "C190;": id = (int)CustomProgAction.UseC190; break;
+            case "(": 
+                          string inner = NewProgramm(')');
+                          string[] parts;
+                          if (inner.Contains("=")) { parts = inner.Split('='); id = (int)CustomProgAction.VarEqualsNumber; }
+                          else if (inner.Contains("<")) { parts = inner.Split('<'); id = (int)CustomProgAction.VarLessThanNumber; }
+                          else if (inner.Contains(">")) { parts = inner.Split('>'); id = (int)CustomProgAction.VarGreaterThanNumber; }
+                          else break;
+                          code_labels[currentCellIndex] = parts[0];
+                          nums[currentCellIndex] = int.TryParse(parts[1], out int n) ? n : 0;
+                          break;
+            case "AUT+": id = (int)CustomProgAction.EnableAutoDig; break;
+            case "id": id = (int)CustomProgAction.InventoryRight; break;
+            case "AUT-": id = (int)CustomProgAction.DisableAutoDig; break;
+            case ">": id = (int)CustomProgAction.Goto; code_labels[currentCellIndex] = NewProgramm('|'); break;
+            case "?": id = (int)CustomProgAction.YesNoGoto; code_labels[currentCellIndex] = NewProgramm('<'); break;
+            case "ia": id = (int)CustomProgAction.InventoryLeft; break;
+            case "AGR+": id = (int)CustomProgAction.EnableAggression; break;
+            case "=k": id = (int)CustomProgAction.IsBreakable; break;
+            case "AGR-": id = (int)CustomProgAction.DisableAggression; break;
+            case "#E": id = (int)CustomProgAction.Terminate; break;
+            case "=o": id = (int)CustomProgAction.IsStructure; break;
+            case "=n": id = (int)CustomProgAction.IsNotEmpty; break;
+            case "FLIP;": id = (int)CustomProgAction.Flip; break;
+            case "=c": id = (int)CustomProgAction.IsCrystal; break;
+            case "=b": id = (int)CustomProgAction.IsFallingLikeBoulder; break;
+            case "=a": id = (int)CustomProgAction.IsAliveCrystal; break;
+            case "=e": id = (int)CustomProgAction.IsEmpty; break;
+            case "=d": id = (int)CustomProgAction.IsUnbreakable; break;
+            case "iw": id = (int)CustomProgAction.InventoryUp; break;
+            case "=f": id = (int)CustomProgAction.IsFalling; break;
+            case "=y": id = (int)CustomProgAction.IsYellowBlock; break;
+            case "=x": id = (int)CustomProgAction.IsBox; break;
+            case "=g": id = (int)CustomProgAction.IsGreenBlock; break;
+            case "<=|": id = (int)CustomProgAction.ReturnState; break;
+            case "is": id = (int)CustomProgAction.InventoryDown; break;
+            case "GEO;": id = (int)CustomProgAction.UseGeopack; break;
+            case "<-|": id = (int)CustomProgAction.ReturnArg; break;
+            case "<|": id = (int)CustomProgAction.Return; break;
+            case "=r": id = (int)CustomProgAction.IsRedBlock; break;
+            case "=q": id = (int)CustomProgAction.IsQuadro; break;
+            case "=s": id = (int)CustomProgAction.IsFallingLikeLiquid; break;
+            case "!{": id = (int)CustomProgAction.DebugPause; code_labels[currentCellIndex] = NewProgramm('}'); break;
+            case "RAND;": id = (int)CustomProgAction.RotateRandom; break;
+            case "=K": id = (int)CustomProgAction.IsRedRock; break;
+            case "=B": id = (int)CustomProgAction.IsBlackRock; break;
+            case "=A": id = (int)CustomProgAction.IsAcid; break;
+            case "UP;": id = (int)CustomProgAction.Upgrade; break;
+            case "[r]": id = (int)CustomProgAction.CellLefthand; break;
+            case "=R": id = (int)CustomProgAction.IsRoad; break;
+            case "=G": id = (int)CustomProgAction.IsInsideGun; break;
+            case "[S]": id = (int)CustomProgAction.CellDown; break;
+            case "[f]": id = (int)CustomProgAction.ShiftForward; break;
+            case "[a]": id = (int)CustomProgAction.ShiftLeft; break;
+            case "[D]": id = (int)CustomProgAction.CellRight; break;
+            case "[W]": id = (int)CustomProgAction.CellUp; break;
+            case "=hp-": id = (int)CustomProgAction.IsHealthNotFull; break;
+            case "OR": id = (int)CustomProgAction.BooleanOR; break;
+            case "AND": id = (int)CustomProgAction.BooleanAND; break;
+            case "FILL;": id = (int)CustomProgAction.ChargeGun; break;
+            case "B3;": id = (int)CustomProgAction.UseProt; break;
+            case "!?": id = (int)CustomProgAction.NoYesGoto; code_labels[currentCellIndex] = NewProgramm('<'); break;
+            case "=>": id = (int)CustomProgAction.CallState; code_labels[currentCellIndex] = NewProgramm('>'); break;
+            case "B2;": id = (int)CustomProgAction.UseRaz; break;
+            case ":>": id = (int)CustomProgAction.Call; code_labels[currentCellIndex] = NewProgramm('>'); break;
+            case "DIGG;": id = (int)CustomProgAction.STDDig; break;
+            case "VB;": id = (int)CustomProgAction.BuildWar; break;
+            case "RESTART;": id = (int)CustomProgAction.UNUSED_200; break;
+            case "CCW;": id = (int)CustomProgAction.RotateLefthand; break;
+            case "[A]": id = (int)CustomProgAction.CellLeft; break;
+            case "BUILD;": id = (int)CustomProgAction.STDBlock; break;
+            case "[w]": id = (int)CustomProgAction.ShiftUp; break;
+            case "[s]": id = (int)CustomProgAction.ShiftDown; break;
+            case "[F]": id = (int)CustomProgAction.CellForward; break;
+            case "[d]": id = (int)CustomProgAction.ShiftRight; break;
+            case "[l]": id = (int)CustomProgAction.CellRighthand; break;
+            case "NANO;": id = (int)CustomProgAction.UseNano; break;
+            case "REM;": id = (int)CustomProgAction.UseRem; break;
+            case "POLY;": id = (int)CustomProgAction.UsePoly; break;
+            case "[AS]": id = (int)CustomProgAction.CellDownLeft; break;
+            case "ZZ;": id = (int)CustomProgAction.UseZZ; break;
+            case "[SD]": id = (int)CustomProgAction.CellDownRight; break;
+            case "[WA]": id = (int)CustomProgAction.CellUpLeft; break;
+            case "d": id = (int)CustomProgAction.RotateRight; break;
+            case "MINE;": id = (int)CustomProgAction.STDTunnel; break;
+            case "Hand-": id = (int)CustomProgAction.DisableHand; break;
+            case "g": id = (int)CustomProgAction.UseGeo; break;
+            case "Hand+": id = (int)CustomProgAction.EnableHand; break;
+            case "b": id = (int)CustomProgAction.BuildBlock; break;
+            case "a": id = (int)CustomProgAction.RotateLeft; break;
+            case "h": id = (int)CustomProgAction.Heal; break;
+            case "l": id = (int)CustomProgAction.RepeatLastAction; break;
+            case "s": id = (int)CustomProgAction.RotateDown; break;
+            case "q": id = (int)CustomProgAction.BuildQuadro; break;
+            case "w": id = (int)CustomProgAction.RotateUp; break;
+            case "|": id = (int)CustomProgAction.Label; code_labels[currentCellIndex] = NewProgramm(':'); break;
+            case "r": id = (int)CustomProgAction.BuildRoad; break;
+            case "z": id = (int)CustomProgAction.Dig; break;
+            case "{": id = (int)CustomProgAction.DebugShow; code_labels[currentCellIndex] = NewProgramm('}'); break;
+            case "\n":
+                      currentCellIndex += remainingColsInRow;
+                      remainingCellsOnPage -= remainingColsInRow;
+                      remainingColsInRow = COLS;
+                      break;
+            case "~\n":
+                      currentCellIndex += remainingCellsOnPage;
+                      remainingColsInRow = COLS;
+                      remainingCellsOnPage = COLS * ROWS;
+                      break;
+          }
+          if (id != -1)
+          {
+            codes[currentCellIndex] = id;
+            currentCellIndex++;
+            remainingColsInRow--;
+            remainingCellsOnPage--;
+          }
+        }
+      }
+      UpdateIconsWithoutSaving();
     }
             
 
