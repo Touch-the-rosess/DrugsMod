@@ -6,6 +6,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using Assets.Scripts.GameClasses;
 
 public class ProgrammatorView : MonoBehaviour
 {
@@ -3126,7 +3127,7 @@ public class ProgrammatorView : MonoBehaviour
             "!{",
             "{"
         };
-;
+
 
     private string[] strmas2 = new string[]
         {
@@ -3240,7 +3241,6 @@ public class ProgrammatorView : MonoBehaviour
             "!{",
             "{"
         };
-;
 
     private string sampleProgram1;
 
