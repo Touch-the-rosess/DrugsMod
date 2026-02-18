@@ -1948,10 +1948,6 @@ public class ProgrammatorView : MonoBehaviour
                 {
                   this.MakeCycle(this.k_button, -1);
                 }
-                if (UnityEngine.Input.GetKeyDown(KeyCode.N))
-                {
-                  this.MakeCycle(this.n_button, -1);
-                }
                 if (UnityEngine.Input.GetKeyDown(KeyCode.L))
                 {
                     this.MakeCycle(this.l_button, -1);
@@ -2894,35 +2890,46 @@ public class ProgrammatorView : MonoBehaviour
       (int)CustomProgAction.STDHeal                    ,
       (int)CustomProgAction.STDTunnel                  
     };
-    private int[] v_button = new int[]
-    {
+
+    private int[] v_button = new int[]{// last version
       (int)CustomProgAction.VarEqualsNumber            ,
-      (int)CustomProgAction.VarLessThanNumber          ,
-      (int)CustomProgAction.VarLessThanOrEqualNumber,
+      (int)CustomProgAction.VarNotEqualsNumber         ,
       (int)CustomProgAction.VarGreaterThanNumber       ,
       (int)CustomProgAction.VarGreaterThanOrEqualNumber,
-      (int)CustomProgAction.VarNotEqualsNumber,
-
-      (int)CustomProgAction.WriteStateToVar, // not implemented
-      (int)CustomProgAction.ReadVarToState,
-      (int)CustomProgAction.SetNumberToVar,
+      (int)CustomProgAction.VarLessThanNumber          ,
+      (int)CustomProgAction.VarLessThanOrEqualNumber   ,
+    };
+    private int[] shv_button = new int[] {//last version
       (int)CustomProgAction.VarEqualsState,
       (int)CustomProgAction.VarNotEqualsState,
+      (int)CustomProgAction.VarGreaterThanState,
+      (int)CustomProgAction.VarGreaterThanOrEqualsState,
       (int)CustomProgAction.VarLessThanState,
-      (int)CustomProgAction.VarGreaterThanState
+      (int)CustomProgAction.VarLessThanOrEqualState,
     };
-    private int[] shv_button = new int[] {
+    private int[] b_button = new int[]{//last version
+      (int)CustomProgAction.SetNumberToVar,
       (int)CustomProgAction.AddNumberToVar,
       (int)CustomProgAction.SubNumberToVar,
       (int)CustomProgAction.MultNumberToVar,
       (int)CustomProgAction.DivNumberToVar,
+    };
+    private int[] shb_button = new int[] {//last version
+      (int)CustomProgAction.AddVarToVar,
+      (int)CustomProgAction.SubVarToVar,
+      (int)CustomProgAction.MultVarToVar,
+      (int)CustomProgAction.DivVarToVar,
+    };
+    private int[] n_button = new int[] {//last version
+      (int)CustomProgAction.WriteStateToVar, 
+      (int)CustomProgAction.ReadVarToState,
       (int)CustomProgAction.AddStateToVar,
-      (int)CustomProgAction.VarLessThanOrEqualState,
-      (int)CustomProgAction.VarGreaterThanOrEqualsState,
+      (int)CustomProgAction.SubStateToVar,
+      (int)CustomProgAction.MultStateToVar,
+      (int)CustomProgAction.DivStateToVar,
     };
 
-    private int[] b_button = new int[]
-    {
+    private int[] shn_button = new int[] {//last version
       (int)CustomProgAction.VarRound,
       (int)CustomProgAction.VarCeil,
       (int)CustomProgAction.VarFloor,
@@ -2930,33 +2937,18 @@ public class ProgrammatorView : MonoBehaviour
       (int)CustomProgAction.Var_UNK_129,
       (int)CustomProgAction.Var_UNK_130,
     };
-    private int[] shb_button = new int[]
-    {
-      (int)CustomProgAction.AddVarToVar,
-      (int)CustomProgAction.MultVarToVar,
-      (int)CustomProgAction.DivVarToVar,
-      (int)CustomProgAction.SubVarToVar,
-    };
-
-    private int[] n_button = new int[]
-    {
-      (int)CustomProgAction.PlaySound                  ,
-      (int)CustomProgAction.DebugPause                 ,
-      (int)CustomProgAction.DebugShow                  
-    };
-
-    private int[] shn_button = new int[]
-    {
-      (int)CustomProgAction.EnableHand                 ,
-      (int)CustomProgAction.DisableHand                
-    };
 
     private int[] g_button = new int[]
     {
       (int)CustomProgAction.Goto                       ,
       (int)CustomProgAction.Call                       ,
       (int)CustomProgAction.CallArg                    ,
-      (int)CustomProgAction.CallState                  
+      (int)CustomProgAction.CallState                  ,
+      (int)CustomProgAction.EnableHand                 ,
+      (int)CustomProgAction.DisableHand                ,
+      (int)CustomProgAction.PlaySound                  ,
+      (int)CustomProgAction.DebugPause                 ,
+      (int)CustomProgAction.DebugShow                  
     };
     private int[] h_button = new int[]
     {
