@@ -20,8 +20,10 @@ public class ProgrammatorView : MonoBehaviour
                 ProgAction ProgAction2 = ProgrammatorView.actions[i * ProgrammatorView.COLS + j];
                 int _id = ProgrammatorView.codes[current * ProgrammatorView.COLS * ProgrammatorView.ROWS + i * ProgrammatorView.COLS + j];
                 string @string = ProgrammatorView.code_labels[current * ProgrammatorView.COLS * ProgrammatorView.ROWS + i * ProgrammatorView.COLS + j];
+                string @string1 = ProgrammatorView.code_labels1[current * ProgrammatorView.COLS * ProgrammatorView.ROWS + i * ProgrammatorView.COLS + j];
                 int num = ProgrammatorView.nums[current * ProgrammatorView.COLS * ProgrammatorView.ROWS + i * ProgrammatorView.COLS + j];
-                ProgAction2.setString(@string);
+                ProgAction2.setString(@string,false);
+                ProgAction2.setString(@string,true);
                 ProgAction2.setNum(num);
                 ProgAction2.ChangeTo(_id);
             }
@@ -38,12 +40,15 @@ public class ProgrammatorView : MonoBehaviour
             {
                 ProgAction ProgAction = ProgrammatorView.actions[i * ProgrammatorView.COLS + j];
                 ProgrammatorView.codes[this.prevPage * ProgrammatorView.COLS * ProgrammatorView.ROWS + i * ProgrammatorView.COLS + j] = ProgAction.id;
-                ProgrammatorView.code_labels[this.prevPage * ProgrammatorView.COLS * ProgrammatorView.ROWS + i * ProgrammatorView.COLS + j] = ProgAction.getString();
+                ProgrammatorView.code_labels[this.prevPage * ProgrammatorView.COLS * ProgrammatorView.ROWS + i * ProgrammatorView.COLS + j] = ProgAction.getString(false);
+                ProgrammatorView.code_labels1[this.prevPage * ProgrammatorView.COLS * ProgrammatorView.ROWS + i * ProgrammatorView.COLS + j] = ProgAction.getString(true);
                 ProgrammatorView.nums[this.prevPage * ProgrammatorView.COLS * ProgrammatorView.ROWS + i * ProgrammatorView.COLS + j] = ProgAction.getNum();
                 int _id = ProgrammatorView.codes[current * ProgrammatorView.COLS * ProgrammatorView.ROWS + i * ProgrammatorView.COLS + j];
                 int num = ProgrammatorView.nums[current * ProgrammatorView.COLS * ProgrammatorView.ROWS + i * ProgrammatorView.COLS + j];
-                string @string = ProgrammatorView.code_labels[current * ProgrammatorView.COLS * ProgrammatorView.ROWS + i * ProgrammatorView.COLS + j];
-                ProgAction.setString(@string);
+                string @string  = ProgrammatorView.code_labels[current * ProgrammatorView.COLS * ProgrammatorView.ROWS + i * ProgrammatorView.COLS + j];
+                string @string1 = ProgrammatorView.code_labels1[current * ProgrammatorView.COLS * ProgrammatorView.ROWS + i * ProgrammatorView.COLS + j];
+                ProgAction.setString(@string,false);
+                ProgAction.setString(@string,true);
                 ProgAction.setNum(num);
                 ProgAction.ChangeTo(_id);
             }
@@ -62,6 +67,7 @@ public class ProgrammatorView : MonoBehaviour
                     ProgrammatorView.codes[i * ProgrammatorView.COLS * ProgrammatorView.ROWS + j * ProgrammatorView.COLS + k] = 0;
                     ProgrammatorView.nums[i * ProgrammatorView.COLS * ProgrammatorView.ROWS + j * ProgrammatorView.COLS + k] = 0;
                     ProgrammatorView.code_labels[i * ProgrammatorView.COLS * ProgrammatorView.ROWS + j * ProgrammatorView.COLS + k] = "0";
+                    ProgrammatorView.code_labels1[i * ProgrammatorView.COLS * ProgrammatorView.ROWS + j * ProgrammatorView.COLS + k] = "0";
                 }
             }
         }
@@ -186,7 +192,8 @@ public class ProgrammatorView : MonoBehaviour
           ProgAction source = actions[sourceIndex];
           ProgAction dest   = actions[destIndex];
 
-          dest.setString(source.getString());
+          dest.setString(source.getString(false),false);
+          dest.setString(source.getString(true),true);
           dest.setNum(source.getNum());
           dest.ChangeTo(source.id);
         }
@@ -2987,6 +2994,7 @@ public class ProgrammatorView : MonoBehaviour
     public static int[] nums = new int[ProgrammatorView.PAGES * ProgrammatorView.ROWS * ProgrammatorView.COLS];
 
     public static string[] code_labels = new string[ProgrammatorView.PAGES * ProgrammatorView.ROWS * ProgrammatorView.COLS];
+    public static string[] code_labels1 = new string[ProgrammatorView.PAGES * ProgrammatorView.ROWS * ProgrammatorView.COLS];
 
     public static ProgAction[] actions = new ProgAction[ProgrammatorView.ROWS * ProgrammatorView.COLS];
 
