@@ -46,7 +46,9 @@ public class ProgAction : MonoBehaviour
           id == (int)CustomProgAction.CallState ||                // 137
           id == (int)CustomProgAction.CallWhenDied ||             // 166
           id == (int)CustomProgAction.YesNoGoto ||                // 139
-          id == (int)CustomProgAction.NoYesGoto)                  // 140
+          id == (int)CustomProgAction.NoYesGoto ||                // 140
+          id == (int)CustomProgAction.DebugPause ||                
+          id == (int)CustomProgAction.DebugShow                  )
       {
         input.gameObject.SetActive(true);
 
@@ -133,13 +135,21 @@ public class ProgAction : MonoBehaviour
       }
 
       // Arithmetic: var ← var +/-/×/÷ var
-      else if (id == (int)CustomProgAction.AddVarToVar ||     // 108
-          id == (int)CustomProgAction.MultVarToVar ||    // 109
-          id == (int)CustomProgAction.DivVarToVar ||     // 110
-          id == (int)CustomProgAction.SubVarToVar)       // 111
+      else if (id == (int)CustomProgAction.AddVarToVar  ||    // 108
+               id == (int)CustomProgAction.MultVarToVar ||    // 109
+               id == (int)CustomProgAction.DivVarToVar  ||    // 110
+               id == (int)CustomProgAction.SubVarToVar  ||    // 111 
+               id == (int)CustomProgAction.Var_UNK_128  ||
+               id == (int)CustomProgAction.Var_UNK_128  ||
+               id == (int)CustomProgAction.Var_UNK_129  )       
       {
         input.gameObject.SetActive(true);
+        numInput.gameObject.SetActive(true);
+        numInput.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(18.1f, numInput.gameObject.GetComponent<RectTransform>().sizeDelta.y);
+        numInput.contentType = InputField.ContentType.Standard;
+
         input.gameObject.transform.localPosition = new Vector3(-1f, 8f);
+        numInput.gameObject.transform.localPosition = new Vector3(-2f, -9.35f);
       }
 
       // Unknown / debug variable ops
