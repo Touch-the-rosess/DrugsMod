@@ -20,7 +20,7 @@ public class ProgrammatorView : MonoBehaviour
                 ProgAction ProgAction2 = ProgrammatorView.actions[i * ProgrammatorView.COLS + j];
                 int _id = ProgrammatorView.codes[current * ProgrammatorView.COLS * ProgrammatorView.ROWS + i * ProgrammatorView.COLS + j];
                 string @string = ProgrammatorView.code_labels[current * ProgrammatorView.COLS * ProgrammatorView.ROWS + i * ProgrammatorView.COLS + j];
-                int num = ProgrammatorView.nums[current * ProgrammatorView.COLS * ProgrammatorView.ROWS + i * ProgrammatorView.COLS + j];
+                string num = ProgrammatorView.nums[current * ProgrammatorView.COLS * ProgrammatorView.ROWS + i * ProgrammatorView.COLS + j];
                 ProgAction2.setString(@string);
                 ProgAction2.setNum(num);
                 ProgAction2.ChangeTo(_id);
@@ -41,7 +41,7 @@ public class ProgrammatorView : MonoBehaviour
                 ProgrammatorView.code_labels[this.prevPage * ProgrammatorView.COLS * ProgrammatorView.ROWS + i * ProgrammatorView.COLS + j] = ProgAction.getString();
                 ProgrammatorView.nums[this.prevPage * ProgrammatorView.COLS * ProgrammatorView.ROWS + i * ProgrammatorView.COLS + j] = ProgAction.getNum();
                 int _id = ProgrammatorView.codes[current * ProgrammatorView.COLS * ProgrammatorView.ROWS + i * ProgrammatorView.COLS + j];
-                int num = ProgrammatorView.nums[current * ProgrammatorView.COLS * ProgrammatorView.ROWS + i * ProgrammatorView.COLS + j];
+                string num = ProgrammatorView.nums[current * ProgrammatorView.COLS * ProgrammatorView.ROWS + i * ProgrammatorView.COLS + j];
                 string @string = ProgrammatorView.code_labels[current * ProgrammatorView.COLS * ProgrammatorView.ROWS + i * ProgrammatorView.COLS + j];
                 ProgAction.setString(@string);
                 ProgAction.setNum(num);
@@ -60,7 +60,7 @@ public class ProgrammatorView : MonoBehaviour
                 for (int k = 0; k < ProgrammatorView.COLS; k++)
                 {
                     ProgrammatorView.codes[i * ProgrammatorView.COLS * ProgrammatorView.ROWS + j * ProgrammatorView.COLS + k] = 0;
-                    ProgrammatorView.nums[i * ProgrammatorView.COLS * ProgrammatorView.ROWS + j * ProgrammatorView.COLS + k] = 0;
+                    ProgrammatorView.nums[i * ProgrammatorView.COLS * ProgrammatorView.ROWS + j * ProgrammatorView.COLS + k] = "0";
                     ProgrammatorView.code_labels[i * ProgrammatorView.COLS * ProgrammatorView.ROWS + j * ProgrammatorView.COLS + k] = "0";
                 }
             }
@@ -276,12 +276,12 @@ public class ProgrammatorView : MonoBehaviour
           {
             string[] sub = part.Split('@');
             code_labels[j] = sub[0];
-            nums[j] = int.Parse(sub[1]);
+            nums[j] = sub[1];
           }
           else
           {
             code_labels[j] = part;
-            nums[j] = 0;
+            nums[j] = "0";
           }
         }
       }
@@ -338,7 +338,7 @@ public class ProgrammatorView : MonoBehaviour
                           else if (inner.Contains(">")) { parts = inner.Split('>'); id = (int)CustomProgAction.VarGreaterThanNumber; }
                           else break;
                           code_labels[currentCellIndex] = parts[0];
-                          nums[currentCellIndex] = int.TryParse(parts[1], out int n) ? n : 0;
+                          nums[currentCellIndex] = int.TryParse(parts[1], out int n) ? n.ToString() : "0";
                           break;
             case "AUT+": id = (int)CustomProgAction.EnableAutoDig; break;
             case "id": id = (int)CustomProgAction.InventoryRight; break;
@@ -474,7 +474,7 @@ public class ProgrammatorView : MonoBehaviour
         int num2 = 0;
         for (int j = 0; j < ProgrammatorView.code_labels.Length; j++)
         {
-            if (ProgrammatorView.code_labels[j] != "0" || ProgrammatorView.nums[j] != 0)
+            if (ProgrammatorView.code_labels[j] != "0" || ProgrammatorView.nums[j] != "0")
             {
                 num2 = j;
             }
@@ -487,7 +487,7 @@ public class ProgrammatorView : MonoBehaviour
         Array.Copy(ProgrammatorView.code_labels, array, num2 + 1);
         for (int k = 0; k < array.Length; k++)
         {
-            if (ProgrammatorView.nums[k] != 0)
+            if (ProgrammatorView.nums[k] != "0")
             {
                 string[] array2 = array;
                 int num3 = k;
@@ -572,7 +572,7 @@ public class ProgrammatorView : MonoBehaviour
           {
             if (skipRest) break;
             int id = codes[page * ROWS * COLS + row * COLS + col];
-            int val = nums[page * ROWS * COLS + row * COLS + col];
+            string val = nums[page * ROWS * COLS + row * COLS + col];
             string label = code_labels[page * ROWS * COLS + row * COLS + col];
             if (id != (int)CustomProgAction.None) rowStarted = true;
             if (id == (int)CustomProgAction.NextLine)
@@ -605,7 +605,7 @@ public class ProgrammatorView : MonoBehaviour
                     id == (int)CustomProgAction.VarLessThanNumber ||
                     id == (int)CustomProgAction.VarEqualsNumber)
                 {
-                  arg = val;
+                  arg = int.TryParse(val, out int n321) ? n321 : 0;
                 }
                 program[index] = (byte)id;
                 program[index + 1] = (byte)arg;
@@ -1806,7 +1806,7 @@ public class ProgrammatorView : MonoBehaviour
 
     public static int[] codes = new int[ProgrammatorView.PAGES * ProgrammatorView.ROWS * ProgrammatorView.COLS];
 
-    public static int[] nums = new int[ProgrammatorView.PAGES * ProgrammatorView.ROWS * ProgrammatorView.COLS];
+    public static string[] nums = new string[ProgrammatorView.PAGES * ProgrammatorView.ROWS * ProgrammatorView.COLS];
 
     public static string[] code_labels = new string[ProgrammatorView.PAGES * ProgrammatorView.ROWS * ProgrammatorView.COLS];
 
