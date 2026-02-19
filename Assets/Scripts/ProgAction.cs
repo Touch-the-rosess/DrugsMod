@@ -76,6 +76,7 @@ public class ProgAction : MonoBehaviour
       {
         input.gameObject.SetActive(true);
         numInput.gameObject.SetActive(true);
+        numInput.contentType = InputField.ContentType.IntegerNumber;
 
         input.gameObject.transform.localPosition    = new Vector3(-4f, 4f);
         numInput.gameObject.transform.localPosition = new Vector3(-1f, -10f);
@@ -121,14 +122,15 @@ public class ProgAction : MonoBehaviour
       }
 
       // Arithmetic: var ← var +/-/×/÷ number
-      else if (id == (int)CustomProgAction.SetNumberToVar ||    // 99
-          id == (int)CustomProgAction.AddNumberToVar ||    // 100
-          id == (int)CustomProgAction.MultNumberToVar ||   // 101
-          id == (int)CustomProgAction.DivNumberToVar ||    // 102
-          id == (int)CustomProgAction.SubNumberToVar)      // 103
+      else if (id == (int)CustomProgAction.SetNumberToVar  ||   // 99
+               id == (int)CustomProgAction.AddNumberToVar  ||   // 100
+               id == (int)CustomProgAction.MultNumberToVar ||   // 101
+               id == (int)CustomProgAction.DivNumberToVar  ||   // 102
+               id == (int)CustomProgAction.SubNumberToVar)      // 103
       {
         input.gameObject.SetActive(true);
         numInput.gameObject.SetActive(true);
+        numInput.contentType = InputField.ContentType.IntegerNumber;
 
         input.gameObject.transform.localPosition    = new Vector3(0f, -9f);
         numInput.gameObject.transform.localPosition = new Vector3(0f, 7f);
@@ -141,15 +143,23 @@ public class ProgAction : MonoBehaviour
                id == (int)CustomProgAction.SubVarToVar  ||    // 111 
                id == (int)CustomProgAction.Var_UNK_128  ||
                id == (int)CustomProgAction.Var_UNK_128  ||
-               id == (int)CustomProgAction.Var_UNK_129  )       
+               id == (int)CustomProgAction.Var_UNK_129  ||
+               id == (int)CustomProgAction.Var_UNK_130  )       
       {
         input.gameObject.SetActive(true);
         numInput.gameObject.SetActive(true);
         numInput.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(18.1f, numInput.gameObject.GetComponent<RectTransform>().sizeDelta.y);
         numInput.contentType = InputField.ContentType.Standard;
-
+        numInput.characterLimit = 3;
+        
         input.gameObject.transform.localPosition = new Vector3(-1f, 8f);
         numInput.gameObject.transform.localPosition = new Vector3(-2f, -9.35f);
+
+        if( id == (int)CustomProgAction.Var_UNK_129  ||
+            id == (int)CustomProgAction.Var_UNK_130  ){
+          input.gameObject.transform.localPosition    = new Vector3(3.89f, -10.22f);
+          numInput.gameObject.transform.localPosition = new Vector3(-5.36f, 4.79f);
+        }
       }
 
       // Unknown / debug variable ops
@@ -181,19 +191,14 @@ public class ProgAction : MonoBehaviour
         this.input.text = label;
     }
 
-    public int getNum()
+    public string getNum()
     {
-        int num;
-        if (!int.TryParse(this.numInput.text, out num))
-        {
-            return 0;
-        }
-        return int.Parse(this.numInput.text);
+        return this.numInput.text;
     }
 
-    public void setNum(int label)
+    public void setNum(string label)
     {
-        this.numInput.text = label.ToString();
+        this.numInput.text = label;
     }
     
 	public static Sprite[] sprites;
