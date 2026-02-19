@@ -36,7 +36,6 @@ public class ProgAction : MonoBehaviour
     private void updateInput()
     {
       input.gameObject.SetActive(false);
-      inputVarLower.gameObject.SetActive(false);
       numInput.gameObject.SetActive(false);
 
       // Label / Goto / Call targets (text only)
@@ -47,9 +46,7 @@ public class ProgAction : MonoBehaviour
           id == (int)CustomProgAction.CallState ||                // 137
           id == (int)CustomProgAction.CallWhenDied ||             // 166
           id == (int)CustomProgAction.YesNoGoto ||                // 139
-          id == (int)CustomProgAction.NoYesGoto ||// 140
-          id == (int)CustomProgAction.DebugPause||
-          id == (int)CustomProgAction.DebugShow )                  
+          id == (int)CustomProgAction.NoYesGoto)                  // 140
       {
         input.gameObject.SetActive(true);
 
@@ -80,21 +77,6 @@ public class ProgAction : MonoBehaviour
 
         input.gameObject.transform.localPosition    = new Vector3(-4f, 4f);
         numInput.gameObject.transform.localPosition = new Vector3(-1f, -10f);
-      }
-      else if (id == (int)CustomProgAction.AddVarToVar  ||
-               id == (int)CustomProgAction.SubVarToVar  ||
-               id == (int)CustomProgAction.MultVarToVar ||
-               id == (int)CustomProgAction.DivVarToVar  ||
-               id == (int)CustomProgAction.Var_UNK_128  ||
-               id == (int)CustomProgAction.Var_UNK_129  ||
-               id == (int)CustomProgAction.Var_UNK_130
-          )
-      {
-        input.gameObject.SetActive(true);
-        inputVarLower.gameObject.SetActive(true);
-
-        input.gameObject.transform.localPosition    = new Vector3(-2.64f,8.03f);
-        inputVarLower.gameObject.transform.localPosition = new Vector3(-1f, -10f);
       }
 
       // Math / rounding operations on variables (text input only)
@@ -179,21 +161,14 @@ public class ProgAction : MonoBehaviour
         }
     }
 
-    public string getString(bool who)
+    public string getString()
     {
-      switch (who){
-        case false: return this.input.text;
-        case true:  return this.inputVarLower.text;
-      }
-      return "";
+        return this.input.text;
     }
 
-    public void setString(string label,bool who)// 0 - upper one, 1 - lower one
+    public void setString(string label)
     {
-      switch (who){
-        case false: this.input.text         = label; break;
-        case true:  this.inputVarLower.text = label; break;
-      }
+        this.input.text = label;
     }
 
     public int getNum()
@@ -218,7 +193,6 @@ public class ProgAction : MonoBehaviour
 	public InputField numInput;
 
 	public InputField input;
-	public InputField inputVarLower;
 
 	public int id;
 
