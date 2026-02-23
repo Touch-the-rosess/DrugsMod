@@ -56,14 +56,14 @@ public class ConnectionManager : MonoBehaviour
         this.obvyazka.AddDisconnectHandler(new TypedCallback<string>(this.OnDisconnected));
         if (!this.DEBUG || this.DEBUG_WITH_AUTH)
         {
-            this.playButton.gameObject.SetActive(true);
-            this.playButton.onClick.AddListener(new UnityAction(this.FirstConnect));
+            //this.playButton.gameObject.SetActive(true);
+            //this.playButton.onClick.AddListener(new UnityAction(this.FirstConnect));
             this.button.gameObject.SetActive(false);
             this.field.gameObject.SetActive(false);
         }
         else
         {
-            this.playButton.gameObject.SetActive(false);
+            //this.playButton.gameObject.SetActive(false);
             this.button.gameObject.SetActive(true);
             this.field.gameObject.SetActive(true);
             this.button.onClick.AddListener(new UnityAction(this.DebugClick));
@@ -175,7 +175,7 @@ public class ConnectionManager : MonoBehaviour
         this.status = "connecting";
         this.obvyazka.Connect(this.tcpPort, this.ioPort, this.host);
         this._onStatusChanged.Invoke(this.status);
-        this.playButton.gameObject.SetActive(false);
+        //this.playButton.gameObject.SetActive(false);
         this.button.gameObject.SetActive(false);
         this.field.gameObject.SetActive(false);
         this.reconnectButton.gameObject.SetActive(false);
